@@ -32,7 +32,7 @@ from config import (
     generar_config_ejemplo,
 )
 from debt_calculator import construir_reporte_archivo
-from metrics import metrica_dart_desde_dcm, metrica_go_desde_raw
+from metrics import calcular_mi, metrica_dart_desde_dcm, metrica_go_desde_raw
 from report import exportar_csv, exportar_json, imprimir_tabla_consola
 from tool_runner import (
     HerramientaFaltanteError,
@@ -54,12 +54,15 @@ def analizar_go(repo_path: Path, subpath: str):
 
     loc_por_archivo: dict[str, int] = {}
     for f in loc_data.get("files", []):
-        if f["filename"].endswith(".go"):
-            loc_por_archivo[f["filename"]] = f["code"]
+        nombre = f.get("name") or f.get("filename") or ""
+        if nombre.endswith(".go"):
+            ruta_norm = Path(nombre).as_posix()
+            loc_por_archivo[ruta_norm] = f.get("code", 0)
 
     cc_por_archivo: dict[str, list[int]] = {}
     for item in cc_data:
-        cc_por_archivo.setdefault(item["archivo"], []).append(item["complejidad"])
+        ruta_norm = Path(item["archivo"]).as_posix()
+        cc_por_archivo.setdefault(ruta_norm, []).append(item["complejidad"])
 
     metricas = []
     for archivo, loc in loc_por_archivo.items():
@@ -70,21 +73,48 @@ def analizar_go(repo_path: Path, subpath: str):
 
 def analizar_dart(repo_path: Path, subpath: str):
     asegurar_dcm()
+    asegurar_gocloc()
+
+    # 1. Obtener LOC por archivo Dart usando gocloc
+    loc_data = correr_gocloc(repo_path, subpath)
+    loc_por_archivo: dict[str, int] = {}
+    for f in loc_data.get("files", []):
+        nombre = f.get("name") or f.get("filename") or ""
+        if nombre.endswith(".dart"):
+            ruta_norm = Path(nombre).as_posix()
+            loc_por_archivo[ruta_norm] = f.get("code", 0)
+
+    # 2. Obtener métricas y complejidad ciclomática usando dcm
     data = correr_dcm(repo_path, subpath)
 
     metricas = []
-    # Estructura real del JSON de dcm puede variar entre versiones;
-    # este parseo cubre el formato "records" documentado. Si tu versión
-    # difiere, avisame el JSON real y ajusto el parser.
     for record in data.get("records", []):
-        ruta = record.get("file-path") or record.get("filePath")
-        if not ruta:
+        ruta_raw = record.get("path") or record.get("file-path") or record.get("filePath") or ""
+        if not ruta_raw:
             continue
-        metrics = record.get("metrics", {})
-        loc = int(metrics.get("source-lines-of-code", 0))
-        cc = int(metrics.get("cyclomatic-complexity", 0))
-        mi = float(metrics.get("maintainability-index", 0))
-        metricas.append(metrica_dart_desde_dcm(ruta, loc, cc, mi))
+        ruta_norm = Path(ruta_raw).as_posix()
+
+        # Sumar complejidad ciclomática de todas las funciones/métodos
+        complejidades_funciones: list[int] = []
+        for fname, fval in record.get("functions", {}).items():
+            for m in fval.get("metrics", []):
+                if m.get("metricsId") == "cyclomatic-complexity":
+                    complejidades_funciones.append(int(m.get("value", 0)))
+
+        cc_total = sum(complejidades_funciones)
+
+        # LOC de gocloc
+        loc = loc_por_archivo.get(ruta_norm)
+        if loc is None:
+            for fpath, fcode in loc_por_archivo.items():
+                if fpath.endswith(ruta_norm) or ruta_norm.endswith(fpath):
+                    loc = fcode
+                    break
+        if loc is None:
+            loc = 0
+
+        mi = calcular_mi(loc, cc_total)
+        metricas.append(metrica_dart_desde_dcm(ruta=ruta_norm, loc=loc, cc_total=cc_total, mi_reportado=round(mi, 2)))
     return metricas
 
 
@@ -99,6 +129,8 @@ def main() -> int:
                          help="Genera una plantilla de --config y sale")
     parser.add_argument("--mi-referencia", type=float, default=MI_REFERENCIA_DEFAULT,
                          help=f"MI de referencia para calcular deuda (default: {MI_REFERENCIA_DEFAULT})")
+    parser.add_argument("--solo-config", action="store_true",
+                         help="Mostrar únicamente los archivos que tengan estimaciones en el archivo de configuración")
     parser.add_argument("--out-json", type=Path, default=Path("reporte_deuda.json"))
     parser.add_argument("--out-csv", type=Path, default=Path("reporte_deuda.csv"))
     parser.add_argument("--skip-go", action="store_true", help="No analizar archivos Go")
@@ -116,16 +148,30 @@ def main() -> int:
         print(f"Error: no existe la ruta {args.repo}", file=sys.stderr)
         return 1
 
+    # Auto-detección de subcarpetas en SGA-practicas
+    go_path = args.go_path
+    if go_path == "." and (args.repo / "backend").is_dir():
+        go_path = "backend"
+        print(f"[main] Auto-detectado código Go en '{go_path}'", file=sys.stderr)
+
+    dart_path = args.dart_path
+    if dart_path == "lib":
+        if (args.repo / "frontend" / "lib").is_dir():
+            dart_path = "frontend/lib"
+            print(f"[main] Auto-detectado código Dart en '{dart_path}'", file=sys.stderr)
+        elif (args.repo / "lib").is_dir():
+            dart_path = "lib"
+
     intereses = cargar_intereses(args.config)
 
     todas_metricas = []
     try:
         if not args.skip_go:
             print("[main] Analizando archivos Go (gocloc + gocyclo)...", file=sys.stderr)
-            todas_metricas += analizar_go(args.repo, args.go_path)
+            todas_metricas += analizar_go(args.repo, go_path)
         if not args.skip_dart:
             print("[main] Analizando archivos Dart (dcm)...", file=sys.stderr)
-            todas_metricas += analizar_dart(args.repo, args.dart_path)
+            todas_metricas += analizar_dart(args.repo, dart_path)
     except HerramientaFaltanteError as e:
         print(f"\nError de setup: {e}", file=sys.stderr)
         return 1
@@ -141,6 +187,9 @@ def main() -> int:
                 delta_t_horas=interes.delta_t_horas if interes else None,
             )
         )
+
+    if args.solo_config:
+        reportes = [r for r in reportes if r.tiene_datos_interes]
 
     # Ordenar por deuda descendente, como la tabla de prioridades del documento
     reportes.sort(key=lambda r: r.deuda_horas or 0, reverse=True)

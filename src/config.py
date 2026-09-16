@@ -24,7 +24,7 @@ COSTO_HORA_DESARROLLO_USD = 30.0
 # Cuál usar (y si debería variar por lenguaje) quedó como pregunta abierta
 # de Juani -> lo dejamos configurable, con 20 de default para no romper
 # el ejemplo que ya validaron a mano.
-MI_REFERENCIA_DEFAULT = 20.0
+MI_REFERENCIA_DEFAULT = 60.0
 
 # Umbrales de complejidad ciclomática dados en clase, por lenguaje.
 # El script NO los usa para alterar el cálculo de deuda (eso se dejó
@@ -82,8 +82,9 @@ def cargar_intereses(path_yaml: Path) -> dict[str, InteresArchivo]:
     resultado: dict[str, InteresArchivo] = {}
     for entry in data.get("archivos", []):
         try:
+            ruta_norm = Path(entry["ruta"]).as_posix()
             item = InteresArchivo(
-                ruta=entry["ruta"],
+                ruta=ruta_norm,
                 cambios_anuales=int(entry["cambios_anuales"]),
                 delta_t_horas=float(entry["delta_t_horas"]),
             )

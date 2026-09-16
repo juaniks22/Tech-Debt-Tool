@@ -1,0 +1,21 @@
+# Estimaciones humanas de fricción anual por archivo para SGA-practicas.
+# Estos datos NO salen del análisis estático - son estimaciones del equipo:
+#
+#   cambios_anuales: cuántas veces al año se toca este archivo (features, bugfixes, refactors)
+#   delta_t_horas:   tiempo EXTRA que cuesta cada cambio por mala calidad (Tiempo Real - Eficiencia Ideal)
+
+archivos:
+  # Repositorio académico (Go) - Alta complejidad y acoplamiento a SQL
+  - ruta: "backend/internal/adapter/postgres/academic_repo.go"
+    cambios_anuales: 14
+    delta_t_horas: 2.5
+
+  # Handler HTTP de cursos (Go) - Endpoints y mapeos
+  - ruta: "backend/internal/adapter/http/course_handler.go"
+    cambios_anuales: 10
+    delta_t_horas: 2.0
+
+  # Pantalla de cursos (Flutter/Dart) - Widget masivo con lógica de UI y estado
+  - ruta: "frontend/lib/presentation/screens/cursos_screen.dart"
+    cambios_anuales: 24
+    delta_t_horas: 5.0

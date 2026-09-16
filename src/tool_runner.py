@@ -23,7 +23,7 @@ class HerramientaFaltanteError(RuntimeError):
 
 
 def _correr(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, capture_output=True, text=True, **kwargs)
+    return subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", **kwargs)
 
 
 def _tiene_binario(nombre: str) -> bool:
@@ -90,8 +90,8 @@ def asegurar_dcm() -> None:
 
 
 def correr_gocloc(repo_path: Path, subpath: str = ".") -> dict:
-    """Devuelve el LOC por archivo Go, vía JSON de gocloc."""
-    r = _correr(["gocloc", "--output-type=json", subpath], cwd=str(repo_path))
+    """Devuelve el LOC por archivo, vía JSON de gocloc con --by-file."""
+    r = _correr(["gocloc", "--by-file", "--output-type=json", subpath], cwd=str(repo_path))
     if r.returncode != 0:
         raise RuntimeError(f"gocloc falló: {r.stderr}")
     return json.loads(r.stdout)
@@ -134,9 +134,7 @@ def _parsear_texto_gocyclo(output: str) -> list[dict]:
 
 def correr_dcm(repo_path: Path, subpath: str = "lib") -> dict:
     """
-    Devuelve métricas de dart_code_metrics en JSON (LOC, complejidad
-    ciclomática y maintainability index vienen directo de dcm, no hace
-    falta recalcular MI a mano para Dart).
+    Devuelve métricas de dart_code_metrics en JSON.
     """
     binario = _obtener_binario_dcm()
     if not binario:
@@ -146,6 +144,10 @@ def correr_dcm(repo_path: Path, subpath: str = "lib") -> dict:
         cwd=str(repo_path),
     )
     # dcm devuelve !=0 si encuentra issues; no es un error de ejecución
-    if not r.stdout.strip():
+    stdout = r.stdout.strip()
+    if not stdout:
         raise RuntimeError(f"dcm/metrics no devolvió salida. stderr: {r.stderr}")
-    return json.loads(r.stdout)
+    json_start = stdout.find("{")
+    if json_start == -1:
+        raise RuntimeError(f"dcm/metrics no devolvió un JSON válido. stdout: {stdout}")
+    return json.loads(stdout[json_start:])

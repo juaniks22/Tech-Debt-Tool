@@ -67,8 +67,7 @@ sin config para ver qué rutas te tira, y después completá el YAML.
 python src/main.py --repo "C:\Users\juani\OneDrive\Documentos\PROJECTS\SGA-practicas"
 ```
 
-Por default busca código Go en la raíz del repo y Dart en `lib/`. Si tu
-estructura es distinta:
+El script **detecta automáticamente** si el repo tiene subcarpetas `backend/` (Go) y `frontend/lib/` (Dart/Flutter) como en `SGA-practicas`. Si tu estructura es distinta, podés especificarlas a mano:
 
 ```bash
 python src/main.py --repo /ruta/al/repo --go-path backend --dart-path frontend/lib
@@ -77,12 +76,13 @@ python src/main.py --repo /ruta/al/repo --go-path backend --dart-path frontend/l
 Otras opciones útiles:
 
 ```bash
+--solo-config            # muestra únicamente los archivos configurados en intereses.yaml
 --skip-dart              # analizar solo Go
 --skip-go                # analizar solo Dart
---mi-referencia 20        # MI de referencia para el cálculo de deuda (default 20)
---config otro.yaml         # usar otro archivo de intereses
---out-json reporte.json    # nombre del export JSON
---out-csv reporte.csv      # nombre del export CSV
+--mi-referencia 60       # MI de referencia para el cálculo de deuda (default: 60.0; usar 20.0 para replicar el documento manual de clase)
+--config otro.yaml       # usar otro archivo de intereses
+--out-json reporte.json  # nombre del export JSON
+--out-csv reporte.csv    # nombre del export CSV
 ```
 
 ### 3. Leer el reporte
@@ -93,20 +93,10 @@ en clase (CC Dart ≤4, CC Go ≤10, MI ≥60%), y se exporta a
 corridas (por ejemplo, versionando el CSV y viendo cómo baja la deuda
 sprint a sprint).
 
-## Decisión pendiente (a propósito, no la tomé por vos)
+## Parámetros de Referencia
 
-La clase dio dos referencias distintas para MI:
-- El documento de ejemplo usa `MI_referencia = 20` fijo para calcular deuda.
-- La consigna dice "MI ≥60% es aceptable".
-
-El script usa 20 por default (para no romper el ejemplo ya validado),
-pero es un **parámetro** (`--mi-referencia`). Si el equipo decide que
-debería variar por lenguaje o usar 60, ajustalo ahí — no está
-hardcodeado.
-
-Lo mismo con los umbrales de CC por lenguaje (Dart ≤4, Go ≤10): el
-script los usa **solo para el semáforo visual**, no para alterar el
-cálculo de deuda. Eso también quedó como decisión abierta tuya.
+- **MI de referencia:** El script usa **60.0** por default (según la consigna "MI ≥60% es aceptable"). Si deseás calcular la deuda contra una referencia de 20 (como en la primera planilla de clase), pasá `--mi-referencia 20.0`.
+- **Umbrales de CC por lenguaje:** (Dart ≤4, Go ≤10) se utilizan para el semáforo visual en el reporte.
 
 ## Estructura
 
