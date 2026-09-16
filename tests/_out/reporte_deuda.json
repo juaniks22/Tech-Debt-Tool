@@ -1,0 +1,57 @@
+{
+  "generado_en": "2026-09-16T15:09:38.696231+00:00",
+  "archivos": [
+    {
+      "ruta": "lib/screens/cursos_screen.dart",
+      "lenguaje": "dart",
+      "loc": 2671,
+      "complejidad_ciclomatica": 383,
+      "mi": 0.0,
+      "deuda_horas": 534.2,
+      "costo_reparacion_usd": 16026.0,
+      "interes_anual_usd": 3600.0,
+      "payback_anios": 4.45,
+      "roi_4_anios_porc": -10.15,
+      "tiene_datos_interes": true
+    },
+    {
+      "ruta": "internal/repo/academic_repo.go",
+      "lenguaje": "go",
+      "loc": 422,
+      "complejidad_ciclomatica": 68,
+      "mi": 2.48,
+      "deuda_horas": 73.95,
+      "costo_reparacion_usd": 2218.47,
+      "interes_anual_usd": 1050.0,
+      "payback_anios": 2.11,
+      "roi_4_anios_porc": 89.32,
+      "tiene_datos_interes": true
+    },
+    {
+      "ruta": "internal/handler/course_handler.go",
+      "lenguaje": "go",
+      "loc": 338,
+      "complejidad_ciclomatica": 38,
+      "mi": 9.76,
+      "deuda_horas": 34.62,
+      "costo_reparacion_usd": 1038.68,
+      "interes_anual_usd": 600.0,
+      "payback_anios": 1.73,
+      "roi_4_anios_porc": 131.06,
+      "tiene_datos_interes": true
+    },
+    {
+      "ruta": "internal/handler/sin_datos.go",
+      "lenguaje": "go",
+      "loc": 100,
+      "complejidad_ciclomatica": 3,
+      "mi": 32.27,
+      "deuda_horas": 0.0,
+      "costo_reparacion_usd": 0.0,
+      "interes_anual_usd": null,
+      "payback_anios": null,
+      "roi_4_anios_porc": null,
+      "tiene_datos_interes": false
+    }
+  ]
+}
