@@ -7,7 +7,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from config import COSTO_HORA_DESARROLLO_USD, FACTOR_CORRECCION_K
+from config import (
+    COSTO_HORA_DESARROLLO_USD,
+    FACTOR_CORRECCION_K,
+    MI_UMBRAL_CRITICO,
+    MI_UMBRAL_EXCELENTE,
+)
 from metrics import MetricasArchivo
 
 
@@ -18,6 +23,7 @@ class ReporteFinancieroArchivo:
     loc: int
     complejidad_ciclomatica: int
     mi: float
+    estado_mi: str = "CRITICO"  # "CRITICO" (<20), "APROBADO" (20..59), "EXCELENTE" (>=60)
     deuda_horas: float | None = None
     costo_reparacion_usd: float | None = None
     interes_anual_usd: float | None = None
@@ -60,12 +66,21 @@ def construir_reporte_archivo(
     deuda = calcular_deuda_horas(metrica.mi, metrica.loc, mi_referencia)
     costo = calcular_costo_reparacion(deuda)
 
+    mi_redondeado = round(metrica.mi, 2)
+    if mi_redondeado < MI_UMBRAL_CRITICO:
+        estado = "CRITICO"
+    elif mi_redondeado < MI_UMBRAL_EXCELENTE:
+        estado = "APROBADO"
+    else:
+        estado = "EXCELENTE"
+
     reporte = ReporteFinancieroArchivo(
         ruta=metrica.ruta,
         lenguaje=metrica.lenguaje,
         loc=metrica.loc,
         complejidad_ciclomatica=metrica.complejidad_ciclomatica,
-        mi=round(metrica.mi, 2),
+        mi=mi_redondeado,
+        estado_mi=estado,
         deuda_horas=round(deuda, 2),
         costo_reparacion_usd=round(costo, 2),
     )

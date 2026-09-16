@@ -19,12 +19,13 @@ FACTOR_CORRECCION_K = 0.01
 COSTO_HORA_DESARROLLO_USD = 30.0
 
 # MI de referencia para el cálculo de deuda técnica.
-# Es un parámetro, no un valor fijo escondido en la fórmula: la clase dio
-# "MI >= 60% aceptable" y por separado el ejemplo usa 20 como referencia.
-# Cuál usar (y si debería variar por lenguaje) quedó como pregunta abierta
-# de Juani -> lo dejamos configurable, con 20 de default para no romper
-# el ejemplo que ya validaron a mano.
-MI_REFERENCIA_DEFAULT = 60.0
+# Default 20.0 para medir la deuda necesaria para salir de la zona crítica y alcanzar "Aprobado".
+# Con --mi-referencia 60.0 se puede calcular la deuda para alcanzar "Excelente".
+MI_REFERENCIA_DEFAULT = 20.0
+
+# Umbrales de Maintainability Index (MI)
+MI_UMBRAL_CRITICO = 20.0    # < 20: Crítico / No aprobado (Rojo)
+MI_UMBRAL_EXCELENTE = 60.0  # >= 60: Excelente (Verde oscuro). Entre 20 y 59: Aprobado (Verde claro)
 
 # Umbrales de complejidad ciclomática dados en clase, por lenguaje.
 # El script NO los usa para alterar el cálculo de deuda (eso se dejó
@@ -34,9 +35,6 @@ CC_UMBRAL_POR_LENGUAJE = {
     "dart": 4,
     "go": 10,
 }
-
-# Umbral de MI dado en clase (informativo, ver mismo comentario que arriba)
-MI_UMBRAL_ACEPTABLE = 60.0
 
 # Umbral de deuda técnica relativa dado en clase (informativo)
 DEUDA_TECNICA_UMBRAL_PORC = 6.0
