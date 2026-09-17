@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-09-17T03:04:09.189225+00:00",
+  "generado_en": "2026-09-17T03:38:59.730731+00:00",
   "archivos": [
     {
       "ruta": "frontend/lib/presentation/screens/cursos_screen.dart",
@@ -737,11 +737,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/attendance.go",
+      "ruta": "backend/internal/app/timeslot.go",
       "lenguaje": "go",
       "loc": 62,
-      "complejidad_ciclomatica": 17,
-      "mi": 37.38,
+      "complejidad_ciclomatica": 14,
+      "mi": 37.78,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -752,11 +752,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/timeslot.go",
+      "ruta": "backend/internal/app/attendance.go",
       "lenguaje": "go",
       "loc": 62,
-      "complejidad_ciclomatica": 14,
-      "mi": 37.78,
+      "complejidad_ciclomatica": 17,
+      "mi": 37.38,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -857,11 +857,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/classperiod.go",
+      "ruta": "backend/internal/app/device_sync.go",
       "lenguaje": "go",
       "loc": 48,
-      "complejidad_ciclomatica": 20,
-      "mi": 40.71,
+      "complejidad_ciclomatica": 11,
+      "mi": 41.92,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -872,11 +872,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/device_sync.go",
+      "ruta": "backend/internal/app/classperiod.go",
       "lenguaje": "go",
       "loc": 48,
-      "complejidad_ciclomatica": 11,
-      "mi": 41.92,
+      "complejidad_ciclomatica": 20,
+      "mi": 40.71,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -992,11 +992,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/domain/student.go",
+      "ruta": "backend/internal/domain/ports_device.go",
       "lenguaje": "go",
       "loc": 37,
-      "complejidad_ciclomatica": 4,
-      "mi": 46.67,
+      "complejidad_ciclomatica": 0,
+      "mi": 47.21,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -1007,11 +1007,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/domain/ports_device.go",
+      "ruta": "backend/internal/domain/student.go",
       "lenguaje": "go",
       "loc": 37,
-      "complejidad_ciclomatica": 0,
-      "mi": 47.21,
+      "complejidad_ciclomatica": 4,
+      "mi": 46.67,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -1157,11 +1157,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/domain/notification.go",
+      "ruta": "backend/internal/adapter/postgres/overlap_repo.go",
       "lenguaje": "go",
       "loc": 10,
-      "complejidad_ciclomatica": 0,
-      "mi": 66.34,
+      "complejidad_ciclomatica": 2,
+      "mi": 66.07,
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -1172,11 +1172,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/adapter/postgres/overlap_repo.go",
+      "ruta": "backend/internal/domain/notification.go",
       "lenguaje": "go",
       "loc": 10,
-      "complejidad_ciclomatica": 2,
-      "mi": 66.07,
+      "complejidad_ciclomatica": 0,
+      "mi": 66.34,
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
