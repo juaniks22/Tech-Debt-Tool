@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-09-17T03:01:48.790243+00:00",
+  "generado_en": "2026-09-17T03:04:09.189225+00:00",
   "archivos": [
     {
       "ruta": "frontend/lib/presentation/screens/cursos_screen.dart",
@@ -25,11 +25,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 270.8,
       "costo_reparacion_usd": 8124.0,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 13.54,
-      "roi_4_anios_porc": -70.46,
+      "interes_anual_usd": 240.0,
+      "payback_anios": 33.85,
+      "roi_4_anios_porc": -88.18,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/presentation/screens/teachers_screen.dart",
@@ -40,11 +40,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 261.0,
       "costo_reparacion_usd": 7830.0,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 13.05,
-      "roi_4_anios_porc": -69.35,
+      "interes_anual_usd": 480.0,
+      "payback_anios": 16.31,
+      "roi_4_anios_porc": -75.48,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/presentation/screens/students_screen.dart",
@@ -55,11 +55,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 258.8,
       "costo_reparacion_usd": 7764.0,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 12.94,
-      "roi_4_anios_porc": -69.09,
+      "interes_anual_usd": 660.0,
+      "payback_anios": 11.76,
+      "roi_4_anios_porc": -66.0,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/api_datasource.dart",
@@ -70,11 +70,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 212.2,
       "costo_reparacion_usd": 6366.0,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 10.61,
-      "roi_4_anios_porc": -62.3,
+      "interes_anual_usd": 780.0,
+      "payback_anios": 8.16,
+      "roi_4_anios_porc": -50.99,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/presentation/screens/materias_screen.dart",
@@ -85,11 +85,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 195.0,
       "costo_reparacion_usd": 5850.0,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 9.75,
-      "roi_4_anios_porc": -58.97,
+      "interes_anual_usd": 240.0,
+      "payback_anios": 24.38,
+      "roi_4_anios_porc": -83.59,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/presentation/screens/users_screen.dart",
@@ -100,11 +100,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 190.2,
       "costo_reparacion_usd": 5706.0,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 9.51,
-      "roi_4_anios_porc": -57.94,
+      "interes_anual_usd": 660.0,
+      "payback_anios": 8.65,
+      "roi_4_anios_porc": -53.73,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/presentation/screens/attendance_screen.dart",
@@ -115,11 +115,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 187.0,
       "costo_reparacion_usd": 5610.0,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 9.35,
-      "roi_4_anios_porc": -57.22,
+      "interes_anual_usd": 480.0,
+      "payback_anios": 11.69,
+      "roi_4_anios_porc": -65.78,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/presentation/widgets/aam_design_system.dart",
@@ -130,11 +130,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 133.8,
       "costo_reparacion_usd": 4014.0,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 6.69,
-      "roi_4_anios_porc": -40.21,
+      "interes_anual_usd": 660.0,
+      "payback_anios": 6.08,
+      "roi_4_anios_porc": -34.23,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/adapter/postgres/academic_repo.go",
@@ -160,11 +160,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 54.67,
       "costo_reparacion_usd": 1640.17,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 2.73,
-      "roi_4_anios_porc": 46.33,
+      "interes_anual_usd": 420.0,
+      "payback_anios": 3.91,
+      "roi_4_anios_porc": 2.43,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/adapter/http/course_handler.go",
@@ -190,11 +190,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 36.68,
       "costo_reparacion_usd": 1100.38,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 1.83,
-      "roi_4_anios_porc": 118.11,
+      "interes_anual_usd": 540.0,
+      "payback_anios": 2.04,
+      "roi_4_anios_porc": 96.3,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/adapter/http/dto.go",
@@ -205,11 +205,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 30.34,
       "costo_reparacion_usd": 910.12,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 1.52,
-      "roi_4_anios_porc": 163.7,
+      "interes_anual_usd": 420.0,
+      "payback_anios": 2.17,
+      "roi_4_anios_porc": 84.59,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/adapter/postgres/structure_repo.go",
@@ -220,11 +220,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 24.63,
       "costo_reparacion_usd": 738.98,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 1.23,
-      "roi_4_anios_porc": 224.77,
+      "interes_anual_usd": 60.0,
+      "payback_anios": 12.32,
+      "roi_4_anios_porc": -67.52,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/app/academic.go",
@@ -235,11 +235,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 23.7,
       "costo_reparacion_usd": 710.94,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 1.18,
-      "roi_4_anios_porc": 237.58,
+      "interes_anual_usd": 300.0,
+      "payback_anios": 2.37,
+      "roi_4_anios_porc": 68.79,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/adapter/http/config_handler.go",
@@ -250,11 +250,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 18.92,
       "costo_reparacion_usd": 567.67,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 0.95,
-      "roi_4_anios_porc": 322.78,
+      "interes_anual_usd": 60.0,
+      "payback_anios": 9.46,
+      "roi_4_anios_porc": -57.72,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/adapter/http/academic_handler.go",
@@ -265,11 +265,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 17.96,
       "costo_reparacion_usd": 538.84,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 0.9,
-      "roi_4_anios_porc": 345.4,
+      "interes_anual_usd": 300.0,
+      "payback_anios": 1.8,
+      "roi_4_anios_porc": 122.7,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/adapter/postgres/user_repo.go",
@@ -280,11 +280,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 3.89,
       "costo_reparacion_usd": 116.81,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 0.19,
-      "roi_4_anios_porc": 1954.68,
+      "interes_anual_usd": 60.0,
+      "payback_anios": 1.95,
+      "roi_4_anios_porc": 105.47,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/presentation/shell/app_shell.dart",
@@ -295,11 +295,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 3.78,
       "costo_reparacion_usd": 113.54,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 0.19,
-      "roi_4_anios_porc": 2013.72,
+      "interes_anual_usd": 540.0,
+      "payback_anios": 0.21,
+      "roi_4_anios_porc": 1802.35,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/app/config.go",
@@ -310,11 +310,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 3.04,
       "costo_reparacion_usd": 91.16,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 0.15,
-      "roi_4_anios_porc": 2532.64,
+      "interes_anual_usd": 60.0,
+      "payback_anios": 1.52,
+      "roi_4_anios_porc": 163.26,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "frontend/lib/domain/entities/config.dart",
@@ -325,11 +325,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 1.7,
       "costo_reparacion_usd": 51.01,
-      "interes_anual_usd": 600.0,
-      "payback_anios": 0.09,
-      "roi_4_anios_porc": 4604.5,
+      "interes_anual_usd": 60.0,
+      "payback_anios": 0.85,
+      "roi_4_anios_porc": 370.45,
       "tiene_datos_interes": true,
-      "fuente_interes": "fijo"
+      "fuente_interes": "git"
     },
     {
       "ruta": "backend/internal/adapter/http/student_handler.go",
@@ -692,11 +692,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/adapter/http/misc_handler.go",
+      "ruta": "backend/internal/adapter/http/server.go",
       "lenguaje": "go",
       "loc": 68,
-      "complejidad_ciclomatica": 14,
-      "mi": 36.43,
+      "complejidad_ciclomatica": 1,
+      "mi": 38.18,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -707,11 +707,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/adapter/http/server.go",
+      "ruta": "backend/internal/adapter/http/misc_handler.go",
       "lenguaje": "go",
       "loc": 68,
-      "complejidad_ciclomatica": 1,
-      "mi": 38.18,
+      "complejidad_ciclomatica": 14,
+      "mi": 36.43,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -737,11 +737,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/timeslot.go",
+      "ruta": "backend/internal/app/attendance.go",
       "lenguaje": "go",
       "loc": 62,
-      "complejidad_ciclomatica": 14,
-      "mi": 37.78,
+      "complejidad_ciclomatica": 17,
+      "mi": 37.38,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -752,11 +752,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/attendance.go",
+      "ruta": "backend/internal/app/timeslot.go",
       "lenguaje": "go",
       "loc": 62,
-      "complejidad_ciclomatica": 17,
-      "mi": 37.38,
+      "complejidad_ciclomatica": 14,
+      "mi": 37.78,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -857,21 +857,6 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/device_sync.go",
-      "lenguaje": "go",
-      "loc": 48,
-      "complejidad_ciclomatica": 11,
-      "mi": 41.92,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 0.0,
-      "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": 0.0,
-      "payback_anios": 0.0,
-      "roi_4_anios_porc": 0.0,
-      "tiene_datos_interes": true,
-      "fuente_interes": "sin_deuda"
-    },
-    {
       "ruta": "backend/internal/app/classperiod.go",
       "lenguaje": "go",
       "loc": 48,
@@ -887,11 +872,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/preceptor_test.go",
+      "ruta": "backend/internal/app/device_sync.go",
       "lenguaje": "go",
-      "loc": 45,
-      "complejidad_ciclomatica": 8,
-      "mi": 43.27,
+      "loc": 48,
+      "complejidad_ciclomatica": 11,
+      "mi": 41.92,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -907,6 +892,21 @@
       "loc": 45,
       "complejidad_ciclomatica": 11,
       "mi": 42.87,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 0.0,
+      "costo_reparacion_usd": 0.0,
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
+    },
+    {
+      "ruta": "backend/internal/app/preceptor_test.go",
+      "lenguaje": "go",
+      "loc": 45,
+      "complejidad_ciclomatica": 8,
+      "mi": 43.27,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
