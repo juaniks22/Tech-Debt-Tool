@@ -39,6 +39,10 @@ CC_UMBRAL_POR_LENGUAJE = {
 # Umbral de deuda técnica relativa dado en clase (informativo)
 DEUDA_TECNICA_UMBRAL_PORC = 6.0
 
+# Estimaciones por defecto para archivos sin configuración explícita en intereses.yaml
+DEFAULT_CAMBIOS_ANUALES = 10
+DEFAULT_DELTA_T_HORAS = 2.0
+
 
 @dataclass
 class InteresArchivo:

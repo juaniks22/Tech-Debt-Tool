@@ -103,13 +103,26 @@ def imprimir_tabla_consola(reportes: list[ReporteFinancieroArchivo]) -> None:
         )
 
     print("-" * 130)
-    sin_config = [r.ruta for r in reportes if not r.tiene_datos_interes]
-    if sin_config:
-        print(
-            f"⚠️  Sin datos de interés anual (faltan en el YAML de config) para: "
-            f"{', '.join(sin_config)}"
-        )
-        print("    -> Interés/Payback/ROI no calculados para esos archivos.")
+    en_yaml = sum(1 for r in reportes if r.fuente_interes == "yaml")
+    en_git = sum(1 for r in reportes if r.fuente_interes == "git")
+    en_fijo = sum(1 for r in reportes if r.fuente_interes == "fijo")
+    en_sin_deuda = sum(1 for r in reportes if r.fuente_interes == "sin_deuda")
+    sin_datos = [r.ruta for r in reportes if not r.tiene_datos_interes]
+
+    resumen_fuentes = []
+    if en_yaml:
+        resumen_fuentes.append(f"{en_yaml} vía YAML")
+    if en_git:
+        resumen_fuentes.append(f"{en_git} estimados vía Git")
+    if en_fijo:
+        resumen_fuentes.append(f"{en_fijo} estimados fijos")
+    if en_sin_deuda:
+        resumen_fuentes.append(f"{en_sin_deuda} aprobados/sin deuda ($0)")
+
+    if resumen_fuentes:
+        print(f"Fuentes de cálculo financiero: {', '.join(resumen_fuentes)}.")
+    if sin_datos:
+        print(f"⚠️  Sin datos de interés para: {', '.join(sin_datos)}")
 
     print(
         f"\nReferencia MI: 🔴 < {MI_UMBRAL_CRITICO} (Crítico / No aprobado) | "

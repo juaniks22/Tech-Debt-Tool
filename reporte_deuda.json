@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-09-16T16:52:57.727718+00:00",
+  "generado_en": "2026-09-17T02:55:53.533398+00:00",
   "archivos": [
     {
       "ruta": "frontend/lib/presentation/screens/cursos_screen.dart",
@@ -13,7 +13,8 @@
       "interes_anual_usd": 3600.0,
       "payback_anios": 4.45,
       "roi_4_anios_porc": -10.15,
-      "tiene_datos_interes": true
+      "tiene_datos_interes": true,
+      "fuente_interes": "yaml"
     },
     {
       "ruta": "frontend/lib/presentation/screens/configuracion_screen.dart",
@@ -24,10 +25,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 270.8,
       "costo_reparacion_usd": 8124.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 13.54,
+      "roi_4_anios_porc": -70.46,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/presentation/screens/teachers_screen.dart",
@@ -38,10 +40,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 261.0,
       "costo_reparacion_usd": 7830.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 13.05,
+      "roi_4_anios_porc": -69.35,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/presentation/screens/students_screen.dart",
@@ -52,10 +55,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 258.8,
       "costo_reparacion_usd": 7764.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 12.94,
+      "roi_4_anios_porc": -69.09,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/api_datasource.dart",
@@ -66,10 +70,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 212.2,
       "costo_reparacion_usd": 6366.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 10.61,
+      "roi_4_anios_porc": -62.3,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/presentation/screens/materias_screen.dart",
@@ -80,10 +85,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 195.0,
       "costo_reparacion_usd": 5850.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 9.75,
+      "roi_4_anios_porc": -58.97,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/presentation/screens/users_screen.dart",
@@ -94,10 +100,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 190.2,
       "costo_reparacion_usd": 5706.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 9.51,
+      "roi_4_anios_porc": -57.94,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/presentation/screens/attendance_screen.dart",
@@ -108,10 +115,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 187.0,
       "costo_reparacion_usd": 5610.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 9.35,
+      "roi_4_anios_porc": -57.22,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/presentation/widgets/aam_design_system.dart",
@@ -122,10 +130,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 133.8,
       "costo_reparacion_usd": 4014.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 6.69,
+      "roi_4_anios_porc": -40.21,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/adapter/postgres/academic_repo.go",
@@ -139,7 +148,8 @@
       "interes_anual_usd": 1050.0,
       "payback_anios": 2.41,
       "roi_4_anios_porc": 65.88,
-      "tiene_datos_interes": true
+      "tiene_datos_interes": true,
+      "fuente_interes": "yaml"
     },
     {
       "ruta": "frontend/lib/presentation/screens/reports_screen.dart",
@@ -150,10 +160,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 54.67,
       "costo_reparacion_usd": 1640.17,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 2.73,
+      "roi_4_anios_porc": 46.33,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/adapter/http/course_handler.go",
@@ -167,7 +178,8 @@
       "interes_anual_usd": 600.0,
       "payback_anios": 2.23,
       "roi_4_anios_porc": 79.27,
-      "tiene_datos_interes": true
+      "tiene_datos_interes": true,
+      "fuente_interes": "yaml"
     },
     {
       "ruta": "frontend/lib/presentation/screens/dashboard_screen.dart",
@@ -178,10 +190,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 36.68,
       "costo_reparacion_usd": 1100.38,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 1.83,
+      "roi_4_anios_porc": 118.11,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/adapter/http/dto.go",
@@ -192,10 +205,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 30.34,
       "costo_reparacion_usd": 910.12,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 1.52,
+      "roi_4_anios_porc": 163.7,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/adapter/postgres/structure_repo.go",
@@ -206,10 +220,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 24.63,
       "costo_reparacion_usd": 738.98,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 1.23,
+      "roi_4_anios_porc": 224.77,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/app/academic.go",
@@ -220,10 +235,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 23.7,
       "costo_reparacion_usd": 710.94,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 1.18,
+      "roi_4_anios_porc": 237.58,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/adapter/http/config_handler.go",
@@ -234,10 +250,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 18.92,
       "costo_reparacion_usd": 567.67,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 0.95,
+      "roi_4_anios_porc": 322.78,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/adapter/http/academic_handler.go",
@@ -248,10 +265,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 17.96,
       "costo_reparacion_usd": 538.84,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 0.9,
+      "roi_4_anios_porc": 345.4,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/adapter/postgres/user_repo.go",
@@ -262,10 +280,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 3.89,
       "costo_reparacion_usd": 116.81,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 0.19,
+      "roi_4_anios_porc": 1954.68,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/presentation/shell/app_shell.dart",
@@ -276,10 +295,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 3.78,
       "costo_reparacion_usd": 113.54,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 0.19,
+      "roi_4_anios_porc": 2013.72,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/app/config.go",
@@ -290,10 +310,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 3.04,
       "costo_reparacion_usd": 91.16,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 0.15,
+      "roi_4_anios_porc": 2532.64,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "frontend/lib/domain/entities/config.dart",
@@ -304,10 +325,11 @@
       "estado_mi": "CRITICO",
       "deuda_horas": 1.7,
       "costo_reparacion_usd": 51.01,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 600.0,
+      "payback_anios": 0.09,
+      "roi_4_anios_porc": 4604.5,
+      "tiene_datos_interes": true,
+      "fuente_interes": "fijo"
     },
     {
       "ruta": "backend/internal/adapter/http/student_handler.go",
@@ -318,10 +340,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/notification_repo.go",
@@ -332,10 +355,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/ports_repos.go",
@@ -346,10 +370,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/device_handler.go",
@@ -360,10 +385,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/attendance_repo.go",
@@ -374,10 +400,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/student_repo.go",
@@ -388,10 +415,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/cmd/api/main.go",
@@ -402,10 +430,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/deviceconfig_repo.go",
@@ -416,10 +445,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/attendance_handler.go",
@@ -430,10 +460,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/domain_test.go",
@@ -444,10 +475,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/device_repo.go",
@@ -458,10 +490,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/student_import.go",
@@ -472,10 +505,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/preceptor_repo.go",
@@ -486,10 +520,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/user_handler.go",
@@ -500,10 +535,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/academic.go",
@@ -514,10 +550,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/specialty_repo.go",
@@ -528,10 +565,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/timeslot_repo.go",
@@ -542,10 +580,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/course_repo.go",
@@ -556,10 +595,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/rules.go",
@@ -570,10 +610,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/excel.go",
@@ -584,10 +625,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/classperiod_repo.go",
@@ -598,10 +640,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/config.go",
@@ -612,10 +655,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/middleware.go",
@@ -626,10 +670,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/student.go",
@@ -640,24 +685,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
-    },
-    {
-      "ruta": "backend/internal/adapter/http/misc_handler.go",
-      "lenguaje": "go",
-      "loc": 68,
-      "complejidad_ciclomatica": 14,
-      "mi": 36.43,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 0.0,
-      "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/server.go",
@@ -668,10 +700,26 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
+    },
+    {
+      "ruta": "backend/internal/adapter/http/misc_handler.go",
+      "lenguaje": "go",
+      "loc": 68,
+      "complejidad_ciclomatica": 14,
+      "mi": 36.43,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 0.0,
+      "costo_reparacion_usd": 0.0,
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/course.go",
@@ -682,10 +730,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/timeslot.go",
@@ -696,10 +745,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/attendance.go",
@@ -710,10 +760,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/auth/auth.go",
@@ -724,10 +775,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/migrate/migrate.go",
@@ -738,10 +790,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/config/config.go",
@@ -752,10 +805,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/user.go",
@@ -766,10 +820,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/preceptor.go",
@@ -780,10 +835,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/ports_auth.go",
@@ -794,24 +850,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
-    },
-    {
-      "ruta": "backend/internal/app/device_sync.go",
-      "lenguaje": "go",
-      "loc": 48,
-      "complejidad_ciclomatica": 11,
-      "mi": 41.92,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 0.0,
-      "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/classperiod.go",
@@ -822,24 +865,26 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/preceptor_test.go",
+      "ruta": "backend/internal/app/device_sync.go",
       "lenguaje": "go",
-      "loc": 45,
-      "complejidad_ciclomatica": 8,
-      "mi": 43.27,
+      "loc": 48,
+      "complejidad_ciclomatica": 11,
+      "mi": 41.92,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/user.go",
@@ -850,10 +895,26 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
+    },
+    {
+      "ruta": "backend/internal/app/preceptor_test.go",
+      "lenguaje": "go",
+      "loc": 45,
+      "complejidad_ciclomatica": 8,
+      "mi": 43.27,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 0.0,
+      "costo_reparacion_usd": 0.0,
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/db.go",
@@ -864,10 +925,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/attendance.go",
@@ -878,10 +940,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/timeslot.go",
@@ -892,10 +955,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/misc.go",
@@ -906,10 +970,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/response.go",
@@ -920,24 +985,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
-    },
-    {
-      "ruta": "backend/internal/domain/ports_device.go",
-      "lenguaje": "go",
-      "loc": 37,
-      "complejidad_ciclomatica": 0,
-      "mi": 47.21,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 0.0,
-      "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/student.go",
@@ -948,10 +1000,26 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
+    },
+    {
+      "ruta": "backend/internal/domain/ports_device.go",
+      "lenguaje": "go",
+      "loc": 37,
+      "complejidad_ciclomatica": 0,
+      "mi": 47.21,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 0.0,
+      "costo_reparacion_usd": 0.0,
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/errors.go",
@@ -962,10 +1030,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/auth.go",
@@ -976,10 +1045,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/workshop_group_repo.go",
@@ -990,10 +1060,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/helpers.go",
@@ -1004,10 +1075,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/specialty.go",
@@ -1018,10 +1090,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/http/auth_handler.go",
@@ -1032,10 +1105,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/preceptor.go",
@@ -1046,10 +1120,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/errors.go",
@@ -1060,10 +1135,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/course.go",
@@ -1074,10 +1150,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/notification.go",
@@ -1088,10 +1165,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/adapter/postgres/overlap_repo.go",
@@ -1102,10 +1180,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/early_departure.go",
@@ -1116,10 +1195,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/domain/workshop_group.go",
@@ -1130,10 +1210,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "backend/internal/app/doc.go",
@@ -1144,10 +1225,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/academic.dart",
@@ -1158,10 +1240,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/attendance_record.dart",
@@ -1172,10 +1255,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/class_period.dart",
@@ -1186,10 +1270,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/course.dart",
@@ -1200,10 +1285,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/notification.dart",
@@ -1214,10 +1300,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/preceptor_assignment.dart",
@@ -1228,10 +1315,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/specialty.dart",
@@ -1242,10 +1330,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/student.dart",
@@ -1256,10 +1345,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/time_slot.dart",
@@ -1270,10 +1360,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/user.dart",
@@ -1284,10 +1375,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/entities/workshop_group.dart",
@@ -1298,10 +1390,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/repositories/attendance_repository.dart",
@@ -1312,10 +1405,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/repositories/course_repository.dart",
@@ -1326,10 +1420,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/repositories/student_repository.dart",
@@ -1340,10 +1435,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/repositories/time_slot_repository.dart",
@@ -1354,10 +1450,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/repositories/user_repository.dart",
@@ -1368,10 +1465,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/usecases/create_student.dart",
@@ -1382,10 +1480,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/usecases/create_user.dart",
@@ -1396,10 +1495,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/usecases/get_daily_attendance.dart",
@@ -1410,10 +1510,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/usecases/get_dashboard_summary.dart",
@@ -1424,10 +1525,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/domain/usecases/get_students.dart",
@@ -1438,10 +1540,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/attendance_repository_impl.dart",
@@ -1452,10 +1555,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/course_repository_impl.dart",
@@ -1466,10 +1570,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/student_repository_impl.dart",
@@ -1480,10 +1585,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/time_slot_repository_impl.dart",
@@ -1494,10 +1600,11 @@
       "estado_mi": "EXCELENTE",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/user_repository_impl.dart",
@@ -1508,10 +1615,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/main.dart",
@@ -1522,10 +1630,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/presentation/widgets/auto_refresh_mixin.dart",
@@ -1536,10 +1645,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     },
     {
       "ruta": "frontend/lib/presentation/widgets/notification_bell.dart",
@@ -1550,10 +1660,11 @@
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": null,
-      "payback_anios": null,
-      "roi_4_anios_porc": null,
-      "tiene_datos_interes": false
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
     }
   ]
 }

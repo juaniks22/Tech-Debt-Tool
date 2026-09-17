@@ -151,3 +151,18 @@ def correr_dcm(repo_path: Path, subpath: str = "lib") -> dict:
     if json_start == -1:
         raise RuntimeError(f"dcm/metrics no devolvió un JSON válido. stdout: {stdout}")
     return json.loads(stdout[json_start:])
+
+
+def contar_commits_git_todos(repo_path: Path) -> dict[str, int]:
+    """
+    Cuenta commits en el repositorio por archivo normalizado (formato POSIX).
+    Primero busca en el último año (--since='1 year ago'). Si no encuentra commits
+    (por ejemplo en repos nuevos o shallow clones), busca en todo el historial.
+    """
+    import collections
+    r = _correr(["git", "log", "--name-only", "--format=", "--since=1 year ago", "HEAD"], cwd=str(repo_path))
+    lineas = [Path(line.strip()).as_posix() for line in r.stdout.splitlines() if line.strip()]
+    if not lineas:
+        r_todo = _correr(["git", "log", "--name-only", "--format=", "HEAD"], cwd=str(repo_path))
+        lineas = [Path(line.strip()).as_posix() for line in r_todo.stdout.splitlines() if line.strip()]
+    return dict(collections.Counter(lineas))

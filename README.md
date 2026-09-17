@@ -76,27 +76,34 @@ python src/main.py --repo /ruta/al/repo --go-path backend --dart-path frontend/l
 Otras opciones útiles:
 
 ```bash
---solo-config            # muestra únicamente los archivos configurados en intereses.yaml
---skip-dart              # analizar solo Go
---skip-go                # analizar solo Dart
---mi-referencia 60       # MI de referencia para el cálculo de deuda (default: 60.0; usar 20.0 para replicar el documento manual de clase)
---config otro.yaml       # usar otro archivo de intereses
---out-json reporte.json  # nombre del export JSON
---out-csv reporte.csv    # nombre del export CSV
+--solo-config                 # muestra únicamente los archivos configurados en intereses.yaml
+--metodo-estimacion [git|fijo]# método para archivos sin config (default: git, cuenta commits en el último año)
+--default-cambios 10          # cambios anuales fijos si no están en config ni en git (default: 10)
+--default-delta-t 2.0         # horas de fricción por cambio para archivos con deuda (default: 2.0h)
+--skip-dart                   # analizar solo Go
+--skip-go                     # analizar solo Dart
+--mi-referencia 20.0          # MI de referencia para calcular deuda (default: 20.0 para gate Aprobado; 60.0 para Excelencia)
+--config otro.yaml            # usar otro archivo de intereses
+--out-json reporte.json       # nombre del export JSON
+--out-csv reporte.csv         # nombre del export CSV
 ```
 
 ### 3. Leer el reporte
 
-Sale una tabla en consola con semáforo 🟢/🔴 según los umbrales dados
-en clase (CC Dart ≤4, CC Go ≤10, MI ≥60%), y se exporta a
-`reporte_deuda.json` / `reporte_deuda.csv` para llevar historial entre
-corridas (por ejemplo, versionando el CSV y viendo cómo baja la deuda
-sprint a sprint).
+Sale una tabla en consola con semáforo de 3 niveles según el estado de mantenibilidad:
+- 🔴 **Crítico ($MI < 20$):** No aprobado, alta deuda y fricción.
+- 🟢 **Aprobado ($20 \le MI < 60$):** Calidad mínima operativa cumplida.
+- 🟢 **Excelente ($MI \ge 60$):** Arquitectura limpia y modular.
 
-## Parámetros de Referencia
+Y se exporta a `reporte_deuda.json` / `reporte_deuda.csv` con **todas las métricas financieras calculadas para cada archivo** (`interes_anual_usd`, `payback_anios`, `roi_4_anios_porc` y `fuente_interes`).
 
-- **MI de referencia:** El script usa **60.0** por default (según la consigna "MI ≥60% es aceptable"). Si deseás calcular la deuda contra una referencia de 20 (como en la primera planilla de clase), pasá `--mi-referencia 20.0`.
-- **Umbrales de CC por lenguaje:** (Dart ≤4, Go ≤10) se utilizan para el semáforo visual en el reporte.
+## Estimación de Fricción e Interés Financiero
+
+1. **Archivos en `intereses.yaml`:** Usan las estimaciones humanas provistas por el equipo (máxima prioridad).
+2. **Archivos limpios/aprobados ($MI \ge 20$):** Tienen deuda $0\text{ h}$, costo $\$0$, e interés anual $\$0$ (no sufren fricción por mala calidad).
+3. **Archivos con deuda sin config explícita:**
+   - **Por defecto (`--metodo-estimacion git`):** El script consulta el historial de commits del último año en Git para determinar cuántas veces se tocó el archivo, y aplica $\Delta t$ estimado (default $2.0\text{ h}$).
+   - **Opción fija (`--metodo-estimacion fijo`):** Utiliza valores fijos configurables (`--default-cambios 10 --default-delta-t 2.0`).
 
 ## Estructura
 

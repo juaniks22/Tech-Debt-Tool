@@ -30,6 +30,7 @@ class ReporteFinancieroArchivo:
     payback_anios: float | None = None
     roi_4_anios_porc: float | None = None
     tiene_datos_interes: bool = False
+    fuente_interes: str = "ninguna"  # "yaml", "git", "fijo", "sin_deuda", "ninguna"
 
 
 def calcular_deuda_horas(mi: float, loc: int, mi_referencia: float) -> float:
@@ -47,13 +48,13 @@ def calcular_interes_anual(cambios_anuales: int, delta_t_horas: float) -> float:
 
 def calcular_payback_anios(costo_reparacion: float, interes_anual: float) -> float | None:
     if interes_anual <= 0:
-        return None  # sin fricción anual, no hay payback definido
+        return 0.0 if costo_reparacion <= 0 else None
     return costo_reparacion / interes_anual
 
 
 def calcular_roi_4_anios(costo_reparacion: float, interes_anual: float) -> float | None:
     if costo_reparacion <= 0:
-        return None
+        return 0.0
     return 100 * ((interes_anual * 4) - costo_reparacion) / costo_reparacion
 
 
@@ -62,6 +63,7 @@ def construir_reporte_archivo(
     mi_referencia: float,
     cambios_anuales: int | None,
     delta_t_horas: float | None,
+    fuente_interes: str = "ninguna",
 ) -> ReporteFinancieroArchivo:
     deuda = calcular_deuda_horas(metrica.mi, metrica.loc, mi_referencia)
     costo = calcular_costo_reparacion(deuda)
@@ -85,7 +87,14 @@ def construir_reporte_archivo(
         costo_reparacion_usd=round(costo, 2),
     )
 
-    if cambios_anuales is not None and delta_t_horas is not None:
+    # Si el archivo no tiene deuda técnica y no está explícitamente en el YAML, no sufre fricción
+    if deuda <= 0.0 and fuente_interes != "yaml" and fuente_interes != "ninguna":
+        reporte.interes_anual_usd = 0.0
+        reporte.payback_anios = 0.0
+        reporte.roi_4_anios_porc = 0.0
+        reporte.tiene_datos_interes = True
+        reporte.fuente_interes = "sin_deuda"
+    elif cambios_anuales is not None and delta_t_horas is not None:
         interes = calcular_interes_anual(cambios_anuales, delta_t_horas)
         payback = calcular_payback_anios(costo, interes)
         roi = calcular_roi_4_anios(costo, interes)
@@ -93,5 +102,6 @@ def construir_reporte_archivo(
         reporte.payback_anios = round(payback, 2) if payback is not None else None
         reporte.roi_4_anios_porc = round(roi, 2) if roi is not None else None
         reporte.tiene_datos_interes = True
+        reporte.fuente_interes = fuente_interes if fuente_interes != "ninguna" else "yaml"
 
     return reporte

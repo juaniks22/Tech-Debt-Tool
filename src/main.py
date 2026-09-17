@@ -26,6 +26,8 @@ if sys.platform == "win32":
         pass
 
 from config import (
+    DEFAULT_CAMBIOS_ANUALES,
+    DEFAULT_DELTA_T_HORAS,
     InteresArchivo,
     MI_REFERENCIA_DEFAULT,
     cargar_intereses,
@@ -39,6 +41,7 @@ from tool_runner import (
     asegurar_dcm,
     asegurar_gocloc,
     asegurar_gocyclo,
+    contar_commits_git_todos,
     correr_dcm,
     correr_gocloc,
     correr_gocyclo,
@@ -131,6 +134,12 @@ def main() -> int:
                          help=f"MI de referencia para calcular deuda (default: {MI_REFERENCIA_DEFAULT})")
     parser.add_argument("--solo-config", action="store_true",
                          help="Mostrar únicamente los archivos que tengan estimaciones en el archivo de configuración")
+    parser.add_argument("--metodo-estimacion", choices=["git", "fijo"], default="git",
+                         help="Método de estimación para archivos sin config: 'git' (default, cuenta commits) o 'fijo'")
+    parser.add_argument("--default-cambios", type=int, default=DEFAULT_CAMBIOS_ANUALES,
+                         help=f"Cambios anuales fijos si no están en config ni en git (default: {DEFAULT_CAMBIOS_ANUALES})")
+    parser.add_argument("--default-delta-t", type=float, default=DEFAULT_DELTA_T_HORAS,
+                         help=f"Delta T en horas por cambio para archivos con deuda sin config (default: {DEFAULT_DELTA_T_HORAS}h)")
     parser.add_argument("--out-json", type=Path, default=Path("reporte_deuda.json"))
     parser.add_argument("--out-csv", type=Path, default=Path("reporte_deuda.csv"))
     parser.add_argument("--skip-go", action="store_true", help="No analizar archivos Go")
@@ -176,20 +185,50 @@ def main() -> int:
         print(f"\nError de setup: {e}", file=sys.stderr)
         return 1
 
+    # Si se usa método git, precargamos el conteo de commits para todos los archivos
+    commits_git: dict[str, int] = {}
+    if args.metodo_estimacion == "git" and (args.repo / ".git").is_dir():
+        try:
+            commits_git = contar_commits_git_todos(args.repo)
+        except Exception as e:
+            print(f"[main] Aviso: no se pudo leer historial git ({e}). Usando valores fijos.", file=sys.stderr)
+
     reportes = []
     for m in todas_metricas:
         interes: InteresArchivo | None = intereses.get(m.ruta)
+        if interes:
+            cambios = interes.cambios_anuales
+            delta_t = interes.delta_t_horas
+            fuente = "yaml"
+        else:
+            # Archivo sin configuración explícita en intereses.yaml
+            if args.metodo_estimacion == "git" and commits_git:
+                c_git = commits_git.get(m.ruta)
+                if c_git is None:
+                    for gpath, gcount in commits_git.items():
+                        if gpath.endswith(m.ruta) or m.ruta.endswith(gpath):
+                            c_git = gcount
+                            break
+                cambios = c_git if c_git else args.default_cambios
+                delta_t = args.default_delta_t
+                fuente = "git"
+            else:
+                cambios = args.default_cambios
+                delta_t = args.default_delta_t
+                fuente = "fijo"
+
         reportes.append(
             construir_reporte_archivo(
                 m,
                 mi_referencia=args.mi_referencia,
-                cambios_anuales=interes.cambios_anuales if interes else None,
-                delta_t_horas=interes.delta_t_horas if interes else None,
+                cambios_anuales=cambios,
+                delta_t_horas=delta_t,
+                fuente_interes=fuente,
             )
         )
 
     if args.solo_config:
-        reportes = [r for r in reportes if r.tiene_datos_interes]
+        reportes = [r for r in reportes if r.fuente_interes == "yaml"]
 
     # Ordenar por deuda descendente, como la tabla de prioridades del documento
     reportes.sort(key=lambda r: r.deuda_horas or 0, reverse=True)
