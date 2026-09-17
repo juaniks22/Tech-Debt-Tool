@@ -13,10 +13,14 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from metrics import calcular_mi, metrica_go_desde_raw, metrica_dart_desde_dcm
-from debt_calculator import construir_reporte_archivo
+from src.domain.calculator import (
+    calcular_mi,
+    construir_reporte_archivo,
+    metrica_dart_desde_dcm,
+    metrica_go_desde_raw,
+)
 
 MI_REF = 20.0
 

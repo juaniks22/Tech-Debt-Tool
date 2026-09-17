@@ -1,11 +1,15 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from metrics import metrica_dart_desde_dcm, metrica_go_desde_raw
-from debt_calculator import construir_reporte_archivo
-from report import imprimir_tabla_consola, exportar_csv, exportar_json
+from src.domain.calculator import (
+    construir_reporte_archivo,
+    metrica_dart_desde_dcm,
+    metrica_go_desde_raw,
+)
+from src.infrastructure.reporters.console_reporter import ConsoleReporter
+from src.infrastructure.reporters.file_reporters import CsvReporter, JsonReporter
 
 MI_REF = 20.0
 
@@ -30,10 +34,10 @@ for m in metricas:
 
 reportes.sort(key=lambda r: r.deuda_horas or 0, reverse=True)
 
-imprimir_tabla_consola(reportes)
+ConsoleReporter.imprimir_tabla(reportes)
 
 out_dir = Path(__file__).parent / "_out"
 out_dir.mkdir(exist_ok=True)
-exportar_json(reportes, out_dir / "reporte_deuda.json")
-exportar_csv(reportes, out_dir / "reporte_deuda.csv")
+JsonReporter.exportar(reportes, out_dir / "reporte_deuda.json")
+CsvReporter.exportar(reportes, out_dir / "reporte_deuda.csv")
 print(f"Exportado a {out_dir}/")

@@ -86,6 +86,7 @@ Otras opciones útiles:
 --config otro.yaml            # usar otro archivo de intereses
 --out-json reporte.json       # nombre del export JSON
 --out-csv reporte.csv         # nombre del export CSV
+--out-md reporte.md           # nombre del export Markdown (ideal para PRs / CI)
 ```
 
 ### 3. Leer el reporte
@@ -95,7 +96,7 @@ Sale una tabla en consola con semáforo de 3 niveles según el estado de manteni
 - 🟢 **Aprobado ($20 \le MI < 60$):** Calidad mínima operativa cumplida.
 - 🟢 **Excelente ($MI \ge 60$):** Arquitectura limpia y modular.
 
-Y se exporta a `reporte_deuda.json` / `reporte_deuda.csv` con **todas las métricas financieras calculadas para cada archivo** (`interes_anual_usd`, `payback_anios`, `roi_4_anios_porc` y `fuente_interes`).
+Y se exporta a `reporte_deuda.json` / `reporte_deuda.csv` / `reporte_deuda.md` con **todas las métricas financieras calculadas para cada archivo** (`interes_anual_usd`, `payback_anios`, `roi_4_anios_porc` y `fuente_interes`).
 
 ## Estimación de Fricción e Interés Financiero
 
@@ -105,24 +106,32 @@ Y se exporta a `reporte_deuda.json` / `reporte_deuda.csv` con **todas las métri
    - **Por defecto (`--metodo-estimacion git`):** El script consulta el historial de commits del último año en Git para determinar cuántas veces se tocó el archivo, y aplica $\Delta t$ estimado (default $2.0\text{ h}$).
    - **Opción fija (`--metodo-estimacion fijo`):** Utiliza valores fijos configurables (`--default-cambios 10 --default-delta-t 2.0`).
 
-## Estructura
+## Estructura (Arquitectura Hexagonal / Ports & Adapters)
 
 ```
 src/
-  config.py           # constantes + carga del YAML de intereses
-  tool_runner.py       # chequeo/instalación/ejecución de gocloc, gocyclo, dcm
-  metrics.py            # modelo de métricas crudas + fórmula de MI para Go
-  debt_calculator.py    # fórmulas de deuda/costo/interés/payback/ROI
-  report.py              # tabla consola + export CSV/JSON
-  main.py                 # CLI
+  domain/                      # Dominio puro (cero dependencias externas)
+    models.py                  # Dataclasses (FileMetric, DebtReport, FinancialParams)
+    calculator.py              # Fórmulas de MI, deuda, costo, interés, payback, ROI
+  application/                 # Casos de uso y puertos
+    ports.py                   # Protocolos (CodeAnalyzer, FrictionProvider, ReportExporter)
+    analyze_use_case.py        # Orquestación del análisis y agregación global
+  infrastructure/              # Adaptadores de infraestructura
+    analyzers/                 # GoAnalyzer, DartAnalyzer, AnalyzerRegistry (Strategy)
+    friction/                  # YamlProvider, GitProvider, FixedProvider, CompositeProvider
+    reporters/                 # ConsoleReporter, JsonReporter, CsvReporter, MarkdownReporter
+    tools/                     # ProcessRunner y verificación de binarios
+  config.py                    # Constantes y parámetros globales
+  main.py                      # CLI y Composition Root
 tests/
-  test_contra_documento_clase.py   # valida contra los números exactos de clase
-  test_reporte_end_to_end.py        # prueba el reporte completo simulado
+  unit/                        # Tests unitarios puros (dominio, use case, markdown)
+  test_contra_documento_clase.py # Valida contra los números exactos de clase
+  test_reporte_end_to_end.py   # Prueba el reporte completo simulado
 ```
 
 ## Nota sobre el parser de `dcm`
 
-El parseo del JSON de `dcm` en `tool_runner.py`/`main.py` está basado
+El parseo del JSON de `dcm` en `infrastructure/analyzers/dart_analyzer.py` está basado
 en el formato documentado (`records[].metrics`), pero las versiones de
 `dart_code_metrics` cambiaron su output entre releases. La primera vez
 que lo corras, si tira error de parseo, pegame el JSON crudo que
