@@ -1,5 +1,0 @@
-ruta,lenguaje,loc,complejidad_ciclomatica,mi,deuda_horas,costo_reparacion_usd,interes_anual_usd,payback_anios,roi_4_anios_porc,tiene_datos_interes
-lib/screens/cursos_screen.dart,dart,2671,383,0.0,534.2,16026.0,3600.0,4.45,-10.15,True
-internal/repo/academic_repo.go,go,422,68,2.48,73.95,2218.47,1050.0,2.11,89.32,True
-internal/handler/course_handler.go,go,338,38,9.76,34.62,1038.68,600.0,1.73,131.06,True
-internal/handler/sin_datos.go,go,100,3,32.27,0.0,0.0,,,,False
