@@ -45,8 +45,8 @@ backend/internal/adapter/postgres/classperiod_repo.go,go,76,12,35.07,APROBADO,0.
 backend/internal/domain/config.go,go,75,0,36.88,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/adapter/http/middleware.go,go,73,12,35.66,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/app/student.go,go,70,21,35.06,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
-backend/internal/adapter/http/server.go,go,68,1,38.18,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/adapter/http/misc_handler.go,go,68,14,36.43,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
+backend/internal/adapter/http/server.go,go,68,1,38.18,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/app/course.go,go,64,18,36.78,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/app/timeslot.go,go,62,14,37.78,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/app/attendance.go,go,62,17,37.38,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
@@ -56,10 +56,10 @@ backend/internal/config/config.go,go,54,12,40.07,APROBADO,0.0,0.0,0.0,0.0,0.0,Tr
 backend/internal/domain/user.go,go,53,10,40.61,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/app/preceptor.go,go,50,13,41.06,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/domain/ports_auth.go,go,49,7,42.16,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
-backend/internal/app/classperiod.go,go,48,20,40.71,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/app/device_sync.go,go,48,11,41.92,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
-backend/internal/app/user.go,go,45,11,42.87,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
+backend/internal/app/classperiod.go,go,48,20,40.71,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/app/preceptor_test.go,go,45,8,43.27,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
+backend/internal/app/user.go,go,45,11,42.87,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/adapter/postgres/db.go,go,42,12,43.74,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/domain/attendance.go,go,41,3,45.3,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda
 backend/internal/domain/timeslot.go,go,40,0,46.07,APROBADO,0.0,0.0,0.0,0.0,0.0,True,sin_deuda

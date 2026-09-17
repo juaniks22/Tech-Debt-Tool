@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-09-17T02:55:53.533398+00:00",
+  "generado_en": "2026-09-17T03:01:48.790243+00:00",
   "archivos": [
     {
       "ruta": "frontend/lib/presentation/screens/cursos_screen.dart",
@@ -692,11 +692,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/adapter/http/server.go",
+      "ruta": "backend/internal/adapter/http/misc_handler.go",
       "lenguaje": "go",
       "loc": 68,
-      "complejidad_ciclomatica": 1,
-      "mi": 38.18,
+      "complejidad_ciclomatica": 14,
+      "mi": 36.43,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -707,11 +707,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/adapter/http/misc_handler.go",
+      "ruta": "backend/internal/adapter/http/server.go",
       "lenguaje": "go",
       "loc": 68,
-      "complejidad_ciclomatica": 14,
-      "mi": 36.43,
+      "complejidad_ciclomatica": 1,
+      "mi": 38.18,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -857,21 +857,6 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/classperiod.go",
-      "lenguaje": "go",
-      "loc": 48,
-      "complejidad_ciclomatica": 20,
-      "mi": 40.71,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 0.0,
-      "costo_reparacion_usd": 0.0,
-      "interes_anual_usd": 0.0,
-      "payback_anios": 0.0,
-      "roi_4_anios_porc": 0.0,
-      "tiene_datos_interes": true,
-      "fuente_interes": "sin_deuda"
-    },
-    {
       "ruta": "backend/internal/app/device_sync.go",
       "lenguaje": "go",
       "loc": 48,
@@ -887,11 +872,11 @@
       "fuente_interes": "sin_deuda"
     },
     {
-      "ruta": "backend/internal/app/user.go",
+      "ruta": "backend/internal/app/classperiod.go",
       "lenguaje": "go",
-      "loc": 45,
-      "complejidad_ciclomatica": 11,
-      "mi": 42.87,
+      "loc": 48,
+      "complejidad_ciclomatica": 20,
+      "mi": 40.71,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
@@ -907,6 +892,21 @@
       "loc": 45,
       "complejidad_ciclomatica": 8,
       "mi": 43.27,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 0.0,
+      "costo_reparacion_usd": 0.0,
+      "interes_anual_usd": 0.0,
+      "payback_anios": 0.0,
+      "roi_4_anios_porc": 0.0,
+      "tiene_datos_interes": true,
+      "fuente_interes": "sin_deuda"
+    },
+    {
+      "ruta": "backend/internal/app/user.go",
+      "lenguaje": "go",
+      "loc": 45,
+      "complejidad_ciclomatica": 11,
+      "mi": 42.87,
       "estado_mi": "APROBADO",
       "deuda_horas": 0.0,
       "costo_reparacion_usd": 0.0,
