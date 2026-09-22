@@ -14,23 +14,32 @@ from pathlib import Path
 
 import yaml
 
-# --- Constantes y parámetros globales (del documento de clase) ---
+# --- Constantes y parámetros del modelo dinámico de fricción (nuevo estándar) ---
+MODELO_DEFAULT = "dinamico"
+FACTOR_C_DEFAULT = 3.0
+MI_UMBRAL_DINAMICO = 75.0
+MI_UMBRAL_AMARILLO_DINAMICO = 50.0
+TASA_EXITO_ROI_DEFAULT = 0.65
+T_CLEAN_BACKEND_DEFAULT = 7.0
+T_CLEAN_FRONTEND_DEFAULT = 4.0
+INTERVENCIONES_BACKEND_DEFAULT = 10
+INTERVENCIONES_FRONTEND_DEFAULT = 30
+EF_EXPERIENCIA_DEFAULT = 0.0
+TCF_DEFAULT = 1.0
+
+# --- Constantes y parámetros globales clásicos (retrocompatibilidad) ---
 FACTOR_CORRECCION_K = 0.01
 COSTO_HORA_DESARROLLO_USD = 30.0
 
-# MI de referencia para el cálculo de deuda técnica.
-# Default 20.0 para medir la deuda necesaria para salir de la zona crítica y alcanzar "Aprobado".
-# Con --mi-referencia 60.0 se puede calcular la deuda para alcanzar "Excelente".
-MI_REFERENCIA_DEFAULT = 20.0
+# MI de referencia para el cálculo clásico de deuda técnica.
+MI_REFERENCIA_DEFAULT = 75.0
+MI_REFERENCIA_CLASICA = 20.0
 
-# Umbrales de Maintainability Index (MI)
+# Umbrales clásicos de Maintainability Index (MI)
 MI_UMBRAL_CRITICO = 20.0    # < 20: Crítico / No aprobado (Rojo)
 MI_UMBRAL_EXCELENTE = 60.0  # >= 60: Excelente (Verde oscuro). Entre 20 y 59: Aprobado (Verde claro)
 
 # Umbrales de complejidad ciclomática dados en clase, por lenguaje.
-# El script NO los usa para alterar el cálculo de deuda (eso se dejó
-# explícitamente sin decidir) - solo se muestran en el reporte para
-# que la interpretación quede en manos del usuario.
 CC_UMBRAL_POR_LENGUAJE = {
     "dart": 4,
     "go": 10,
@@ -49,7 +58,8 @@ class InteresArchivo:
     """Estimación humana de fricción anual para un archivo puntual."""
     ruta: str
     cambios_anuales: int
-    delta_t_horas: float
+    delta_t_horas: Optional[float] = None
+    t_clean_horas: Optional[float] = None
 
 
 def cargar_intereses(path_yaml: Path) -> dict[str, InteresArchivo]:
@@ -85,10 +95,15 @@ def cargar_intereses(path_yaml: Path) -> dict[str, InteresArchivo]:
     for entry in data.get("archivos", []):
         try:
             ruta_norm = Path(entry["ruta"]).as_posix()
+            delta_t_raw = entry.get("delta_t_horas")
+            delta_t = float(delta_t_raw) if delta_t_raw is not None else None
+            t_clean_raw = entry.get("t_clean_horas")
+            t_clean = float(t_clean_raw) if t_clean_raw is not None else None
             item = InteresArchivo(
                 ruta=ruta_norm,
                 cambios_anuales=int(entry["cambios_anuales"]),
-                delta_t_horas=float(entry["delta_t_horas"]),
+                delta_t_horas=delta_t,
+                t_clean_horas=t_clean,
             )
             resultado[item.ruta] = item
         except (KeyError, ValueError, TypeError) as e:

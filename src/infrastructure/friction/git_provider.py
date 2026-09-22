@@ -12,14 +12,27 @@ from src.infrastructure.tools.process_runner import correr_comando
 
 
 class GitCommitFrictionProvider:
-    """Extrae el conteo de cambios en el último año a partir de git log."""
+    """Extrae el conteo de cambios en el último año a partir de git log y soporta baselines de capa."""
 
     def __init__(
-        self, repo_path: Path, default_delta_t_horas: float = 2.0, default_cambios: int = 10
+        self,
+        repo_path: Path,
+        default_delta_t_horas: Optional[float] = None,
+        default_cambios: Optional[int] = None,
+        modelo: str = "dinamico",
+        t_clean_backend: float = 7.0,
+        t_clean_frontend: float = 4.0,
+        intervenciones_backend: int = 10,
+        intervenciones_frontend: int = 30,
     ) -> None:
         self.repo_path = repo_path
         self.default_delta_t = default_delta_t_horas
         self.default_cambios = default_cambios
+        self.modelo = modelo
+        self.t_clean_backend = t_clean_backend
+        self.t_clean_frontend = t_clean_frontend
+        self.intervenciones_backend = intervenciones_backend
+        self.intervenciones_frontend = intervenciones_frontend
         self._commits_por_archivo: Optional[Dict[str, int]] = None
 
     def _cargar_commits(self) -> None:
@@ -68,9 +81,19 @@ class GitCommitFrictionProvider:
                     c_git = gcount
                     break
 
-        cambios = c_git if c_git else self.default_cambios
+        es_frontend = metrica.lenguaje.lower() in ("dart", "flutter")
+        t_clean = self.t_clean_frontend if es_frontend else self.t_clean_backend
+
+        if c_git is not None:
+            cambios = c_git
+        elif self.default_cambios is not None:
+            cambios = self.default_cambios
+        else:
+            cambios = self.intervenciones_frontend if es_frontend else self.intervenciones_backend
+
         return FrictionEstimate(
             cambios_anuales=cambios,
             delta_t_horas=self.default_delta_t,
+            t_clean_horas=t_clean if self.modelo == "dinamico" else None,
             fuente="git",
         )

@@ -15,14 +15,25 @@ from src.domain.models import AnalysisSummary, DebtReport
 
 
 class JsonReporter(ReportExporter):
-    """Exporta el reporte en formato JSON con metadatos de auditoría."""
+    """Exporta el reporte en formato JSON con metadatos de auditoría y modelo."""
 
     def export(self, summary: AnalysisSummary, destination: Optional[Path] = None) -> None:
         target = destination or Path("reporte_deuda.json")
-        self.exportar(summary.reportes, target)
+        data = {
+            "generado_en": datetime.now(timezone.utc).isoformat(),
+            "repo_path": summary.repo_path,
+            "modelo_calculo": summary.modelo_calculo,
+            "total_loc": summary.total_loc,
+            "total_deuda_horas": summary.total_deuda_horas,
+            "total_costo_reparacion_usd": summary.total_costo_reparacion_usd,
+            "total_interes_anual_usd": summary.total_interes_anual_usd,
+            "archivos": [asdict(r) for r in summary.reportes],
+        }
+        target.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
     @staticmethod
     def exportar(reportes: list[DebtReport], path: Path) -> None:
+        """Método helper retrocompatible."""
         data = {
             "generado_en": datetime.now(timezone.utc).isoformat(),
             "archivos": [asdict(r) for r in reportes],

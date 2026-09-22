@@ -66,10 +66,53 @@ def construir_cli_parser() -> argparse.ArgumentParser:
         help="Genera una plantilla de configuración de intereses.yaml y sale",
     )
     parser.add_argument(
+        "--modelo",
+        choices=["dinamico", "clasico"],
+        default="dinamico",
+        help="Modelo de cálculo: 'dinamico' (default, fricción elástica F(MI), MI=75) o 'clasico' (MI=20)",
+    )
+    parser.add_argument(
         "--mi-referencia",
         type=float,
-        default=MI_REFERENCIA_DEFAULT,
-        help=f"MI de referencia para calcular deuda (default: {MI_REFERENCIA_DEFAULT})",
+        default=None,
+        help="MI de referencia para calcular deuda (default: 75.0 en modo dinámico, 20.0 en modo clásico)",
+    )
+    parser.add_argument(
+        "--team-experience",
+        "--ef",
+        type=float,
+        default=0.0,
+        help="Factor de experiencia del equipo EF (0=inexperto/6min/loc, 5=alto rendimiento/2min/loc. Default: 0.0)",
+    )
+    parser.add_argument(
+        "--tcf",
+        type=float,
+        default=1.0,
+        help="Technical Complexity Factor multiplicador de K (default: 1.0)",
+    )
+    parser.add_argument(
+        "--tasa-exito",
+        type=float,
+        default=0.65,
+        help="Tasa de éxito para calibración de ROI por riesgo (default: 0.65)",
+    )
+    parser.add_argument(
+        "--tarifa-usd",
+        type=float,
+        default=30.0,
+        help="Costo por hora de desarrollo en USD (default: 30.0)",
+    )
+    parser.add_argument(
+        "--t-clean-backend",
+        type=float,
+        default=7.0,
+        help="Horas base sobre código limpio para Backend (default: 7.0h)",
+    )
+    parser.add_argument(
+        "--t-clean-frontend",
+        type=float,
+        default=4.0,
+        help="Horas base sobre código limpio para Frontend (default: 4.0h)",
     )
     parser.add_argument(
         "--solo-config",
@@ -85,14 +128,14 @@ def construir_cli_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--default-cambios",
         type=int,
-        default=DEFAULT_CAMBIOS_ANUALES,
-        help=f"Cambios anuales fijos si no están en config ni en git (default: {DEFAULT_CAMBIOS_ANUALES})",
+        default=None,
+        help="Cambios anuales si no están en config ni en git (default: 10 en backend, 30 en frontend)",
     )
     parser.add_argument(
         "--default-delta-t",
         type=float,
-        default=DEFAULT_DELTA_T_HORAS,
-        help=f"Delta T en horas por cambio para archivos con deuda sin config (default: {DEFAULT_DELTA_T_HORAS}h)",
+        default=None,
+        help="Delta T forzado en horas (si no se indica, en modo dinámico se calcula vía F(MI))",
     )
     parser.add_argument("--out-json", type=Path, default=Path("reporte_deuda.json"), help="Ruta de exportación JSON")
     parser.add_argument("--out-csv", type=Path, default=Path("reporte_deuda.csv"), help="Ruta de exportación CSV")
@@ -116,6 +159,12 @@ def main() -> int:
     if not args.repo.exists():
         print(f"Error: no existe la ruta {args.repo}", file=sys.stderr)
         return 1
+
+    # Resolución de MI de referencia según modelo si no fue explícito
+    if args.mi_referencia is not None:
+        mi_ref = args.mi_referencia
+    else:
+        mi_ref = 75.0 if args.modelo == "dinamico" else 20.0
 
     # Auto-detección de subcarpetas (ej. SGA-practicas)
     go_path = args.go_path
@@ -147,6 +196,9 @@ def main() -> int:
             repo_path=args.repo,
             default_delta_t_horas=args.default_delta_t,
             default_cambios=args.default_cambios,
+            modelo=args.modelo,
+            t_clean_backend=args.t_clean_backend,
+            t_clean_frontend=args.t_clean_frontend,
         )
         if args.metodo_estimacion == "git"
         else None
@@ -154,6 +206,9 @@ def main() -> int:
     fixed_provider = FixedDefaultFrictionProvider(
         cambios_anuales=args.default_cambios,
         delta_t_horas=args.default_delta_t,
+        modelo=args.modelo,
+        t_clean_backend=args.t_clean_backend,
+        t_clean_frontend=args.t_clean_frontend,
     )
     composite_provider = CompositeFrictionProvider(
         yaml_provider=yaml_provider,
@@ -162,8 +217,25 @@ def main() -> int:
         metodo_estimacion=args.metodo_estimacion,
     )
 
-    # 3. Instanciar Caso de Uso
-    params = FinancialParams(mi_referencia_default=args.mi_referencia)
+    # 3. Instanciar Parámetros y Caso de Uso
+    if args.modelo == "clasico":
+        params = FinancialParams.clasico(
+            costo_hora_usd=args.tarifa_usd,
+            mi_referencia_default=mi_ref,
+            factor_correccion_k=0.01,
+        )
+    else:
+        params = FinancialParams(
+            modelo="dinamico",
+            costo_hora_usd=args.tarifa_usd,
+            mi_referencia_default=mi_ref,
+            ef_experiencia=args.team_experience,
+            tcf=args.tcf,
+            tasa_exito_roi=args.tasa_exito,
+            t_clean_backend=args.t_clean_backend,
+            t_clean_frontend=args.t_clean_frontend,
+        )
+
     use_case = AnalyzeRepositoryUseCase(
         analyzers=active_analyzers,
         friction_provider=composite_provider,
@@ -177,7 +249,7 @@ def main() -> int:
             repo_path=args.repo,
             subpath_map=subpaths,
             solo_config=args.solo_config,
-            mi_referencia=args.mi_referencia,
+            mi_referencia=mi_ref,
         )
     except HerramientaFaltanteError as e:
         print(f"\nError de setup de herramienta externa: {e}", file=sys.stderr)

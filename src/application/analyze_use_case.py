@@ -58,8 +58,13 @@ class AnalyzeRepositoryUseCase:
         reportes: list[DebtReport] = []
         for m in todas_metricas:
             mi_actual = m.mi if m.mi is not None else calcular_mi(m.loc, m.complejidad_ciclomatica)
+            k_usado = (
+                self.params.factor_correccion_k
+                if self.params.modelo == "clasico"
+                else (0.01 - (self.params.ef_experiencia / 5.0) * 0.0067) * self.params.tcf
+            )
             deuda_previa = calcular_deuda_horas(
-                mi_actual, m.loc, ref_mi, factor_k=self.params.factor_correccion_k
+                mi_actual, m.loc, ref_mi, factor_k=k_usado
             )
 
             estimacion = self.friction_provider.get_friction(m.ruta, m, deuda_previa)
@@ -71,6 +76,7 @@ class AnalyzeRepositoryUseCase:
                 delta_t_horas=estimacion.delta_t_horas,
                 fuente_interes=estimacion.fuente,
                 params=self.params,
+                t_clean_horas=estimacion.t_clean_horas,
             )
             reportes.append(reporte)
 
@@ -101,4 +107,5 @@ class AnalyzeRepositoryUseCase:
             total_deuda_horas=total_deuda,
             total_costo_reparacion_usd=total_costo,
             total_interes_anual_usd=total_interes,
+            modelo_calculo=self.params.modelo,
         )

@@ -16,7 +16,7 @@ class YamlFrictionProvider:
 
     def __init__(self, yaml_path: Path) -> None:
         self.yaml_path = yaml_path
-        self._intereses: Dict[str, tuple[int, float]] = {}
+        self._intereses: Dict[str, tuple[int, Optional[float], Optional[float]]] = {}
         self._cargar()
 
     def _cargar(self) -> None:
@@ -28,9 +28,12 @@ class YamlFrictionProvider:
             for item in data.get("archivos", []):
                 ruta = Path(item.get("ruta", "")).as_posix()
                 cambios = item.get("cambios_anuales")
-                delta_t = item.get("delta_t_horas")
-                if ruta and cambios is not None and delta_t is not None:
-                    self._intereses[ruta] = (int(cambios), float(delta_t))
+                delta_t_raw = item.get("delta_t_horas")
+                delta_t = float(delta_t_raw) if delta_t_raw is not None else None
+                t_clean_raw = item.get("t_clean_horas")
+                t_clean = float(t_clean_raw) if t_clean_raw is not None else None
+                if ruta and cambios is not None:
+                    self._intereses[ruta] = (int(cambios), delta_t, t_clean)
         except Exception:
             pass
 
@@ -46,10 +49,11 @@ class YamlFrictionProvider:
                     break
 
         if datos is not None:
-            cambios, delta_t = datos
+            cambios, delta_t, t_clean = datos
             return FrictionEstimate(
                 cambios_anuales=cambios,
                 delta_t_horas=delta_t,
+                t_clean_horas=t_clean,
                 fuente="yaml",
             )
         return None
