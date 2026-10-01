@@ -93,22 +93,39 @@ Otras opciones útiles:
 --beta-l 1.0                  # factor de productividad relativa por lenguaje para valor de activo
 --costo-linea-base 1.0        # costo de reemplazo estimado por línea en USD
 --peso-d 0.3                  # factor de penalización financiera por desbalance arquitectónico D
+--dashboard                   # abre automáticamente el dashboard interactivo en el navegador
 ```
 
-### 3. Leer el reporte
+### 3. Leer el reporte y Visualizador Web
 
-Sale una tabla en consola con semáforo de 3 niveles según el estado de mantenibilidad:
-- 🔴 **Crítico ($MI < 20$):** No aprobado, alta deuda y fricción.
-- 🟢 **Aprobado ($20 \le MI < 60$):** Calidad mínima operativa cumplida.
-- 🟢 **Excelente ($MI \ge 60$):** Arquitectura limpia y modular.
-
-Y se guardan **automáticamente los tres formatos versionados con timestamp** en:
+#### Consola y archivos exportados
+Sale una tabla en consola con semáforo de 3 niveles según el estado de mantenibilidad y se guardan **automáticamente los tres formatos versionados con timestamp** en:
 ```
 reportes/<nombre_proyecto>/reporte_YYYYMMDD_HHMMSS.json
 reportes/<nombre_proyecto>/reporte_YYYYMMDD_HHMMSS.csv
 reportes/<nombre_proyecto>/reporte_YYYYMMDD_HHMMSS.md
 ```
 Cada ejecución genera un archivo nuevo sin sobreescribir el historial previo.
+
+#### Dashboard Web Interactivo (`dashboard/`)
+El proyecto incluye un dashboard web profesional con interfaz dark mode, glassmorphism y visualizaciones interactivas:
+- **Resumen Ejecutivo:** KPIs de deuda técnica en horas y meses-hombre, costo de reparación en USD, interés anual por fricción y TDR con semáforo SQALE.
+- **Gráficos Interactivos:** Top 10 archivos más endeudados, distribución de salud de código (MI), deuda por módulo y tipos de violaciones SQALE.
+- **Arquitectura & Martin (A vs I):** Diagrama de dispersión Abstracción ($A$) vs Inestabilidad ($I$) con la Secuencia Principal ($A + I = 1$), Zona de Dolor y Zona de Inutilidad, además de tarjetas por módulo con acoplamiento aferente ($C_a$), eferente ($C_e$) y distancias $D$.
+- **Explorador de Archivos:** Tabla filtrable y ordenable con búsqueda en tiempo real, desglose de fórmulas matemáticas por archivo y exportación a CSV.
+- **Catálogo de Violaciones SQALE:** Registro detallado de reglas y tiempos de remediación.
+- **Carga de Archivos Drag & Drop:** Podés arrastrar cualquier archivo `reporte_*.json` de la carpeta `reportes/` al navegador para inspeccionarlo al instante.
+
+**Cómo abrir el dashboard:**
+```bash
+# Opción 1: Correr análisis y abrir automáticamente en el navegador
+python src/main.py --repo /ruta/al/repo --arquitectura --dashboard
+
+# Opción 2: Abrir directamente el dashboard con el último reporte generado
+python src/main.py --dashboard
+
+# Opción 3: Abrir directamente con doble clic el archivo dashboard/index.html
+```
 
 
 ## Estimación de Fricción e Interés Financiero

@@ -183,6 +183,11 @@ def construir_cli_parser() -> argparse.ArgumentParser:
         default=0.3,
         help="Peso de factor de penalización por desbalance arquitectónico D (default: 0.3)",
     )
+    parser.add_argument(
+        "--dashboard",
+        action="store_true",
+        help="Abre el dashboard interactivo en el navegador con los resultados del análisis",
+    )
     return parser
 
 
@@ -191,12 +196,25 @@ def main() -> int:
     parser = construir_cli_parser()
     args = parser.parse_args()
 
+    repo_root_dir = Path(__file__).resolve().parent.parent
+    dashboard_html = repo_root_dir / "dashboard" / "index.html"
+
+    if args.dashboard and not args.repo:
+        import webbrowser
+        if dashboard_html.exists():
+            print(f"[dashboard] Abriendo {dashboard_html} en el navegador...", file=sys.stderr)
+            webbrowser.open(dashboard_html.as_uri())
+            return 0
+        else:
+            print("[dashboard] Error: no se encontró dashboard/index.html", file=sys.stderr)
+            return 1
+
     if args.init_config:
         generar_config_ejemplo(args.config)
         return 0
 
     if not args.repo:
-        parser.error("--repo es obligatorio (o usá --init-config primero)")
+        parser.error("--repo es obligatorio (o usá --dashboard para ver el visualizador)")
 
     if not args.repo.exists():
         print(f"Error: no existe la ruta {args.repo}", file=sys.stderr)
@@ -332,6 +350,26 @@ def main() -> int:
         f"\n[reportes] Guardado en '{dir_proyecto}/': reporte_{timestamp_str}.{{json,csv,md}}",
         file=sys.stderr,
     )
+
+    # Actualizar dashboard con los datos más recientes
+    dashboard_dir = repo_root_dir / "dashboard"
+    if dashboard_dir.exists():
+        try:
+            import shutil
+            latest_json = dashboard_dir / "latest_report.json"
+            shutil.copyfile(target_json, latest_json)
+            demo_js = dashboard_dir / "assets" / "demo_data.js"
+            if demo_js.parent.exists():
+                with open(target_json, "r", encoding="utf-8") as f_in, open(demo_js, "w", encoding="utf-8") as f_out:
+                    f_out.write("window.__DEFAULT_REPORT_DATA__ = " + f_in.read() + ";\n")
+        except Exception as err:
+            print(f"[dashboard] Aviso: no se pudo sincronizar dashboard: {err}", file=sys.stderr)
+
+    if args.dashboard:
+        import webbrowser
+        if dashboard_html.exists():
+            print(f"[dashboard] Abriendo {dashboard_html} en el navegador...", file=sys.stderr)
+            webbrowser.open(dashboard_html.as_uri())
 
     # Exportaciones adicionales explícitas si el usuario las solicitó
     if args.out_json:
