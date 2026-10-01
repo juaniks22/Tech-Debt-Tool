@@ -10,8 +10,10 @@ Uso típico:
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import sys
 from pathlib import Path
+
 
 # Asegurar encoding UTF-8 en consola Windows
 if sys.platform == "win32":
@@ -139,9 +141,16 @@ def construir_cli_parser() -> argparse.ArgumentParser:
         default=None,
         help="Delta T forzado en horas (si no se indica, en modo dinámico se calcula vía F(MI))",
     )
-    parser.add_argument("--out-json", type=Path, default=Path("reporte_deuda.json"), help="Ruta de exportación JSON")
-    parser.add_argument("--out-csv", type=Path, default=Path("reporte_deuda.csv"), help="Ruta de exportación CSV")
-    parser.add_argument("--out-md", type=Path, default=None, help="Ruta de exportación Markdown (opcional)")
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        default=Path("reportes"),
+        help="Carpeta base donde se guardan los reportes versionados por proyecto y fecha (default: reportes/)",
+    )
+    parser.add_argument("--out-json", type=Path, default=None, help="Ruta de exportación JSON adicional personalizada")
+    parser.add_argument("--out-csv", type=Path, default=None, help="Ruta de exportación CSV adicional personalizada")
+    parser.add_argument("--out-md", type=Path, default=None, help="Ruta de exportación Markdown adicional personalizada")
+
     parser.add_argument("--skip-go", action="store_true", help="No analizar archivos Go")
     parser.add_argument("--skip-dart", action="store_true", help="No analizar archivos Dart")
     # Flags para análisis arquitectónico y SQALE
@@ -305,15 +314,38 @@ def main() -> int:
 
     # 4. Despachar a exportadores
     ConsoleReporter().export(summary)
-    JsonReporter().export(summary, args.out_json)
-    CsvReporter().export(summary, args.out_csv)
-    print(f"Exportado: {args.out_json} / {args.out_csv}", file=sys.stderr)
 
+    # 5. Guardado automático versionado por proyecto y fecha
+    nombre_proyecto = args.repo.resolve().name or "proyecto"
+    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    dir_proyecto = args.out_dir / nombre_proyecto
+    dir_proyecto.mkdir(parents=True, exist_ok=True)
+
+    target_json = dir_proyecto / f"reporte_{timestamp_str}.json"
+    target_csv = dir_proyecto / f"reporte_{timestamp_str}.csv"
+    target_md = dir_proyecto / f"reporte_{timestamp_str}.md"
+
+    JsonReporter().export(summary, target_json)
+    CsvReporter().export(summary, target_csv)
+    MarkdownReporter().export(summary, target_md)
+    print(
+        f"\n[reportes] Guardado en '{dir_proyecto}/': reporte_{timestamp_str}.{{json,csv,md}}",
+        file=sys.stderr,
+    )
+
+    # Exportaciones adicionales explícitas si el usuario las solicitó
+    if args.out_json:
+        JsonReporter().export(summary, args.out_json)
+        print(f"Exportado adicional JSON: {args.out_json}", file=sys.stderr)
+    if args.out_csv:
+        CsvReporter().export(summary, args.out_csv)
+        print(f"Exportado adicional CSV: {args.out_csv}", file=sys.stderr)
     if args.out_md:
         MarkdownReporter().export(summary, args.out_md)
-        print(f"Exportado Markdown: {args.out_md}", file=sys.stderr)
+        print(f"Exportado adicional Markdown: {args.out_md}", file=sys.stderr)
 
     return 0
+
 
 
 if __name__ == "__main__":

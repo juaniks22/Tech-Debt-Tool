@@ -84,16 +84,16 @@ Otras opciones útiles:
 --skip-go                     # analizar solo Dart
 --mi-referencia 20.0          # MI de referencia para calcular deuda (default: 20.0 para gate Aprobado; 60.0 para Excelencia)
 --config otro.yaml            # usar otro archivo de intereses
---out-json reporte.json       # nombre del export JSON
---out-csv reporte.csv         # nombre del export CSV
---out-md reporte.md           # nombre del export Markdown (ideal para PRs / CI)
+--out-dir reportes            # carpeta base para guardar reportes por proyecto (default: reportes/)
+--out-json reporte.json       # ruta adicional personalizada para exportar JSON (opcional)
+--out-csv reporte.csv         # ruta adicional personalizada para exportar CSV (opcional)
+--out-md reporte.md           # ruta adicional personalizada para exportar Markdown (opcional)
 --arquitectura                # ACTIVA análisis de límites lógicos (Robert C. Martin: Ca, Ce, I, A, D) y valoración SQALE (L_TD, V_A, TDR)
 --alpha-l 1.0                 # factor de calibración de complejidad de lenguaje (SQALE)
 --beta-l 1.0                  # factor de productividad relativa por lenguaje para valor de activo
 --costo-linea-base 1.0        # costo de reemplazo estimado por línea en USD
 --peso-d 0.3                  # factor de penalización financiera por desbalance arquitectónico D
 ```
-
 
 ### 3. Leer el reporte
 
@@ -102,7 +102,14 @@ Sale una tabla en consola con semáforo de 3 niveles según el estado de manteni
 - 🟢 **Aprobado ($20 \le MI < 60$):** Calidad mínima operativa cumplida.
 - 🟢 **Excelente ($MI \ge 60$):** Arquitectura limpia y modular.
 
-Y se exporta a `reporte_deuda.json` / `reporte_deuda.csv` / `reporte_deuda.md` con **todas las métricas financieras calculadas para cada archivo** (`interes_anual_usd`, `payback_anios`, `roi_4_anios_porc` y `fuente_interes`).
+Y se guardan **automáticamente los tres formatos versionados con timestamp** en:
+```
+reportes/<nombre_proyecto>/reporte_YYYYMMDD_HHMMSS.json
+reportes/<nombre_proyecto>/reporte_YYYYMMDD_HHMMSS.csv
+reportes/<nombre_proyecto>/reporte_YYYYMMDD_HHMMSS.md
+```
+Cada ejecución genera un archivo nuevo sin sobreescribir el historial previo.
+
 
 ## Estimación de Fricción e Interés Financiero
 
