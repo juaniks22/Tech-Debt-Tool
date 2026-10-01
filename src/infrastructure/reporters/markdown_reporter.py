@@ -118,4 +118,36 @@ class MarkdownReporter(ReportExporter):
                 "_Reporte generado automáticamente por Tech-Debt-Tool_",
             ])
 
+        if summary.sqale_report:
+            sq = summary.sqale_report
+            tdr_icon = "🟢" if sq.tdr <= 5.0 else ("🟡" if sq.tdr <= 20.0 else "🔴")
+            lines.extend([
+                "",
+                "## 🏛️ Análisis Arquitectónico (Robert C. Martin)",
+                "",
+                "| Módulo | Archivos | Ca | Ce | Inestabilidad (I) | Na | Nc | Abstracción (A) | Distancia (D) | Zona |",
+                "|---|---:|---:|---:|---:|---:|---:|---:|---:|:---:|",
+            ])
+            for m in sq.modulos:
+                z_icon = "🟢" if m.zona == "SECUENCIA_PRINCIPAL" else ("🔴" if m.zona == "ZONA_DOLOR" else "🟡")
+                lines.append(
+                    f"| `{m.nombre}` | {m.archivos} | {m.ca} | {m.ce} | {m.inestabilidad:.2f} | "
+                    f"{m.na} | {m.nc} | {m.abstraccion:.2f} | {m.distancia_d:.2f} | {z_icon} {m.zona} |"
+                )
+
+            lines.extend([
+                "",
+                "## 💰 Valoración de Deuda Técnica SQALE (ISO/IEC 25010)",
+                "",
+                "| Concepto | Valor |",
+                "|---|---|",
+                f"| **Violaciones Detectadas** | `{sq.total_violaciones}` |",
+                f"| **Costo de Remediación (L_TD)** | `${sq.l_td:,.2f} USD` |",
+                f"| **Valor del Activo (V_A)** | `${sq.v_a:,.2f} USD` |",
+                f"| **Costo de Reemplazo Estimado** | `${sq.costo_reemplazo:,.2f} USD` |",
+                f"| **Technical Debt Ratio (TDR)** | {tdr_icon} `{sq.tdr:.2f}%` ({sq.estado_tdr}) |",
+                "",
+            ])
+
         return "\n".join(lines) + "\n"
+

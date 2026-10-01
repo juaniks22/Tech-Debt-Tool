@@ -131,3 +131,5 @@ class AnalysisSummary:
     total_costo_reparacion_usd: float = 0.0
     total_interes_anual_usd: float = 0.0
     modelo_calculo: str = "dinamico"
+    sqale_report: Optional[any] = None
+

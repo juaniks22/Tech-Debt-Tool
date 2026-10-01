@@ -27,9 +27,11 @@ class JsonReporter(ReportExporter):
             "total_deuda_horas": summary.total_deuda_horas,
             "total_costo_reparacion_usd": summary.total_costo_reparacion_usd,
             "total_interes_anual_usd": summary.total_interes_anual_usd,
+            "sqale_report": asdict(summary.sqale_report) if summary.sqale_report else None,
             "archivos": [asdict(r) for r in summary.reportes],
         }
         target.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+
 
     @staticmethod
     def exportar(reportes: list[DebtReport], path: Path) -> None:

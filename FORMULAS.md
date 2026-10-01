@@ -319,15 +319,66 @@ $$ROI_{\text{ajustado}} = 100 \cdot \frac{(3{,}150 \cdot 4 \cdot 0.65) - 3{,}085
 
 ---
 
+## 17. Métricas de Acoplamiento y Estabilidad Estructural (Robert C. Martin)
+
+Disponible al activar `--arquitectura`. Se calculan a nivel de **límites lógicos (carpetas/módulos)** bajo el principio de **invarianza por volumen de archivos e imports** (múltiples imports entre dos módulos cuentan como un único enlace lógico).
+
+### 17.1 Inestabilidad ($I$)
+$$I = \frac{C_e}{C_a + C_e}$$
+- $C_a$ (Acoplamiento Aferente): número de módulos externos que dependen de este módulo.
+- $C_e$ (Acoplamiento Eferente): número de módulos externos de los que depende este módulo.
+- Si $C_a + C_e = 0$, $I = 0.0$.
+- $I = 0$: Máxima estabilidad (nadie depende de él hacia afuera, todos dependen de él).
+- $I = 1$: Máxima inestabilidad (no tiene dependientes, depende de otros).
+
+### 17.2 Abstracción ($A$)
+$$A = \frac{N_a}{N_c}$$
+- $N_a$: interfaces (Go) o clases abstractas (Dart) en el módulo.
+- $N_c$: total de clases, structs e interfaces en el módulo.
+
+### 17.3 Distancia a la Secuencia Principal ($D$)
+$$D = |A + I - 1|$$
+- Rango $[0, 1]$, ideal $D \rightarrow 0$ (balance óptimo).
+- **Zona de Dolor ($D > 0.5, A < 0.5, I < 0.5$):** Módulos rígidos, concretos y muy dependidos (difíciles de cambiar).
+- **Zona de Inutilidad ($D > 0.5, A \ge 0.5, I \ge 0.5$):** Módulos abstractos sin consumidores reales.
+
+### 17.4 Factor de Penalización por Desbalance Arquitectónico
+$$\text{Factor Penalización} = 1 + (D \cdot \text{peso})$$
+Amplifica la deuda técnica y costo de refactorización de archivos ubicados en módulos con alto desbalance ($D > 0$), reflejando el riesgo de efectos colaterales en cascada.
+
+---
+
+## 18. Modelo de Deuda Técnica SQALE (ISO/IEC 25010)
+
+### 18.1 Costo de Remediación ($L_{TD}$)
+$$L_{TD} = \sum_{i=1}^{n} \left( \text{Violaciones}_i \times \text{TiempoRemediación}_i \times \alpha_L \right) \times \text{CostoHoraDev}$$
+- $\alpha_L$: factor de calibración por complejidad de lenguaje (`--alpha-l`, default 1.0).
+
+### 18.2 Valor Numérico del Activo ($V_A$)
+$$V_A = \left( LOC \times \text{CostoPorLineaBase} \times \beta_L \right) - L_{TD}$$
+- $\beta_L$: factor de productividad relativa por lenguaje (`--beta-l`, default 1.0).
+- $\text{CostoPorLineaBase}$: costo de reemplazo estimado por línea (`--costo-linea-base`, default 1.0 USD).
+
+### 18.3 Ratio de Deuda Técnica ($TDR$)
+$$TDR = \frac{L_{TD}}{\text{Costo Reemplazo del Software}} \times 100$$
+- 🟢 $TDR \le 5\%$: Excelente estado (Bajo riesgo).
+- 🟡 $5\% < TDR \le 20\%$: Moderado (Requiere refactorización planificada).
+- 🔴 $TDR > 20\%$: Crítico (Inviable de mantener; considerar reemplazo o reescritura).
+
+---
+
 ## Referencias
 
 | Fuente | Detalle |
 |---|---|
-| [`src/domain/calculator.py`](src/domain/calculator.py) | Implementación de todas las fórmulas |
-| [`src/domain/models.py`](src/domain/models.py) | Entidades: `FileMetric`, `FinancialParams`, `DebtReport` |
-| [`c_lculo_de_deuda_t_cnica_y_modelo_de_fricci_n_operativa.md`](c_lculo_de_deuda_t_cnica_y_modelo_de_fricci_n_operativa.md) | Documento de especificación matemática (notas de clase, ESET2) |
-| [`tests/test_contra_documento_clase.py`](tests/test_contra_documento_clase.py) | Valida retrocompatibilidad con los números de clase |
-| [`tests/unit/test_nuevo_modelo_dinamico.py`](tests/unit/test_nuevo_modelo_dinamico.py) | Valida el modelo de fricción operativa contra el caso de Go de pág. 19-20 |
+| [`src/domain/calculator.py`](src/domain/calculator.py) | Implementación de fórmulas de archivo (MI, fricción, payback, ROI) |
+| [`src/domain/architecture_calculator.py`](src/domain/architecture_calculator.py) | Implementación de fórmulas de Martin (I, A, D) y SQALE (L_TD, V_A, TDR) |
+| [`src/domain/violation_catalog.py`](src/domain/violation_catalog.py) | Catálogo interno de violaciones con tiempos de remediación |
+| [`src/domain/models.py`](src/domain/models.py) | Entidades: `FileMetric`, `FinancialParams`, `DebtReport`, `AnalysisSummary` |
+| [`src/domain/architecture.py`](src/domain/architecture.py) | Entidades: `ModuleMetrics`, `Violation`, `SQALEReport` |
+| Robert C. Martin — *Clean Architecture* | Principios SDP y SAP, métricas Ca, Ce, I, A, D |
+| SQALE / ISO/IEC 25010 | Modelo determinista de remediación y balance financiero |
 | Capers Jones — *Applied Software Measurement* | Base empírica del techo $F(MI)_{\max} = 4.0\text{x}$ |
 | Stripe — *The Developer Coefficient* | 30–33% del tiempo semanal perdido en deuda técnica |
 | Estudios de refactorización incremental | Tasa de éxito del 65% (vs 21% en reescritura total) |
+

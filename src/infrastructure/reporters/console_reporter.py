@@ -83,6 +83,74 @@ class ConsoleReporter(ReportExporter):
 
     def export(self, summary: AnalysisSummary, destination: Optional[Path] = None) -> None:
         self.imprimir_tabla(summary.reportes, modelo=summary.modelo_calculo)
+        if summary.sqale_report:
+            self.imprimir_arquitectura_y_sqale(summary.sqale_report)
+
+    @staticmethod
+    def imprimir_arquitectura_y_sqale(sqale_report: any) -> None:
+        modulos = getattr(sqale_report, "modulos", [])
+        ancho = 120
+        print()
+        print("=" * ancho)
+        print("ANÁLISIS ARQUITECTÓNICO DE LÍMITES LÓGICOS (Robert C. Martin - SDP / SAP)")
+        print("=" * ancho)
+        print(
+            f"{'Módulo':<20} {'Archivos':>8} {'Ca':>4} {'Ce':>4} {'I':>6} "
+            f"{'Na':>4} {'Nc':>4} {'A':>6} {'D':>6}  {'Zona':<22} {'Depende de':<25}"
+        )
+        print("-" * ancho)
+
+        for m in modulos:
+            zona_icon = "🟢" if m.zona == "SECUENCIA_PRINCIPAL" else ("🔴" if m.zona == "ZONA_DOLOR" else "🟡")
+            zona_str = f"{zona_icon} {m.zona}"
+            deps_out_str = ", ".join(m.dependencias_out) if m.dependencias_out else "-"
+            if len(deps_out_str) > 25:
+                deps_out_str = deps_out_str[:22] + "..."
+
+            print(
+                f"{m.nombre:<20} {m.archivos:>8} {m.ca:>4} {m.ce:>4} {m.inestabilidad:>6.2f} "
+                f"{m.na:>4} {m.nc:>4} {m.abstraccion:>6.2f} {m.distancia_d:>6.2f}  "
+                f"{zona_str:<22} {deps_out_str:<25}"
+            )
+
+        print("-" * ancho)
+        print("Métricas: Ca=Acoplamiento Aferente | Ce=Eferente | I=Inestabilidad (Ce/(Ca+Ce)) | A=Abstracción (Na/Nc) | D=|A+I-1|")
+        print("Invariancia lógica: Conteo por relación única entre módulos de capas independientes.")
+
+        print()
+        print("=" * ancho)
+        print("VALORACIÓN FINANCIERA DE SOFTWARE Y DEUDA TÉCNICA SQALE (ISO/IEC 25010)")
+        print("=" * ancho)
+
+        # Semáforo de TDR
+        tdr = sqale_report.tdr
+        if tdr <= 5.0:
+            tdr_str = f"🟢 {tdr:.2f}% (Excelente - Bajo riesgo)"
+        elif tdr <= 20.0:
+            tdr_str = f"🟡 {tdr:.2f}% (Moderado - Refactorización planificada)"
+        else:
+            tdr_str = f"🔴 {tdr:.2f}% (Crítico - Inviable de mantener; evaluar reemplazo)"
+
+        print(f"Total de Violaciones Detectadas: {sqale_report.total_violaciones}")
+        print(f"Costo de Remediación SQALE (L_TD): {_fmt_usd(sqale_report.l_td)}")
+        print(f"Valor Numérico del Activo (V_A):    {_fmt_usd(sqale_report.v_a)}")
+        print(f"Costo Base de Reemplazo Estimado:  {_fmt_usd(sqale_report.costo_reemplazo)}")
+        print(f"Technical Debt Ratio (TDR):        {tdr_str}")
+        print(f"Factores de Calibración:           α_L={sqale_report.alpha_l:.2f}, β_L={sqale_report.beta_l:.2f}")
+
+        # Desglose de violaciones si existen
+        violaciones = getattr(sqale_report, "violaciones", [])
+        if violaciones:
+            conteo_reglas: dict[str, int] = {}
+            for v in violaciones:
+                conteo_reglas[v.regla] = conteo_reglas.get(v.regla, 0) + 1
+
+            desglose = ", ".join(f"{regla}: {cnt}" for regla, cnt in sorted(conteo_reglas.items()))
+            print(f"Desglose de violaciones:           {desglose}")
+
+        print("=" * ancho)
+        print()
+
 
     @staticmethod
     def imprimir_tabla(reportes: list[DebtReport], modelo: Optional[str] = None) -> None:

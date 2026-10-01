@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+from src.application.architecture_use_case import ArchitectureAnalysisUseCase
 from src.application.ports import CodeAnalyzer, FrictionProvider
 from src.domain.calculator import (
     DEFAULT_PARAMS,
@@ -31,10 +32,13 @@ class AnalyzeRepositoryUseCase:
         analyzers: list[CodeAnalyzer],
         friction_provider: FrictionProvider,
         params: Optional[FinancialParams] = None,
+        architecture_use_case: Optional[ArchitectureAnalysisUseCase] = None,
     ) -> None:
         self.analyzers = analyzers
         self.friction_provider = friction_provider
         self.params = params or DEFAULT_PARAMS
+        self.architecture_use_case = architecture_use_case
+
 
     def execute(
         self,
@@ -84,10 +88,20 @@ class AnalyzeRepositoryUseCase:
         if solo_config:
             reportes = [r for r in reportes if r.fuente_interes == "yaml"]
 
-        # 4. Ordenar por deuda técnica descendente (archivos más críticos primero)
+        # 4. Análisis arquitectónico y SQALE (opcional via --arquitectura)
+        sqale_rep = None
+        if self.architecture_use_case:
+            sqale_rep = self.architecture_use_case.execute(
+                repo_path=repo_path,
+                subpath_map=subpaths,
+                file_metrics=todas_metricas,
+                debt_reports=reportes,
+            )
+
+        # 5. Ordenar por deuda técnica descendente (archivos más críticos primero)
         reportes.sort(key=lambda r: r.deuda_horas or 0.0, reverse=True)
 
-        # 5. Generar resumen global acumulativo
+        # 6. Generar resumen global acumulativo
         total_loc = sum(r.loc for r in reportes)
         archivos_criticos = sum(1 for r in reportes if r.estado_mi == "CRITICO")
         archivos_aprobados = sum(1 for r in reportes if r.estado_mi == "APROBADO")
@@ -108,4 +122,6 @@ class AnalyzeRepositoryUseCase:
             total_costo_reparacion_usd=total_costo,
             total_interes_anual_usd=total_interes,
             modelo_calculo=self.params.modelo,
+            sqale_report=sqale_rep,
         )
+

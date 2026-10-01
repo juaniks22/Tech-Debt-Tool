@@ -87,7 +87,13 @@ Otras opciones útiles:
 --out-json reporte.json       # nombre del export JSON
 --out-csv reporte.csv         # nombre del export CSV
 --out-md reporte.md           # nombre del export Markdown (ideal para PRs / CI)
+--arquitectura                # ACTIVA análisis de límites lógicos (Robert C. Martin: Ca, Ce, I, A, D) y valoración SQALE (L_TD, V_A, TDR)
+--alpha-l 1.0                 # factor de calibración de complejidad de lenguaje (SQALE)
+--beta-l 1.0                  # factor de productividad relativa por lenguaje para valor de activo
+--costo-linea-base 1.0        # costo de reemplazo estimado por línea en USD
+--peso-d 0.3                  # factor de penalización financiera por desbalance arquitectónico D
 ```
+
 
 ### 3. Leer el reporte
 

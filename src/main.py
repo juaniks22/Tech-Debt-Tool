@@ -27,6 +27,8 @@ if _repo_root not in sys.path:
     sys.path.insert(0, _repo_root)
 
 from src.application.analyze_use_case import AnalyzeRepositoryUseCase
+from src.application.architecture_use_case import ArchitectureAnalysisUseCase
+
 from src.config import (
     DEFAULT_CAMBIOS_ANUALES,
     DEFAULT_DELTA_T_HORAS,
@@ -142,7 +144,38 @@ def construir_cli_parser() -> argparse.ArgumentParser:
     parser.add_argument("--out-md", type=Path, default=None, help="Ruta de exportación Markdown (opcional)")
     parser.add_argument("--skip-go", action="store_true", help="No analizar archivos Go")
     parser.add_argument("--skip-dart", action="store_true", help="No analizar archivos Dart")
+    # Flags para análisis arquitectónico y SQALE
+    parser.add_argument(
+        "--arquitectura",
+        action="store_true",
+        help="Activa el análisis arquitectónico (Robert C. Martin: Ca, Ce, I, A, D) y valoración SQALE (L_TD, V_A, TDR)",
+    )
+    parser.add_argument(
+        "--alpha-l",
+        type=float,
+        default=1.0,
+        help="Factor de calibración de complejidad de lenguaje para SQALE (default: 1.0)",
+    )
+    parser.add_argument(
+        "--beta-l",
+        type=float,
+        default=1.0,
+        help="Factor de productividad relativa por lenguaje para valor de activo (default: 1.0)",
+    )
+    parser.add_argument(
+        "--costo-linea-base",
+        type=float,
+        default=1.0,
+        help="Costo por línea base en USD para estimar valor de reemplazo de activo (default: 1.0)",
+    )
+    parser.add_argument(
+        "--peso-d",
+        type=float,
+        default=0.3,
+        help="Peso de factor de penalización por desbalance arquitectónico D (default: 0.3)",
+    )
     return parser
+
 
 
 def main() -> int:
@@ -236,13 +269,25 @@ def main() -> int:
             t_clean_frontend=args.t_clean_frontend,
         )
 
+    architecture_uc = None
+    if args.arquitectura:
+        architecture_uc = ArchitectureAnalysisUseCase(
+            tarifa_usd=args.tarifa_usd,
+            alpha_l=args.alpha_l,
+            beta_l=args.beta_l,
+            costo_linea_base=args.costo_linea_base,
+            peso_penalizacion_d=args.peso_d,
+        )
+
     use_case = AnalyzeRepositoryUseCase(
         analyzers=active_analyzers,
         friction_provider=composite_provider,
         params=params,
+        architecture_use_case=architecture_uc,
     )
 
     subpaths = {"go": go_path, "dart": dart_path}
+
 
     try:
         summary = use_case.execute(
