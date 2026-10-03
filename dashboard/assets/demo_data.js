@@ -1,5 +1,5 @@
 window.__DEFAULT_REPORT_DATA__ = {
-  "generado_en": "2026-10-01T19:39:42.709149+00:00",
+  "generado_en": "2026-10-03T15:57:37.577373+00:00",
   "repo_path": "C:\\Users\\juani\\OneDrive\\Documentos\\PROJECTS\\SGA-practicas",
   "modelo_calculo": "dinamico",
   "total_loc": 23516,
