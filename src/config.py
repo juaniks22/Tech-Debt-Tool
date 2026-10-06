@@ -44,7 +44,7 @@ MI_UMBRAL_EXCELENTE = 60.0  # >= 60: Excelente (Verde oscuro). Entre 20 y 59: Ap
 # Umbrales de complejidad ciclomática dados en clase, por lenguaje.
 CC_UMBRAL_POR_LENGUAJE = {
     "dart": 4,
-    "go": 10,
+    "go": 7,
 }
 
 # Umbral de deuda técnica relativa dado en clase (informativo)

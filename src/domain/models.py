@@ -111,6 +111,9 @@ class DebtReport:
     modelo_calculo: str = "dinamico"
     tiene_datos_interes: bool = False
     fuente_interes: str = "ninguna"
+    # Detección de archivos que requieren rediseño arquitectónico completo
+    es_prohibido: bool = False
+    motivo_prohibicion: Optional[str] = None
 
 
 # Alias para retrocompatibilidad con tests existentes
@@ -127,6 +130,7 @@ class AnalysisSummary:
     archivos_criticos: int = 0
     archivos_aprobados: int = 0
     archivos_excelentes: int = 0
+    archivos_prohibidos: int = 0
     total_deuda_horas: float = 0.0
     total_costo_reparacion_usd: float = 0.0
     total_interes_anual_usd: float = 0.0

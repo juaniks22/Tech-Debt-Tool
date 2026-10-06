@@ -263,4 +263,69 @@ def construir_reporte_archivo(
         reporte.tiene_datos_interes = True
         reporte.fuente_interes = fuente_interes
 
+    # Evaluación algorítmica de archivos prohibidos (monolitos arquitecturales críticos)
+    es_prohibido, motivo = evaluar_archivo_prohibido(
+        deuda_horas=reporte.deuda_horas or 0.0,
+        loc=reporte.loc,
+        cc=reporte.complejidad_ciclomatica,
+        mi=reporte.mi,
+        roi_ajustado_porc=reporte.roi_ajustado_porc,
+        payback_anios=reporte.payback_anios,
+        nombre_archivo=reporte.ruta,
+    )
+    reporte.es_prohibido = es_prohibido
+    reporte.motivo_prohibicion = motivo
+
     return reporte
+
+
+def evaluar_archivo_prohibido(
+    deuda_horas: float,
+    loc: int,
+    cc: int,
+    mi: float,
+    roi_ajustado_porc: Optional[float] = None,
+    payback_anios: Optional[float] = None,
+    nombre_archivo: str = "",
+) -> tuple[bool, Optional[str]]:
+    """
+    Evalúa si un archivo es un Monolito Crítico Vetado (Archivo Prohibido / No Tocar)
+    que requiere un rediseño completo de arquitectura (Epic dedicado) y NO debe
+    tocarse en sprints de refactorización incremental.
+
+    Criterios:
+    1. Catálogo crítico de archivos vetados por arquitectura.
+    2. Hiper-Monolito inabarcable: LOC >= 1000 y CC >= 150.
+    3. Monolito crítico desproporcionado: Deuda >= 300h con MI <= 10.0 y CC >= 80.
+    4. Pérdida severa de retorno: Deuda >= 250h con ROI Ajustado <= -40% y Payback >= 7 años.
+    """
+    clean = nombre_archivo.replace("\\", "/").lower()
+    vetados_conocidos = (
+        "cursos_screen.dart",
+        "teachers_screen.dart",
+        "configuracion_screen.dart",
+        "api_datasource.dart",
+        "sga_design_system.dart",
+        "academic_repo.go",
+    )
+    for v in vetados_conocidos:
+        if clean.endswith(v) or f"/{v}" in clean:
+            return (True, "Vetado estrictamente por requerir rediseño completo de arquitectura")
+
+    if loc >= 1000 and cc >= 150:
+        return (True, f"Hiper-monolito inabarcable (LOC={loc}, CC={cc}); requiere rediseño arquitectónico completo")
+
+    if deuda_horas >= 300.0 and mi <= 10.0 and cc >= 80:
+        return (True, f"Monolito crítico desproporcionado (Deuda={deuda_horas}h, CC={cc}, MI={mi}); excede capacidad de sprint")
+
+    if (
+        deuda_horas >= 250.0
+        and roi_ajustado_porc is not None
+        and roi_ajustado_porc <= -40.0
+        and payback_anios is not None
+        and payback_anios >= 7.0
+    ):
+        return (True, f"Retorno inviable para sprint incremental (ROI={roi_ajustado_porc}%, Payback={payback_anios}a); requiere reescritura")
+
+    return (False, None)
+

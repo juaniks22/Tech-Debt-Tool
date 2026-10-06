@@ -123,6 +123,15 @@
         </svg>
         Violaciones SQALE
       </button>
+
+      <button class="tab-btn" data-tab="tab-plan" id="nav-plan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+          <path d="M9 14l2 2 4-4"></path>
+        </svg>
+        Plan de Acción & Sprints
+      </button>
     </nav>
 
     <!-- TAB 1: RESUMEN EJECUTIVO -->
@@ -420,6 +429,313 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: PLAN DE ACCIÓN & SPRINT PLANNER -->
+    <section id="tab-plan" class="tab-content">
+      <!-- Section Header -->
+      <div class="panel-header-box">
+        <div>
+          <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">🏗️ Planificador de Sprints y Acciones de Deuda Técnica</h2>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">
+            Genera un plan de trabajo balanceado por capacidad de equipo. Prioriza primero archivos en <strong>Zona de Dolor (D &gt; 0.5)</strong> con <strong>Quick Wins (ROI positivo)</strong> y mayor complejidad ciclomática (CC).
+          </p>
+        </div>
+      </div>
+
+      <!-- Config & Capacity Controls Grid -->
+      <div class="plan-config-panel">
+        <div class="plan-config-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Configuración del Equipo y Sprint</span>
+        </div>
+
+        <div class="plan-form-grid">
+          <div class="plan-form-field">
+            <label for="plan-devs-be">Devs Backend (Go)</label>
+            <div class="input-stepper">
+              <input type="number" id="plan-devs-be" min="0" max="50" value="4">
+              <span class="unit-label">devs</span>
+            </div>
+            <span class="plan-field-hint">40h/sem por dev</span>
+          </div>
+
+          <div class="plan-form-field">
+            <label for="plan-devs-fe">Devs Frontend (Flutter)</label>
+            <div class="input-stepper">
+              <input type="number" id="plan-devs-fe" min="0" max="50" value="3">
+              <span class="unit-label">devs</span>
+            </div>
+            <span class="plan-field-hint">40h/sem por dev</span>
+          </div>
+
+          <div class="plan-form-field">
+            <label for="plan-devs-fs">Devs Fullstack (Pool)</label>
+            <div class="input-stepper">
+              <input type="number" id="plan-devs-fs" min="0" max="50" value="0">
+              <span class="unit-label">devs</span>
+            </div>
+            <span class="plan-field-hint">Absorbe BE o FE según demanda</span>
+          </div>
+
+          <div class="plan-form-field">
+            <label for="plan-sprint-weeks">Duración del Sprint</label>
+            <select id="plan-sprint-weeks" class="plan-select">
+              <option value="1">1 Semana (40h/dev)</option>
+              <option value="2">2 Semanas (80h/dev)</option>
+              <option value="3">3 Semanas (120h/dev)</option>
+              <option value="4" selected>4 Semanas (160h/dev)</option>
+            </select>
+            <span class="plan-field-hint">Ritmo de entrega</span>
+          </div>
+
+          <div class="plan-form-field">
+            <label for="plan-dedication-pct">Dedicación a Deuda (%)</label>
+            <div class="input-stepper">
+              <input type="number" id="plan-dedication-pct" min="10" max="100" step="5" value="100">
+              <span class="unit-label">%</span>
+            </div>
+            <span class="plan-field-hint">100% = sprint técnico dedicado</span>
+          </div>
+
+          <div class="plan-form-field">
+            <label for="plan-sprints-count">Proyección de Sprints</label>
+            <select id="plan-sprints-count" class="plan-select">
+              <option value="1">1 Sprint</option>
+              <option value="2" selected>2 Sprints</option>
+              <option value="3">3 Sprints</option>
+              <option value="4">4 Sprints</option>
+            </select>
+            <span class="plan-field-hint">Horizonte de planificación</span>
+          </div>
+
+          <div class="plan-form-field" style="grid-column: span 2;">
+            <label for="plan-strategy">Estrategia de Priorización</label>
+            <select id="plan-strategy" class="plan-select">
+              <option value="hybrid_zona_cc_roi" selected>⭐ Híbrida: Zona de Dolor (D &gt; 0.5) + CC Descendente + ROI (Recomendada)</option>
+              <option value="roi_first">🚀 ROI Primero: Quick Wins de mayor retorno de inversión</option>
+              <option value="cc_first">🔥 Complejidad Primero: Mayor CC descendente</option>
+              <option value="debt_hours_first">⏳ Mayor Deuda Acumulada primero</option>
+            </select>
+            <span class="plan-field-hint">Criterio con el que el algoritmo llena cada sprint</span>
+          </div>
+
+          <div class="plan-form-actions" style="grid-column: span 2;">
+            <button id="btn-recalculate-plan" class="btn btn-primary" style="padding: 10px 22px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+              Recalcular Sprints
+            </button>
+            <button id="btn-reset-plan-defaults" class="btn btn-secondary" style="padding: 10px 18px;">
+              Restablecer Valores
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capacity & Impact KPI Meters -->
+      <div class="plan-capacity-grid">
+        <div class="capacity-card" id="card-capacity-be">
+          <div class="capacity-header">
+            <span class="capacity-title">Capacidad Backend (Go)</span>
+            <span class="kpi-badge badge-success" id="badge-capacity-be">0% USADO</span>
+          </div>
+          <div class="capacity-metric-row">
+            <span class="capacity-val" id="val-capacity-be-used">0h</span>
+            <span class="capacity-max" id="val-capacity-be-total">/ 0h disp.</span>
+          </div>
+          <div class="capacity-progress-bar">
+            <div class="capacity-progress-fill" id="fill-capacity-be" style="width: 0%;"></div>
+          </div>
+          <div class="capacity-subtext" id="sub-capacity-be">Sprint 1: 0 devs × 0h</div>
+        </div>
+
+        <div class="capacity-card" id="card-capacity-fe">
+          <div class="capacity-header">
+            <span class="capacity-title">Capacidad Frontend (Flutter)</span>
+            <span class="kpi-badge badge-success" id="badge-capacity-fe">0% USADO</span>
+          </div>
+          <div class="capacity-metric-row">
+            <span class="capacity-val" id="val-capacity-fe-used">0h</span>
+            <span class="capacity-max" id="val-capacity-fe-total">/ 0h disp.</span>
+          </div>
+          <div class="capacity-progress-bar">
+            <div class="capacity-progress-fill" id="fill-capacity-fe" style="width: 0%;"></div>
+          </div>
+          <div class="capacity-subtext" id="sub-capacity-fe">Sprint 1: 0 devs × 0h</div>
+        </div>
+
+        <div class="capacity-card" id="card-capacity-fs">
+          <div class="capacity-header">
+            <span class="capacity-title">Pool Fullstack (Apoyo)</span>
+            <span class="kpi-badge badge-info" id="badge-capacity-fs">0h DISP.</span>
+          </div>
+          <div class="capacity-metric-row">
+            <span class="capacity-val" id="val-capacity-fs-used">0h</span>
+            <span class="capacity-max" id="val-capacity-fs-total">/ 0h total</span>
+          </div>
+          <div class="capacity-progress-bar">
+            <div class="capacity-progress-fill" id="fill-capacity-fs" style="width: 0%; background: var(--mp-blue);"></div>
+          </div>
+          <div class="capacity-subtext" id="sub-capacity-fs">Asignado: 0h a BE, 0h a FE</div>
+        </div>
+
+        <div class="capacity-card" id="card-plan-impact">
+          <div class="capacity-header">
+            <span class="capacity-title">Impacto Total Proyectado</span>
+            <span class="kpi-badge badge-success" id="badge-plan-impact">ALTO IMPACTO</span>
+          </div>
+          <div class="capacity-metric-row">
+            <span class="capacity-val" id="val-impact-hours" style="color: var(--mp-blue);">0h</span>
+            <span class="capacity-max" id="val-impact-pct">(0% deuda total)</span>
+          </div>
+          <div class="capacity-subtext" id="sub-impact-summary" style="margin-top: 8px;">
+            Ahorro anual estimado en fricción: <strong id="val-impact-savings" style="color: var(--color-success);">$0 USD/año</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action & Export Toolbar -->
+      <div class="plan-export-toolbar">
+        <div class="export-toolbar-left">
+          <button id="btn-copy-sga-prompt" class="btn btn-primary" title="Genera el prompt listo para pegar al agente del proyecto SGA sin pérdida de datos">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            📋 Copiar Prompt para Agente SGA
+          </button>
+
+          <button id="btn-download-plan-md" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            📄 Descargar plan_accion.md
+          </button>
+
+          <button id="btn-download-plan-json" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            📦 Descargar plan_sprint.json
+          </button>
+        </div>
+
+        <div class="export-toolbar-right">
+          <span id="plan-copy-feedback" class="copy-feedback-toast">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            ¡Prompt para Agente SGA copiado al portapapeles!
+          </span>
+        </div>
+      </div>
+
+      <!-- Forbidden Monoliths Alert Box (Calculated dynamically) -->
+      <div class="forbidden-files-box" id="forbidden-files-box" style="display: none;">
+        <div class="forbidden-header">
+          <div class="forbidden-title">
+            <span class="forbidden-icon">🛑</span>
+            <div>
+              <h3>ARCHIVOS PROHIBIDOS (NO TOCAR)</h3>
+              <p>Quedan estrictamente vetados por requerir rediseño completo de arquitectura. NO deben tocarse en sprints de refactorización incremental:</p>
+            </div>
+          </div>
+          <span class="forbidden-count-badge" id="forbidden-count-badge">0 archivos vetados</span>
+        </div>
+        <div class="forbidden-table-wrap">
+          <table class="forbidden-table" id="forbidden-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Archivo</th>
+                <th>Rol</th>
+                <th>LOC</th>
+                <th>CC</th>
+                <th>MI</th>
+                <th>Deuda (h)</th>
+                <th>Motivo del Veto</th>
+              </tr>
+            </thead>
+            <tbody id="forbidden-tbody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PR / Code Review Quality Checklist (Viernes) -->
+      <div class="checklist-panel" id="checklist-panel">
+        <div class="checklist-header">
+          <div class="checklist-title">
+            <span class="checklist-icon">📋</span>
+            <div>
+              <h3>Checklist de Aceptación para PR / Reviews (Viernes)</h3>
+              <p>Métricas y directivas obligatorias que el desarrollador o agente de SGA debe validar al abrir cada Pull Request:</p>
+            </div>
+          </div>
+          <button id="btn-copy-checklist" class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem;">
+            📋 Copiar Checklist para PR
+          </button>
+        </div>
+        <div class="checklist-grid">
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-1" class="checklist-checkbox">
+            <label for="chk-1" class="checklist-text"><strong>CC ≤ 4 (Dart) / ≤ 7 (Go)</strong> — Ramas acotadas y baja complejidad</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-2" class="checklist-checkbox">
+            <label for="chk-2" class="checklist-text"><strong>Maintainability Index ≥ 60%</strong> — Código limpio y mantenible</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-3" class="checklist-checkbox">
+            <label for="chk-3" class="checklist-text"><strong>TDR ≤ 6%</strong> — Technical Debt Ratio moderado/óptimo</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-4" class="checklist-checkbox">
+            <label for="chk-4" class="checklist-text"><strong>Máx 3 niveles de if</strong> — Anidamiento plano sin pirámides</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-5" class="checklist-checkbox">
+            <label for="chk-5" class="checklist-text"><strong>Pattern matching / sealed classes en estado</strong> — Modelado robusto en Flutter</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-6" class="checklist-checkbox">
+            <label for="chk-6" class="checklist-text"><strong>DIT ≤ 2 (Dart) y CBO ≤ 6</strong> — Herencia plana y bajo acoplamiento</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-7" class="checklist-checkbox">
+            <label for="chk-7" class="checklist-text"><strong>Parseo seguro de nulos en BD</strong> — Tipos seguros y scan estricto en Go</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-8" class="checklist-checkbox">
+            <label for="chk-8" class="checklist-text"><strong>Cero imports / variables / código muerto</strong> — Higiene de código estricta</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-9" class="checklist-checkbox">
+            <label for="chk-9" class="checklist-text"><strong>Al menos 1 test unitario/contrato nuevo pasando</strong> — Cero regresiones</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-10" class="checklist-checkbox">
+            <label for="chk-10" class="checklist-text"><strong>Ownership respetado</strong> — Modificar solo los archivos asignados</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Sprint Kanban Board -->
+      <div class="kanban-board-container" id="kanban-board-container">
+        <!-- Rendered dynamically via app.js -->
       </div>
     </section>
 

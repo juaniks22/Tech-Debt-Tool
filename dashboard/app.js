@@ -67,6 +67,52 @@
   const btnExportCsv = document.getElementById('btn-export-csv');
   const violationsTbody = document.getElementById('violations-tbody');
 
+  // Plan & Sprint elements
+  let currentSprintPlan = null;
+  const inputDevsBe = document.getElementById('plan-devs-be');
+  const inputDevsFe = document.getElementById('plan-devs-fe');
+  const inputDevsFs = document.getElementById('plan-devs-fs');
+  const selectSprintWeeks = document.getElementById('plan-sprint-weeks');
+  const inputDedicationPct = document.getElementById('plan-dedication-pct');
+  const selectSprintsCount = document.getElementById('plan-sprints-count');
+  const selectStrategy = document.getElementById('plan-strategy');
+  const btnRecalculatePlan = document.getElementById('btn-recalculate-plan');
+  const btnResetPlanDefaults = document.getElementById('btn-reset-plan-defaults');
+
+  const valCapacityBeUsed = document.getElementById('val-capacity-be-used');
+  const valCapacityBeTotal = document.getElementById('val-capacity-be-total');
+  const fillCapacityBe = document.getElementById('fill-capacity-be');
+  const badgeCapacityBe = document.getElementById('badge-capacity-be');
+  const subCapacityBe = document.getElementById('sub-capacity-be');
+
+  const valCapacityFeUsed = document.getElementById('val-capacity-fe-used');
+  const valCapacityFeTotal = document.getElementById('val-capacity-fe-total');
+  const fillCapacityFe = document.getElementById('fill-capacity-fe');
+  const badgeCapacityFe = document.getElementById('badge-capacity-fe');
+  const subCapacityFe = document.getElementById('sub-capacity-fe');
+
+  const valCapacityFsUsed = document.getElementById('val-capacity-fs-used');
+  const valCapacityFsTotal = document.getElementById('val-capacity-fs-total');
+  const fillCapacityFs = document.getElementById('fill-capacity-fs');
+  const badgeCapacityFs = document.getElementById('badge-capacity-fs');
+  const subCapacityFs = document.getElementById('sub-capacity-fs');
+
+  const valImpactHours = document.getElementById('val-impact-hours');
+  const valImpactPct = document.getElementById('val-impact-pct');
+  const valImpactSavings = document.getElementById('val-impact-savings');
+  const badgePlanImpact = document.getElementById('badge-plan-impact');
+  const subImpactSummary = document.getElementById('sub-impact-summary');
+
+  const btnCopySgaPrompt = document.getElementById('btn-copy-sga-prompt');
+  const btnDownloadPlanMd = document.getElementById('btn-download-plan-md');
+  const btnDownloadPlanJson = document.getElementById('btn-download-plan-json');
+  const planCopyFeedback = document.getElementById('plan-copy-feedback');
+  const kanbanBoardContainer = document.getElementById('kanban-board-container');
+  const forbiddenFilesBox = document.getElementById('forbidden-files-box');
+  const forbiddenCountBadge = document.getElementById('forbidden-count-badge');
+  const forbiddenTbody = document.getElementById('forbidden-tbody');
+  const btnCopyChecklist = document.getElementById('btn-copy-checklist');
+
   // Modal
   const fileModal = document.getElementById('file-modal');
   const modalCloseBtn = document.getElementById('modal-close-btn');
@@ -195,6 +241,7 @@
     renderModules(sqale.modulos || []);
     renderFilesTable();
     renderViolationsTable(violaciones);
+    generateSprintPlan(data);
 
     dropStatusBadge.textContent = 'Reporte activo: ' + projName;
     dropStatusBadge.style.color = 'var(--color-success)';
@@ -817,6 +864,1015 @@
     document.body.removeChild(link);
   }
 
+  // =========================================================================
+  // Sprint Planner & Technical Debt Action Plan Engine
+  // =========================================================================
+
+  function resetPlanFormDefaults() {
+    if (inputDevsBe) inputDevsBe.value = 4;
+    if (inputDevsFe) inputDevsFe.value = 3;
+    if (inputDevsFs) inputDevsFs.value = 0;
+    if (selectSprintWeeks) selectSprintWeeks.value = 4;
+    if (inputDedicationPct) inputDedicationPct.value = 100;
+    if (selectSprintsCount) selectSprintsCount.value = 2;
+    if (selectStrategy) selectStrategy.value = 'hybrid_zona_cc_roi';
+    if (currentReport) generateSprintPlan(currentReport);
+  }
+
+  function getModuleInfoForFile(filePath, modulesList) {
+    if (!filePath || !modulesList || modulesList.length === 0) {
+      return { nombre: 'desconocido', zona: 'SECUENCIA_PRINCIPAL', distancia_d: 0.0 };
+    }
+    const clean = cleanPathName(filePath).toLowerCase();
+    for (const m of modulesList) {
+      const modName = (m.nombre || '').toLowerCase();
+      const modRuta = cleanPathName(m.ruta || '').toLowerCase();
+      if ((modRuta && clean.includes(modRuta)) || (modName && clean.includes('/' + modName + '/')) || clean.startsWith(modName + '/')) {
+        return m;
+      }
+    }
+    return { nombre: 'general', zona: 'SECUENCIA_PRINCIPAL', distancia_d: 0.0 };
+  }
+
+  function getFileViolations(filePath, violationsList) {
+    if (!filePath || !violationsList) return [];
+    const clean = cleanPathName(filePath).toLowerCase();
+    return violationsList.filter(v => {
+      const vPath = cleanPathName(v.archivo || '').toLowerCase();
+      return vPath && (clean.endsWith(vPath) || vPath.endsWith(clean) || clean.includes(vPath));
+    });
+  }
+
+  function generateSmartRefactorAdvice(file, role, modInfo, violations) {
+    const p = cleanPathName(file.ruta).toLowerCase();
+    const cc = file.complejidad_ciclomatica || 0;
+
+    if (p.includes('handler') || p.includes('controller') || p.includes('api_datasource')) {
+      return 'Extraer lógica de negocio del handler hacia la capa de aplicación/dominio; desacoplar de transporte HTTP y tipar DTOs.';
+    }
+    if (p.includes('screen') || p.includes('widget') || p.includes('panel')) {
+      return 'Descomponer pantalla monolítica en sub-widgets especializados; desacoplar manejo de estado mediante BLoC/Clean Architecture.';
+    }
+    if (p.includes('repo') || p.includes('datasource') || p.includes('postgres')) {
+      return 'Simplificar consultas complejas; extraer constructores de consultas (query builders) y aislar manejo de errores SQL.';
+    }
+    if (p.includes('domain') || p.includes('entities') || p.includes('entity')) {
+      return 'Inmutabilizar entidades de dominio; extraer validaciones a Value Objects y desacoplar de librerías externas.';
+    }
+    if (p.includes('app') || p.includes('usecase') || p.includes('service')) {
+      return 'Descomponer casos de uso monolíticos; aplicar patrón Strategy para reducir ramificaciones y simplificar orquestación.';
+    }
+    if (p.includes('test')) {
+      return 'Modularizar suite de tests; extraer fixtures compartidas y helpers de prueba para eliminar código duplicado.';
+    }
+    if (p.includes('config') || p.includes('wiring') || p.includes('main.')) {
+      return 'Introducir interfaces para desacoplar setup de dependencias concretas; simplificar inicialización de componentes.';
+    }
+    if (cc > 40) {
+      return `Reducción prioritaria de complejidad ciclomática extrema (CC=${cc}); extraer submétodos y simplificar branches condicionales.`;
+    }
+    return 'Rediseñar componentes críticos y elevar Maintainability Index (MI) hacia nivel óptimo (≥ 75).';
+  }
+
+  function generateDefinitionOfDone(file, role) {
+    const isDart = role === 'FE' || (file.lenguaje || '').toLowerCase() === 'dart' || (file.ruta || '').endsWith('.dart');
+    const isGo = role === 'BE' || (file.lenguaje || '').toLowerCase() === 'go' || (file.ruta || '').endsWith('.go');
+    const targetCc = isDart ? '≤ 4' : '≤ 7';
+
+    const dod = [
+      `CC ${targetCc} (máx 3 niveles de if anidados)`,
+      'Maintainability Index (MI) ≥ 60%',
+      'TDR ≤ 6% y cero imports/código muerto',
+    ];
+
+    if (isDart) {
+      dod.push('Pattern matching / sealed classes en manejo de estado');
+      dod.push('DIT ≤ 2 (Dart) y CBO ≤ 6');
+    } else if (isGo) {
+      dod.push('Parseo seguro de nulos en BD (sql.Null* o tipos seguros)');
+      dod.push('Contratos de interfaz aislados en puertos de dominio/app');
+    }
+
+    dod.push('Al menos 1 test unitario/contrato nuevo pasando');
+    dod.push('Ownership respetado (solo archivos asignados)');
+
+    return dod;
+  }
+
+  function evaluarArchivoProhibido(f) {
+    const clean = cleanPathName(f.ruta || '').toLowerCase();
+    const loc = f.loc || 0;
+    const cc = f.complejidad_ciclomatica || 0;
+    const mi = f.mi !== undefined ? f.mi : 100;
+    const deuda = f.deuda_horas || 0;
+    const roiAdj = f.roi_ajustado_porc !== undefined ? f.roi_ajustado_porc : 0;
+    const payback = f.payback_anios !== undefined ? f.payback_anios : null;
+
+    // 1. Catálogo conocido estricto de monolitos arquitecturales vetados
+    const vetados = [
+      'cursos_screen.dart',
+      'teachers_screen.dart',
+      'configuracion_screen.dart',
+      'api_datasource.dart',
+      'sga_design_system.dart',
+      'academic_repo.go'
+    ];
+    for (const v of vetados) {
+      if (clean.endsWith(v) || clean.includes('/' + v) || clean === v) {
+        return {
+          isForbidden: true,
+          motivo: 'Vetado estrictamente por requerir rediseño completo de arquitectura'
+        };
+      }
+    }
+
+    // 2. Hiper-Monolito inabarcable
+    if (loc >= 1000 && cc >= 150) {
+      return {
+        isForbidden: true,
+        motivo: `Hiper-monolito inabarcable (LOC=${loc}, CC=${cc}); requiere rediseño arquitectónico completo`
+      };
+    }
+
+    // 3. Monolito crítico desproporcionado
+    if (deuda >= 300 && mi <= 10 && cc >= 80) {
+      return {
+        isForbidden: true,
+        motivo: `Monolito crítico desproporcionado (Deuda=${formatNumber(deuda, 1)}h, CC=${cc}, MI=${mi}); excede capacidad de sprint`
+      };
+    }
+
+    // 4. Pérdida severa de retorno
+    if (deuda >= 250 && roiAdj <= -40 && (payback === null || payback >= 7)) {
+      return {
+        isForbidden: true,
+        motivo: `Retorno inviable para sprint incremental (ROI=${roiAdj}%, Payback=${payback}a); requiere reescritura`
+      };
+    }
+
+    return { isForbidden: false, motivo: null };
+  }
+
+  function generateSprintPlan(reportData) {
+    if (!reportData || !reportData.archivos) return;
+
+    const devsBe = Math.max(0, parseInt(inputDevsBe ? inputDevsBe.value : 4) || 0);
+    const devsFe = Math.max(0, parseInt(inputDevsFe ? inputDevsFe.value : 3) || 0);
+    const devsFs = Math.max(0, parseInt(inputDevsFs ? inputDevsFs.value : 0) || 0);
+    const weeks = Math.max(1, parseInt(selectSprintWeeks ? selectSprintWeeks.value : 4) || 4);
+    const dedication = Math.max(0.1, (parseFloat(inputDedicationPct ? inputDedicationPct.value : 100) || 100) / 100.0);
+    const sprintCount = Math.max(1, parseInt(selectSprintsCount ? selectSprintsCount.value : 2) || 2);
+    const strategy = selectStrategy ? selectStrategy.value : 'hybrid_zona_cc_roi';
+
+    const hoursPerDev = weeks * 40 * dedication;
+    const capBe = devsBe * hoursPerDev;
+    const capFe = devsFe * hoursPerDev;
+    const capFs = devsFs * hoursPerDev;
+
+    const sqale = reportData.sqale_report || {};
+    const modulos = sqale.modulos || [];
+    const violaciones = sqale.violaciones || [];
+
+    // Filter candidate files needing attention
+    const candidateFiles = reportData.archivos.filter(f => {
+      const debt = f.deuda_horas || 0;
+      const mi = f.mi !== undefined ? f.mi : 100;
+      return debt > 0.5 || mi < 75 || f.estado_mi === 'CRITICO' || f.estado_mi === 'REGULAR';
+    });
+
+    // Partition files: Forbidden Monoliths (DO NOT TOUCH) vs Eligible Sprint Tasks
+    const forbiddenFiles = [];
+    const eligibleFiles = [];
+
+    candidateFiles.forEach(f => {
+      const check = evaluarArchivoProhibido(f);
+      if (check.isForbidden) {
+        const cleanPath = cleanPathName(f.ruta);
+        const isGo = (f.lenguaje || '').toLowerCase() === 'go' || cleanPath.endsWith('.go');
+        forbiddenFiles.push({
+          file: f,
+          filePath: cleanPath,
+          role: isGo ? 'BE' : 'FE',
+          loc: f.loc || 0,
+          cc: f.complejidad_ciclomatica || 0,
+          mi: Math.round((f.mi || 0) * 10) / 10,
+          deudaHoras: Math.round((f.deuda_horas || 0) * 10) / 10,
+          motivo: check.motivo
+        });
+      } else {
+        eligibleFiles.push(f);
+      }
+    });
+
+    // Enrich eligible files with role, module, zone and cards info
+    const enrichedCards = eligibleFiles.map(f => {
+      const cleanPath = cleanPathName(f.ruta);
+      const isGo = (f.lenguaje || '').toLowerCase() === 'go' || cleanPath.endsWith('.go');
+      const isDart = (f.lenguaje || '').toLowerCase() === 'dart' || cleanPath.endsWith('.dart');
+      const role = isGo ? 'BE' : (isDart ? 'FE' : 'FS');
+      const modInfo = getModuleInfoForFile(cleanPath, modulos);
+      const isPainZone = (modInfo.distancia_d !== undefined && modInfo.distancia_d > 0.5) || modInfo.zona === 'ZONA_DOLOR';
+      const fileViolations = getFileViolations(cleanPath, violaciones);
+      const roiAdj = f.roi_ajustado_porc !== undefined ? f.roi_ajustado_porc : 0;
+      const cc = f.complejidad_ciclomatica || 0;
+      const debtHours = Math.round((f.deuda_horas || 0) * 10) / 10;
+
+      return {
+        id: '', // assigned below
+        file: f,
+        filePath: cleanPath,
+        baseName: getBaseFileName(cleanPath),
+        role: role,
+        moduleName: modInfo.nombre || 'general',
+        isPainZone: isPainZone,
+        zona: modInfo.zona || (isPainZone ? 'ZONA_DOLOR' : 'SECUENCIA_PRINCIPAL'),
+        distanciaD: modInfo.distancia_d || 0,
+        loc: f.loc || 0,
+        cc: cc,
+        mi: Math.round((f.mi || 0) * 10) / 10,
+        deudaHoras: debtHours,
+        costoUsd: f.costo_reparacion_usd || 0,
+        interesUsd: f.interes_anual_usd || 0,
+        roiAjustado: roiAdj,
+        violations: fileViolations,
+        refactorAdvice: generateSmartRefactorAdvice(f, role, modInfo, fileViolations),
+        dod: generateDefinitionOfDone(f, role),
+        currentSprint: 1 // assigned below
+      };
+    });
+
+    // Sort according to chosen strategy
+    enrichedCards.sort((a, b) => {
+      if (strategy === 'roi_first') {
+        if (b.roiAjustado !== a.roiAjustado) return b.roiAjustado - a.roiAjustado;
+        return b.cc - a.cc;
+      } else if (strategy === 'cc_first') {
+        if (b.cc !== a.cc) return b.cc - a.cc;
+        return b.deudaHoras - a.deudaHoras;
+      } else if (strategy === 'debt_hours_first') {
+        if (b.deudaHoras !== a.deudaHoras) return b.deudaHoras - a.deudaHoras;
+        return b.cc - a.cc;
+      } else {
+        // hybrid_zona_cc_roi (Recommended by User in /grill-me)
+        // 1) Distancia a Secuencia Principal > 0.5 (ZONA_DOLOR)
+        // 2) ROI ajustado positivo (Quick Wins)
+        // 3) Complejidad Ciclomática (CC) descendente
+        const scoreA = (a.isPainZone ? 20000 : 0) + (a.roiAjustado > 0 ? 10000 : 0) + (a.cc * 25) + Math.min(a.deudaHoras, 300);
+        const scoreB = (b.isPainZone ? 20000 : 0) + (b.roiAjustado > 0 ? 10000 : 0) + (b.cc * 25) + Math.min(b.deudaHoras, 300);
+        return scoreB - scoreA;
+      }
+    });
+
+    // Assign IDs (BE-01, FE-01, etc.)
+    let beCounter = 1;
+    let feCounter = 1;
+    let fsCounter = 1;
+    enrichedCards.forEach(c => {
+      if (c.role === 'BE') {
+        c.id = `BE-${String(beCounter++).padStart(2, '0')}`;
+      } else if (c.role === 'FE') {
+        c.id = `FE-${String(feCounter++).padStart(2, '0')}`;
+      } else {
+        c.id = `FS-${String(fsCounter++).padStart(2, '0')}`;
+      }
+    });
+
+    // Sprints Bin-Packing
+    const sprints = [];
+    for (let i = 1; i <= sprintCount; i++) {
+      sprints.push({
+        id: `sprint-${i}`,
+        number: i,
+        name: `Sprint ${i}`,
+        cards: [],
+        beHours: 0,
+        feHours: 0,
+        fsHours: 0
+      });
+    }
+
+    const backlog = {
+      id: 'backlog',
+      number: 0,
+      name: 'Backlog de Deuda Técnica',
+      cards: [],
+      beHours: 0,
+      feHours: 0,
+      fsHours: 0
+    };
+
+    // Distribute cards into sprints based on capacity
+    enrichedCards.forEach(card => {
+      let placed = false;
+      for (const sprint of sprints) {
+        const dHours = card.deudaHoras;
+        if (card.role === 'BE') {
+          // Check if BE capacity has room or FS pool can absorb
+          const remBe = capBe - sprint.beHours;
+          const remFs = capFs - sprint.fsHours;
+          if (remBe >= dHours || (remBe + remFs >= dHours && capFs > 0)) {
+            sprint.cards.push(card);
+            card.currentSprint = sprint.number;
+            const useBe = Math.min(remBe, dHours);
+            const useFs = Math.max(0, dHours - useBe);
+            sprint.beHours += useBe;
+            sprint.fsHours += useFs;
+            placed = true;
+            break;
+          }
+        } else if (card.role === 'FE') {
+          const remFe = capFe - sprint.feHours;
+          const remFs = capFs - sprint.fsHours;
+          if (remFe >= dHours || (remFe + remFs >= dHours && capFs > 0)) {
+            sprint.cards.push(card);
+            card.currentSprint = sprint.number;
+            const useFe = Math.min(remFe, dHours);
+            const useFs = Math.max(0, dHours - useFe);
+            sprint.feHours += useFe;
+            sprint.fsHours += useFs;
+            placed = true;
+            break;
+          }
+        } else {
+          // Fullstack task
+          const remFs = capFs - sprint.fsHours;
+          if (remFs >= dHours) {
+            sprint.cards.push(card);
+            card.currentSprint = sprint.number;
+            sprint.fsHours += dHours;
+            placed = true;
+            break;
+          }
+        }
+      }
+
+      if (!placed) {
+        backlog.cards.push(card);
+        card.currentSprint = 0;
+        if (card.role === 'BE') backlog.beHours += card.deudaHoras;
+        else if (card.role === 'FE') backlog.feHours += card.deudaHoras;
+        else backlog.fsHours += card.deudaHoras;
+      }
+    });
+
+    currentSprintPlan = {
+      sprints: sprints,
+      backlog: backlog,
+      forbiddenCards: forbiddenFiles,
+      capBe: capBe,
+      capFe: capFe,
+      capFs: capFs,
+      hoursPerDev: hoursPerDev,
+      weeks: weeks,
+      dedication: dedication,
+      devsBe: devsBe,
+      devsFe: devsFe,
+      devsFs: devsFs,
+      totalRepoDebt: reportData.total_deuda_horas || 1,
+      totalRepoInterest: reportData.total_interes_anual_usd || 0
+    };
+
+    updateCapacityMeters();
+    renderKanbanBoard();
+    renderForbiddenFiles(forbiddenFiles);
+  }
+
+  function renderForbiddenFiles(forbiddenList) {
+    if (!forbiddenFilesBox || !forbiddenTbody) return;
+    if (!forbiddenList || forbiddenList.length === 0) {
+      forbiddenFilesBox.style.display = 'none';
+      return;
+    }
+
+    forbiddenFilesBox.style.display = 'block';
+    if (forbiddenCountBadge) {
+      forbiddenCountBadge.textContent = `${forbiddenList.length} archivos vetados`;
+    }
+
+    forbiddenTbody.innerHTML = forbiddenList.map((c, idx) => `
+      <tr>
+        <td style="font-weight: 700; color: #991b1b;">${idx + 1}</td>
+        <td class="file-cell" style="color: #991b1b;">${c.filePath}</td>
+        <td><span class="card-role-badge ${c.role === 'BE' ? 'card-role-be' : 'card-role-fe'}">${c.role}</span></td>
+        <td style="font-family: var(--font-mono);">${c.loc}</td>
+        <td style="font-family: var(--font-mono); font-weight: 700; color: var(--color-critical);">${c.cc}</td>
+        <td style="font-family: var(--font-mono);">${c.mi}</td>
+        <td style="font-family: var(--font-mono); font-weight: 700; color: #b91c1c;">${c.deudaHoras}h</td>
+        <td style="font-size: 0.78rem; color: #7f1d1d;"><strong>${c.motivo}</strong></td>
+      </tr>
+    `).join('');
+  }
+
+  function copyChecklistMarkdown() {
+    const checklistMd = `### 📋 CHECKLIST PR / REVIEWS (Viernes)
+Al abrir la PR, incluir tildado:
+
+* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)
+* [ ] Maintainability Index ≥ 60%
+* [ ] TDR ≤ 6%
+* [ ] Máx 3 niveles de if
+* [ ] Pattern matching / sealed classes en estado
+* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6
+* [ ] Parseo seguro de nulos en BD
+* [ ] Cero imports/variables/código muerto
+* [ ] Al menos 1 test unitario/contrato nuevo pasando
+* [ ] Ownership respetado (solo archivos asignados)
+`;
+    navigator.clipboard.writeText(checklistMd).then(() => {
+      alert('¡Checklist de PR copiado al portapapeles!');
+    }).catch(err => {
+      alert('Error al copiar checklist: ' + err);
+    });
+  }
+
+  function updateCapacityMeters() {
+    if (!currentSprintPlan) return;
+
+    const sprint1 = currentSprintPlan.sprints[0] || { beHours: 0, feHours: 0, fsHours: 0, cards: [] };
+    // Recalculate Sprint 1 actual totals based on its current cards
+    let s1Be = 0;
+    let s1Fe = 0;
+    let s1Fs = 0;
+    (sprint1.cards || []).forEach(c => {
+      if (c.role === 'BE') s1Be += c.deudaHoras;
+      else if (c.role === 'FE') s1Fe += c.deudaHoras;
+      else s1Fs += c.deudaHoras;
+    });
+
+    const capBe = currentSprintPlan.capBe || 1;
+    const capFe = currentSprintPlan.capFe || 1;
+    const capFs = currentSprintPlan.capFs || 0;
+
+    // Backend
+    const pctBe = Math.round((s1Be / capBe) * 100);
+    if (valCapacityBeUsed) valCapacityBeUsed.textContent = `${formatNumber(s1Be, 1)}h`;
+    if (valCapacityBeTotal) valCapacityBeTotal.textContent = `/ ${formatNumber(capBe, 0)}h disp.`;
+    if (fillCapacityBe) {
+      fillCapacityBe.style.width = `${Math.min(100, pctBe)}%`;
+      fillCapacityBe.style.background = pctBe > 105 ? 'var(--color-critical)' : (pctBe > 90 ? 'var(--color-warning)' : 'var(--color-success)');
+    }
+    if (badgeCapacityBe) {
+      badgeCapacityBe.className = `kpi-badge ${pctBe > 105 ? 'badge-critical' : (pctBe > 90 ? 'badge-warning' : 'badge-success')}`;
+      badgeCapacityBe.textContent = `${pctBe}% USADO`;
+    }
+    if (subCapacityBe) {
+      subCapacityBe.textContent = `Sprint 1: ${currentSprintPlan.devsBe} devs × ${formatNumber(currentSprintPlan.hoursPerDev, 0)}h`;
+    }
+
+    // Frontend
+    const pctFe = Math.round((s1Fe / capFe) * 100);
+    if (valCapacityFeUsed) valCapacityFeUsed.textContent = `${formatNumber(s1Fe, 1)}h`;
+    if (valCapacityFeTotal) valCapacityFeTotal.textContent = `/ ${formatNumber(capFe, 0)}h disp.`;
+    if (fillCapacityFe) {
+      fillCapacityFe.style.width = `${Math.min(100, pctFe)}%`;
+      fillCapacityFe.style.background = pctFe > 105 ? 'var(--color-critical)' : (pctFe > 90 ? 'var(--color-warning)' : 'var(--color-success)');
+    }
+    if (badgeCapacityFe) {
+      badgeCapacityFe.className = `kpi-badge ${pctFe > 105 ? 'badge-critical' : (pctFe > 90 ? 'badge-warning' : 'badge-success')}`;
+      badgeCapacityFe.textContent = `${pctFe}% USADO`;
+    }
+    if (subCapacityFe) {
+      subCapacityFe.textContent = `Sprint 1: ${currentSprintPlan.devsFe} devs × ${formatNumber(currentSprintPlan.hoursPerDev, 0)}h`;
+    }
+
+    // Fullstack Pool
+    if (valCapacityFsUsed) valCapacityFsUsed.textContent = `${formatNumber(s1Fs, 1)}h`;
+    if (valCapacityFsTotal) valCapacityFsTotal.textContent = `/ ${formatNumber(capFs, 0)}h pool`;
+    if (fillCapacityFs) {
+      const pctFs = capFs > 0 ? Math.round((s1Fs / capFs) * 100) : 0;
+      fillCapacityFs.style.width = `${Math.min(100, pctFs)}%`;
+    }
+    if (badgeCapacityFs) {
+      badgeCapacityFs.textContent = capFs > 0 ? `${formatNumber(capFs, 0)}h DISP.` : 'INACTIVO';
+    }
+    if (subCapacityFs) {
+      subCapacityFs.textContent = currentSprintPlan.devsFs > 0
+        ? `${currentSprintPlan.devsFs} devs fullstack de apoyo dinámico`
+        : '0 devs asignados a pool general';
+    }
+
+    // Overall Sprints Impact
+    let totalPlannedHours = 0;
+    let totalPlannedSavings = 0;
+    currentSprintPlan.sprints.forEach(s => {
+      (s.cards || []).forEach(c => {
+        totalPlannedHours += c.deudaHoras;
+        totalPlannedSavings += (c.interesUsd || 0);
+      });
+    });
+
+    const repoTotalDebt = currentSprintPlan.totalRepoDebt || 1;
+    const impactPct = Math.round((totalPlannedHours / repoTotalDebt) * 1000) / 10;
+    if (valImpactHours) valImpactHours.textContent = `${formatNumber(totalPlannedHours, 1)}h`;
+    if (valImpactPct) valImpactPct.textContent = `(${impactPct}% deuda total)`;
+    if (valImpactSavings) valImpactSavings.textContent = `${formatCurrency(totalPlannedSavings)}/año`;
+  }
+
+  function renderKanbanBoard() {
+    if (!kanbanBoardContainer || !currentSprintPlan) return;
+
+    const allCols = [...currentSprintPlan.sprints, currentSprintPlan.backlog];
+
+    kanbanBoardContainer.innerHTML = allCols.map(col => {
+      const isBacklog = col.id === 'backlog';
+      const colCards = col.cards || [];
+      const totalColHours = colCards.reduce((acc, c) => acc + (c.deudaHoras || 0), 0);
+
+      return `
+        <div class="kanban-column" id="col-${col.id}" data-col-id="${col.id}">
+          <div class="kanban-col-header">
+            <div class="kanban-col-title-wrap">
+              <span class="kanban-col-title">${isBacklog ? '📦 ' + col.name : '⚡ ' + col.name}</span>
+              <span class="kanban-col-count" id="count-${col.id}">${colCards.length}</span>
+            </div>
+            <span class="kanban-col-hours" id="hours-${col.id}">${formatNumber(totalColHours, 1)}h</span>
+          </div>
+
+          <div class="kanban-cards-list" id="list-${col.id}" data-col-id="${col.id}">
+            ${colCards.map(c => renderKanbanCardHtml(c, col.id)).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    setupKanbanDragAndDrop();
+    setupCardButtons();
+  }
+
+  function renderKanbanCardHtml(card, colId) {
+    const isBacklog = colId === 'backlog';
+    const roleBadgeClass = card.role === 'BE' ? 'card-role-be' : (card.role === 'FE' ? 'card-role-fe' : 'card-role-fs');
+    const roleLabel = card.role === 'BE' ? 'Backend (Go)' : (card.role === 'FE' ? 'Frontend (Dart)' : 'Fullstack');
+    const zoneBadgeClass = card.isPainZone ? 'zone-pain' : 'zone-main';
+    const zoneLabel = card.isPainZone ? '🔴 ZONA DOLOR' : '🟢 SECUENCIA';
+    const roiClass = card.roiAjustado > 0 ? 'highlight-roi' : '';
+    const roiText = card.roiAjustado > 0 ? `ROI: +${card.roiAjustado}%` : `ROI: ${card.roiAjustado}%`;
+
+    return `
+      <div class="kanban-card" id="card-${card.id}" draggable="true" data-card-id="${card.id}" data-col-id="${colId}">
+        <div class="kanban-card-top">
+          <span class="card-id-tag">${card.id}</span>
+          <div class="card-badges-group">
+            <span class="card-role-badge ${roleBadgeClass}">${roleLabel}</span>
+            <span class="card-zone-badge ${zoneBadgeClass}">${zoneLabel}</span>
+          </div>
+        </div>
+
+        <div class="kanban-card-file" title="Clic para ver detalle del archivo" data-filepath="${card.filePath}">
+          ${card.filePath}
+        </div>
+
+        <div class="kanban-card-metrics">
+          <span class="card-metric-pill">LOC: ${card.loc}</span>
+          <span class="card-metric-pill highlight-cc">CC: ${card.cc}</span>
+          <span class="card-metric-pill">MI: ${card.mi}</span>
+          <span class="card-metric-pill" style="font-weight: 700; color: var(--mp-blue-dark);">${card.deudaHoras}h</span>
+          <span class="card-metric-pill ${roiClass}">${roiText}</span>
+        </div>
+
+        <div class="kanban-card-action">
+          <strong>Acción:</strong> ${card.refactorAdvice}
+        </div>
+
+        <div class="kanban-card-dod">
+          <strong style="color: var(--text-secondary); display: block; margin-bottom: 2px;">Criterios de Aceptación (DoD):</strong>
+          <ul style="padding-left: 14px; margin: 0;">
+            ${card.dod.slice(0, 2).map(item => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="kanban-card-actions">
+          ${!isBacklog ? `
+            <button class="card-shift-btn btn-prev-sprint" data-card-id="${card.id}" title="Mover al sprint anterior">◀ Anterior</button>
+            <button class="card-shift-btn discard-btn btn-send-backlog" data-card-id="${card.id}" title="Enviar al backlog">✕ Backlog</button>
+            <button class="card-shift-btn btn-next-sprint" data-card-id="${card.id}" title="Mover al siguiente sprint">Siguiente ▶</button>
+          ` : `
+            <button class="card-shift-btn btn-to-sprint1" data-card-id="${card.id}" title="Priorizar en Sprint 1" style="color: var(--mp-blue-dark); font-weight: 700;">
+              ▲ Mover a Sprint 1
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+  }
+
+  function setupCardButtons() {
+    // Click on file path to open modal
+    document.querySelectorAll('.kanban-card-file').forEach(el => {
+      el.addEventListener('click', () => {
+        const filePath = el.getAttribute('data-filepath');
+        if (currentReport && currentReport.archivos) {
+          const found = currentReport.archivos.find(f => cleanPathName(f.ruta) === filePath);
+          if (found) openFileModal(found);
+        }
+      });
+    });
+
+    // Move Prev
+    document.querySelectorAll('.btn-prev-sprint').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cardId = btn.getAttribute('data-card-id');
+        shiftCard(cardId, -1);
+      });
+    });
+
+    // Move Next
+    document.querySelectorAll('.btn-next-sprint').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cardId = btn.getAttribute('data-card-id');
+        shiftCard(cardId, 1);
+      });
+    });
+
+    // Send Backlog
+    document.querySelectorAll('.btn-send-backlog').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cardId = btn.getAttribute('data-card-id');
+        moveCard(cardId, 'backlog');
+      });
+    });
+
+    // Backlog to Sprint 1
+    document.querySelectorAll('.btn-to-sprint1').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cardId = btn.getAttribute('data-card-id');
+        moveCard(cardId, 'sprint-1');
+      });
+    });
+  }
+
+  function findCardAndCol(cardId) {
+    if (!currentSprintPlan) return null;
+    const allCols = [...currentSprintPlan.sprints, currentSprintPlan.backlog];
+    for (const col of allCols) {
+      const idx = col.cards.findIndex(c => c.id === cardId);
+      if (idx !== -1) {
+        return { col, card: col.cards[idx], index: idx };
+      }
+    }
+    return null;
+  }
+
+  function shiftCard(cardId, delta) {
+    const found = findCardAndCol(cardId);
+    if (!found) return;
+
+    const { col, card } = found;
+    if (col.id === 'backlog') {
+      moveCard(cardId, 'sprint-1');
+      return;
+    }
+
+    const currentNum = col.number;
+    const targetNum = currentNum + delta;
+
+    if (targetNum < 1) {
+      // already in Sprint 1, cannot go before
+      return;
+    }
+
+    if (targetNum > currentSprintPlan.sprints.length) {
+      // exceeded sprints, send to backlog
+      moveCard(cardId, 'backlog');
+      return;
+    }
+
+    moveCard(cardId, `sprint-${targetNum}`);
+  }
+
+  function moveCard(cardId, targetColId) {
+    const found = findCardAndCol(cardId);
+    if (!found) return;
+
+    const { col: sourceCol, card, index } = found;
+    if (sourceCol.id === targetColId) return;
+
+    const allCols = [...currentSprintPlan.sprints, currentSprintPlan.backlog];
+    const targetCol = allCols.find(c => c.id === targetColId);
+    if (!targetCol) return;
+
+    // Remove from source
+    sourceCol.cards.splice(index, 1);
+    // Add to target
+    targetCol.cards.push(card);
+    card.currentSprint = targetCol.number;
+
+    updateCapacityMeters();
+    renderKanbanBoard();
+  }
+
+  function setupKanbanDragAndDrop() {
+    const cards = document.querySelectorAll('.kanban-card');
+    const cols = document.querySelectorAll('.kanban-column');
+
+    cards.forEach(cardEl => {
+      cardEl.addEventListener('dragstart', (e) => {
+        cardEl.classList.add('is-dragging');
+        e.dataTransfer.setData('text/plain', cardEl.getAttribute('data-card-id'));
+        e.dataTransfer.effectAllowed = 'move';
+      });
+
+      cardEl.addEventListener('dragend', () => {
+        cardEl.classList.remove('is-dragging');
+        cols.forEach(c => c.classList.remove('drag-over-col'));
+      });
+    });
+
+    cols.forEach(colEl => {
+      colEl.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        colEl.classList.add('drag-over-col');
+      });
+
+      colEl.addEventListener('dragleave', () => {
+        colEl.classList.remove('drag-over-col');
+      });
+
+      colEl.addEventListener('drop', (e) => {
+        e.preventDefault();
+        colEl.classList.remove('drag-over-col');
+        const cardId = e.dataTransfer.getData('text/plain');
+        const targetColId = colEl.getAttribute('data-col-id');
+        if (cardId && targetColId) {
+          moveCard(cardId, targetColId);
+        }
+      });
+    });
+  }
+
+  // =========================================================================
+  // Exporters: SGA Agent Prompt, Markdown, and JSON
+  // =========================================================================
+
+  function copySgaPrompt() {
+    if (!currentSprintPlan) {
+      alert('Primero generá o cargá un plan de sprints.');
+      return;
+    }
+
+    const s1 = currentSprintPlan.sprints[0];
+    if (!s1 || s1.cards.length === 0) {
+      alert('El Sprint 1 no contiene tarjetas asignadas.');
+      return;
+    }
+
+    const repoName = getProjectName(currentReport ? currentReport.repo_path : '');
+    const beCards = s1.cards.filter(c => c.role === 'BE');
+    const feCards = s1.cards.filter(c => c.role === 'FE');
+    const fsCards = s1.cards.filter(c => c.role === 'FS');
+
+    const totalHours = s1.cards.reduce((acc, c) => acc + c.deudaHoras, 0);
+
+    let promptText = `# 🤖 PLAN DE ACCIÓN DE DEUDA TÉCNICA — SPRINT 1 (${repoName.toUpperCase()})\n\n`;
+    promptText += `**Objetivo del Sprint:** Reducir fricción operativa y deuda técnica priorizando cuellos de botella en **Zona de Dolor (D > 0.5)** y **Quick Wins (ROI positivo)** con alta complejidad ciclomática.\n\n`;
+    promptText += `### 👥 Capacidad y Asignación del Sprint 1:\n`;
+    promptText += `- **Duración:** ${currentSprintPlan.weeks} semanas (${formatNumber(currentSprintPlan.hoursPerDev, 0)}h útiles/dev)\n`;
+    promptText += `- **Equipo Backend (Go):** ${currentSprintPlan.devsBe} devs | ${formatNumber(currentSprintPlan.capBe, 0)}h disponibles\n`;
+    promptText += `- **Equipo Frontend (Flutter):** ${currentSprintPlan.devsFe} devs | ${formatNumber(currentSprintPlan.capFe, 0)}h disponibles\n`;
+    if (currentSprintPlan.devsFs > 0) {
+      promptText += `- **Pool Fullstack:** ${currentSprintPlan.devsFs} devs | ${formatNumber(currentSprintPlan.capFs, 0)}h de apoyo flexible\n`;
+    }
+    promptText += `- **Total Horas Asignadas:** ${formatNumber(totalHours, 1)}h en ${s1.cards.length} tarjetas\n\n`;
+
+    if (currentSprintPlan.forbiddenCards && currentSprintPlan.forbiddenCards.length > 0) {
+      promptText += `🛑 *ARCHIVOS PROHIBIDOS (NO TOCAR)*\n`;
+      promptText += `Quedan estrictamente vetados por requerir rediseño completo de arquitectura:\n\n`;
+      currentSprintPlan.forbiddenCards.forEach((c, idx) => {
+        promptText += `${idx + 1}. \`${c.filePath}\` (LOC: ${c.loc}, CC: ${c.cc}, Deuda: ${c.deudaHoras}h)\n`;
+      });
+      promptText += `\n`;
+    }
+
+    promptText += `---\n\n`;
+
+    if (beCards.length > 0) {
+      promptText += `## 🔧 Tarjetas Backend (Go) — Sprint 1\n\n`;
+      beCards.forEach(c => {
+        promptText += `### [${c.id}] \`${c.filePath}\`\n`;
+        promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
+        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h | ROI Ajustado: ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}%\n`;
+        promptText += `- **Diagnóstico y Acción:** ${c.refactorAdvice}\n`;
+        promptText += `- **Criterios de Aceptación (DoD):**\n`;
+        c.dod.forEach(item => {
+          promptText += `  - [ ] ${item}\n`;
+        });
+        promptText += `\n`;
+      });
+    }
+
+    if (feCards.length > 0) {
+      promptText += `## 🎨 Tarjetas Frontend (Flutter/Dart) — Sprint 1\n\n`;
+      feCards.forEach(c => {
+        promptText += `### [${c.id}] \`${c.filePath}\`\n`;
+        promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
+        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h | ROI Ajustado: ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}%\n`;
+        promptText += `- **Diagnóstico y Acción:** ${c.refactorAdvice}\n`;
+        promptText += `- **Criterios de Aceptación (DoD):**\n`;
+        c.dod.forEach(item => {
+          promptText += `  - [ ] ${item}\n`;
+        });
+        promptText += `\n`;
+      });
+    }
+
+    if (fsCards.length > 0) {
+      promptText += `## ⚡ Tarjetas Fullstack — Sprint 1\n\n`;
+      fsCards.forEach(c => {
+        promptText += `### [${c.id}] \`${c.filePath}\`\n`;
+        promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
+        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h\n`;
+        promptText += `- **Diagnóstico y Acción:** ${c.refactorAdvice}\n`;
+        promptText += `- **Criterios de Aceptación (DoD):**\n`;
+        c.dod.forEach(item => {
+          promptText += `  - [ ] ${item}\n`;
+        });
+        promptText += `\n`;
+      });
+    }
+
+    promptText += `---\n\n`;
+    promptText += `📋 *CHECKLIST PR / REVIEWS (Viernes)*\n`;
+    promptText += `Al abrir la PR, incluir tildado:\n\n`;
+    promptText += `* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)\n`;
+    promptText += `* [ ] Maintainability Index ≥ 60%\n`;
+    promptText += `* [ ] TDR ≤ 6%\n`;
+    promptText += `* [ ] Máx 3 niveles de if\n`;
+    promptText += `* [ ] Pattern matching / sealed classes en estado\n`;
+    promptText += `* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6\n`;
+    promptText += `* [ ] Parseo seguro de nulos en BD\n`;
+    promptText += `* [ ] Cero imports/variables/código muerto\n`;
+    promptText += `* [ ] Al menos 1 test unitario/contrato nuevo pasando\n`;
+    promptText += `* [ ] Ownership respetado (solo archivos asignados)\n\n`;
+
+    promptText += `---\n\n`;
+    promptText += `## ⚠️ Instrucciones Operativas de Ejecución para el Agente:\n`;
+    promptText += `1. **Procesar secuencialmente:** Abordá una tarjeta a la vez siguiendo el orden numérico asignado.\n`;
+    promptText += `2. **No omitir ningún archivo:** Cada tarjeta arriba listada debe tener su refactorización concreta.\n`;
+    promptText += `3. **Cero regresiones:** Tras modificar cada archivo, ejecutá los tests unitarios correspondientes (\`go test ./...\` en backend o \`flutter test\` en frontend).\n`;
+    promptText += `4. **Respetar contratos:** Si desacoplás un handler o controller, conservá el contrato de las APIs y no rompas los llamados existentes.\n`;
+    promptText += `5. **Confirmación:** Al finalizar cada tarjeta, reportá los cambios realizados y la nueva complejidad ciclomática estimada.\n`;
+
+    navigator.clipboard.writeText(promptText).then(() => {
+      if (planCopyFeedback) {
+        planCopyFeedback.style.display = 'inline-flex';
+        setTimeout(() => {
+          planCopyFeedback.style.display = 'none';
+        }, 3500);
+      }
+    }).catch(err => {
+      alert('Error al copiar al portapapeles: ' + err);
+    });
+  }
+
+  function downloadPlanMarkdown() {
+    if (!currentSprintPlan) {
+      alert('Primero generá o cargá un plan de sprints.');
+      return;
+    }
+
+    const repoName = getProjectName(currentReport ? currentReport.repo_path : '');
+    let md = `# 🏗️ Plan de Acción — Reducción de Deuda Técnica ${repoName}\n\n`;
+    md += `**Fecha de Generación:** ${new Date().toISOString().slice(0, 10)}  \n`;
+    md += `**Equipo:** ${currentSprintPlan.devsBe} Backend Go + ${currentSprintPlan.devsFe} Frontend Flutter + ${currentSprintPlan.devsFs} Fullstack  \n`;
+    md += `**Duración Sprint:** ${currentSprintPlan.weeks} semanas (~${formatNumber(currentSprintPlan.hoursPerDev, 0)}h útiles/dev)  \n`;
+    md += `**Capacidad por Sprint:** Backend: ${formatNumber(currentSprintPlan.capBe, 0)}h | Frontend: ${formatNumber(currentSprintPlan.capFe, 0)}h | Fullstack: ${formatNumber(currentSprintPlan.capFs, 0)}h  \n`;
+    md += `**Estrategia:** Zona de Dolor (D > 0.5) primero, luego por CC descendente y ROI Quick Wins.  \n\n`;
+
+    if (currentSprintPlan.forbiddenCards && currentSprintPlan.forbiddenCards.length > 0) {
+      md += `## 🛑 Archivos Prohibidos (No Tocar — Requieren Rediseño Completo)\n\n`;
+      md += `Quedan estrictamente vetados por requerir rediseño completo de arquitectura:\n\n`;
+      md += `| # | Archivo | Rol | LOC | CC | MI | Deuda (h) | Motivo |\n`;
+      md += `|:---:|---|:---:|---:|---:|---:|---:|---|\n`;
+      currentSprintPlan.forbiddenCards.forEach((c, idx) => {
+        md += `| ${idx + 1} | \`${c.filePath}\` | ${c.role} | ${c.loc} | ${c.cc} | ${c.mi} | ${c.deudaHoras}h | ${c.motivo} |\n`;
+      });
+      md += `\n---\n\n`;
+    }
+
+    md += `## 📋 Checklist PR / Reviews (Viernes)\n\n`;
+    md += `Al abrir la PR, incluir tildado:\n\n`;
+    md += `* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)\n`;
+    md += `* [ ] Maintainability Index ≥ 60%\n`;
+    md += `* [ ] TDR ≤ 6%\n`;
+    md += `* [ ] Máx 3 niveles de if\n`;
+    md += `* [ ] Pattern matching / sealed classes en estado\n`;
+    md += `* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6\n`;
+    md += `* [ ] Parseo seguro de nulos en BD\n`;
+    md += `* [ ] Cero imports/variables/código muerto\n`;
+    md += `* [ ] Al menos 1 test unitario/contrato nuevo pasando\n`;
+    md += `* [ ] Ownership respetado (solo archivos asignados)\n\n`;
+    md += `---\n\n`;
+
+    currentSprintPlan.sprints.forEach(sprint => {
+      const cards = sprint.cards || [];
+      const totalHours = cards.reduce((acc, c) => acc + c.deudaHoras, 0);
+      md += `## 🟢 ${sprint.name} (${formatNumber(totalHours, 1)}h asignadas)\n\n`;
+      md += `| ID | Archivo | Rol | Módulo | Zona | LOC | CC | Deuda (h) | ROI Adj. | Sugerencia de Refactorización |\n`;
+      md += `|---|---|:---:|---|:---:|---:|---:|---:|---:|---|\n`;
+      cards.forEach(c => {
+        md += `| ${c.id} | \`${c.filePath}\` | ${c.role} | ${c.moduleName} | ${c.isPainZone ? '🔴 DOLOR' : '🟢 SECUENCIA'} | ${c.loc} | ${c.cc} | ${c.deudaHoras}h | ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}% | ${c.refactorAdvice} |\n`;
+      });
+      md += `\n`;
+    });
+
+    if (currentSprintPlan.backlog && currentSprintPlan.backlog.cards.length > 0) {
+      const bCards = currentSprintPlan.backlog.cards;
+      const bHours = bCards.reduce((acc, c) => acc + c.deudaHoras, 0);
+      md += `## 📦 Backlog de Deuda Técnica Restante (${bCards.length} tareas, ${formatNumber(bHours, 1)}h)\n\n`;
+      md += `| ID | Archivo | Rol | Módulo | LOC | CC | Deuda (h) |\n`;
+      md += `|---|---|:---:|---|---:|---:|---:|\n`;
+      bCards.slice(0, 30).forEach(c => {
+        md += `| ${c.id} | \`${c.filePath}\` | ${c.role} | ${c.moduleName} | ${c.loc} | ${c.cc} | ${c.deudaHoras}h |\n`;
+      });
+      if (bCards.length > 30) {
+        md += `\n*... y ${bCards.length - 30} archivos más en backlog.*  \n`;
+      }
+    }
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `plan_accion_${repoName}.md`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadPlanJson() {
+    if (!currentSprintPlan) {
+      alert('Primero generá o cargá un plan de sprints.');
+      return;
+    }
+
+    const repoName = getProjectName(currentReport ? currentReport.repo_path : '');
+    const exportObj = {
+      proyecto: repoName,
+      fecha_plan: new Date().toISOString(),
+      parametros: {
+        devs_backend: currentSprintPlan.devsBe,
+        devs_frontend: currentSprintPlan.devsFe,
+        devs_fullstack: currentSprintPlan.devsFs,
+        semanas_sprint: currentSprintPlan.weeks,
+        dedicacion_pct: currentSprintPlan.dedication * 100,
+        capacidad_be_horas: currentSprintPlan.capBe,
+        capacidad_fe_horas: currentSprintPlan.capFe,
+        capacidad_fs_horas: currentSprintPlan.capFs
+      },
+      sprints: currentSprintPlan.sprints.map(s => ({
+        id: s.id,
+        nombre: s.name,
+        horas_totales: s.cards.reduce((acc, c) => acc + c.deudaHoras, 0),
+        tareas: s.cards.map(c => ({
+          id: c.id,
+          archivo: c.filePath,
+          rol: c.role,
+          modulo: c.moduleName,
+          zona: c.zona,
+          loc: c.loc,
+          cc: c.cc,
+          mi: c.mi,
+          deuda_horas: c.deudaHoras,
+          roi_ajustado_porc: c.roiAjustado,
+          diagnostico: c.refactorAdvice,
+          criterios_aceptacion: c.dod
+        }))
+      })),
+      backlog: {
+        total_tareas: currentSprintPlan.backlog.cards.length,
+        horas_totales: currentSprintPlan.backlog.cards.reduce((acc, c) => acc + c.deudaHoras, 0),
+        tareas: currentSprintPlan.backlog.cards.map(c => ({
+          id: c.id,
+          archivo: c.filePath,
+          rol: c.role,
+          modulo: c.moduleName,
+          zona: c.zona,
+          loc: c.loc,
+          cc: c.cc,
+          mi: c.mi,
+          deuda_horas: c.deudaHoras,
+          roi_ajustado_porc: c.roiAjustado
+        }))
+      }
+    };
+
+    const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `plan_sprint_${repoName}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
   // Event Listeners Setup
   function setupEventListeners() {
     // Tab switching
@@ -932,6 +1988,42 @@
     if (btnExportCsv) {
       btnExportCsv.addEventListener('click', exportFilesToCsv);
     }
+
+    // Plan & Sprint Controls
+    if (btnRecalculatePlan) {
+      btnRecalculatePlan.addEventListener('click', () => {
+        if (currentReport) generateSprintPlan(currentReport);
+      });
+    }
+
+    if (btnResetPlanDefaults) {
+      btnResetPlanDefaults.addEventListener('click', resetPlanFormDefaults);
+    }
+
+    if (btnCopySgaPrompt) {
+      btnCopySgaPrompt.addEventListener('click', copySgaPrompt);
+    }
+
+    if (btnDownloadPlanMd) {
+      btnDownloadPlanMd.addEventListener('click', downloadPlanMarkdown);
+    }
+
+    if (btnDownloadPlanJson) {
+      btnDownloadPlanJson.addEventListener('click', downloadPlanJson);
+    }
+
+    if (btnCopyChecklist) {
+      btnCopyChecklist.addEventListener('click', copyChecklistMarkdown);
+    }
+
+    // Auto-recalculate plan on input changes
+    [inputDevsBe, inputDevsFe, inputDevsFs, selectSprintWeeks, inputDedicationPct, selectSprintsCount, selectStrategy].forEach(elem => {
+      if (elem) {
+        elem.addEventListener('change', () => {
+          if (currentReport) generateSprintPlan(currentReport);
+        });
+      }
+    });
 
     // Modal close
     if (modalCloseBtn) {

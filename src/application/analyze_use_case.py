@@ -106,6 +106,7 @@ class AnalyzeRepositoryUseCase:
         archivos_criticos = sum(1 for r in reportes if r.estado_mi == "CRITICO")
         archivos_aprobados = sum(1 for r in reportes if r.estado_mi == "APROBADO")
         archivos_excelentes = sum(1 for r in reportes if r.estado_mi == "EXCELENTE")
+        archivos_prohibidos = sum(1 for r in reportes if getattr(r, "es_prohibido", False))
         total_deuda = round(sum(r.deuda_horas or 0.0 for r in reportes), 2)
         total_costo = round(sum(r.costo_reparacion_usd or 0.0 for r in reportes), 2)
         total_interes = round(sum(r.interes_anual_usd or 0.0 for r in reportes), 2)
@@ -118,6 +119,7 @@ class AnalyzeRepositoryUseCase:
             archivos_criticos=archivos_criticos,
             archivos_aprobados=archivos_aprobados,
             archivos_excelentes=archivos_excelentes,
+            archivos_prohibidos=archivos_prohibidos,
             total_deuda_horas=total_deuda,
             total_costo_reparacion_usd=total_costo,
             total_interes_anual_usd=total_interes,

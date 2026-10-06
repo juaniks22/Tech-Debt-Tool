@@ -149,5 +149,43 @@ class MarkdownReporter(ReportExporter):
                 "",
             ])
 
+        # Archivos Prohibidos (si existen)
+        prohibidos = [r for r in summary.reportes if getattr(r, "es_prohibido", False)]
+        if prohibidos:
+            lines.extend([
+                "",
+                "## 🛑 Archivos Prohibidos (No Tocar — Requieren Rediseño Completo)",
+                "Quedan estrictamente vetados por constituir monolitos arquitecturales críticos que no pueden abordarse mediante refactorizaciones incrementales:",
+                "",
+                "| # | Archivo | Lenguaje | LOC | CC | MI | Deuda (h) | Costo ($) | Motivo de Veto |",
+                "|:---:|---|:---:|---:|---:|---:|---:|---:|---|",
+            ])
+            for idx, r in enumerate(prohibidos, 1):
+                motivo = getattr(r, "motivo_prohibicion", "Monolito arquitectural crítico") or "Rediseño completo requerido"
+                costo_str = f"${r.costo_reparacion_usd:,.2f}" if r.costo_reparacion_usd is not None else "-"
+                deuda_str = f"{r.deuda_horas:.2f}h" if r.deuda_horas is not None else "-"
+                lines.append(
+                    f"| {idx} | `{r.ruta}` | {r.lenguaje} | {r.loc} | {r.complejidad_ciclomatica} | {r.mi:.1f} | {deuda_str} | {costo_str} | {motivo} |"
+                )
+
+        # Checklist Obligatorio para PR / Reviews
+        lines.extend([
+            "",
+            "## 📋 Checklist Obligatorio para PR / Reviews (Viernes)",
+            "Al abrir la Pull Request, incluir tildado:",
+            "",
+            "- [ ] **CC ≤ 4 (Dart) / ≤ 7 (Go)**: Complejidad ciclomática reducida a umbral saludable",
+            "- [ ] **Maintainability Index ≥ 60%**: Índice de mantenibilidad aceptable o superior",
+            "- [ ] **TDR ≤ 6%**: Technical Debt Ratio bajo control",
+            "- [ ] **Máx 3 niveles de if**: Profundidad máxima de anidamiento condicional",
+            "- [ ] **Pattern matching / sealed classes en estado**: Modelado robusto de estado en frontend",
+            "- [ ] **DIT ≤ 2 (Dart) y CBO ≤ 6**: Herencia plana y bajo acoplamiento entre objetos",
+            "- [ ] **Parseo seguro de nulos en BD**: Manejo estricto de nulos en scans de base de datos",
+            "- [ ] **Cero imports/variables/código muerto**: Limpieza rigurosa de elementos no utilizados",
+            "- [ ] **Al menos 1 test unitario/contrato nuevo pasando**: Cobertura verificada sin regresiones",
+            "- [ ] **Ownership respetado**: Solo modificados los archivos explícitamente asignados",
+            "",
+        ])
+
         return "\n".join(lines) + "\n"
 
