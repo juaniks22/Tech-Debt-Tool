@@ -1,11 +1,11 @@
 window.__DEFAULT_REPORT_DATA__ = {
-  "generado_en": "2026-10-05T21:47:17.444430+00:00",
+  "generado_en": "2026-10-06T11:40:09.841857+00:00",
   "repo_path": "C:\\Users\\juani\\OneDrive\\Documentos\\PROJECTS\\SGA-practicas",
   "modelo_calculo": "dinamico",
-  "total_loc": 30225,
-  "total_deuda_horas": 17967.06,
-  "total_costo_reparacion_usd": 539011.84,
-  "total_interes_anual_usd": 126400.8,
+  "total_loc": 30583,
+  "total_deuda_horas": 18181.57,
+  "total_costo_reparacion_usd": 545447.26,
+  "total_interes_anual_usd": 128414.7,
   "sqale_report": {
     "modulos": [
       {
@@ -186,11 +186,11 @@ window.__DEFAULT_REPORT_DATA__ = {
         "ce": 3,
         "inestabilidad": 1.0,
         "na": 0,
-        "nc": 68,
+        "nc": 69,
         "abstraccion": 0.0,
         "distancia_d": 0.0,
         "zona": "SECUENCIA_PRINCIPAL",
-        "archivos": 45,
+        "archivos": 46,
         "dependencias_in": [],
         "dependencias_out": [
           "config",
@@ -659,6 +659,14 @@ window.__DEFAULT_REPORT_DATA__ = {
       {
         "regla": "CC_ALTA",
         "categoria_sqale": "Mantenibilidad",
+        "archivo": "backend/internal/app/academic_test.go",
+        "linea": null,
+        "detalle": "Función #1 con CC=9 (umbral go: 7)",
+        "remediacion_minutos": 30.0
+      },
+      {
+        "regla": "CC_ALTA",
+        "categoria_sqale": "Mantenibilidad",
         "archivo": "backend/internal/adapter/postgres/structure_repo.go",
         "linea": null,
         "detalle": "Función #1 con CC=30 (umbral go: 7)",
@@ -670,14 +678,6 @@ window.__DEFAULT_REPORT_DATA__ = {
         "archivo": "backend/internal/adapter/postgres/structure_repo.go",
         "linea": null,
         "detalle": "Función #2 con CC=14 (umbral go: 7)",
-        "remediacion_minutos": 30.0
-      },
-      {
-        "regla": "CC_ALTA",
-        "categoria_sqale": "Mantenibilidad",
-        "archivo": "backend/internal/app/academic_test.go",
-        "linea": null,
-        "detalle": "Función #1 con CC=9 (umbral go: 7)",
         "remediacion_minutos": 30.0
       },
       {
@@ -1141,7 +1141,7 @@ window.__DEFAULT_REPORT_DATA__ = {
         "categoria_sqale": "Mantenibilidad",
         "archivo": "frontend/lib/presentation/panels/alumno/student_portal_screen.dart",
         "linea": null,
-        "detalle": "Complejidad total 25 supera umbral de 4",
+        "detalle": "Complejidad total 33 supera umbral de 4",
         "remediacion_minutos": 30.0
       },
       {
@@ -1349,7 +1349,7 @@ window.__DEFAULT_REPORT_DATA__ = {
         "categoria_sqale": "Mantenibilidad",
         "archivo": "frontend/lib/presentation/screens/login_screen.dart",
         "linea": null,
-        "detalle": "Complejidad total 22 supera umbral de 4",
+        "detalle": "Complejidad total 24 supera umbral de 4",
         "remediacion_minutos": 30.0
       },
       {
@@ -1443,6 +1443,14 @@ window.__DEFAULT_REPORT_DATA__ = {
       {
         "regla": "CC_ALTA",
         "categoria_sqale": "Mantenibilidad",
+        "archivo": "frontend/lib/presentation/screens/welcome_screen.dart",
+        "linea": null,
+        "detalle": "Complejidad total 16 supera umbral de 4",
+        "remediacion_minutos": 30.0
+      },
+      {
+        "regla": "CC_ALTA",
+        "categoria_sqale": "Mantenibilidad",
         "archivo": "frontend/lib/presentation/shell/app_shell.dart",
         "linea": null,
         "detalle": "Complejidad total 42 supera umbral de 4",
@@ -1453,7 +1461,7 @@ window.__DEFAULT_REPORT_DATA__ = {
         "categoria_sqale": "Mantenibilidad",
         "archivo": "frontend/lib/presentation/shell/session_gate.dart",
         "linea": null,
-        "detalle": "Complejidad total 5 supera umbral de 4",
+        "detalle": "Complejidad total 7 supera umbral de 4",
         "remediacion_minutos": 30.0
       },
       {
@@ -1485,7 +1493,7 @@ window.__DEFAULT_REPORT_DATA__ = {
         "categoria_sqale": "Mantenibilidad",
         "archivo": "frontend/lib/presentation/widgets/sga_design_system.dart",
         "linea": null,
-        "detalle": "Archivo con 695 LOC (umbral: 300)",
+        "detalle": "Archivo con 701 LOC (umbral: 300)",
         "remediacion_minutos": 60.0
       },
       {
@@ -1493,7 +1501,7 @@ window.__DEFAULT_REPORT_DATA__ = {
         "categoria_sqale": "Mantenibilidad",
         "archivo": "frontend/lib/presentation/widgets/sga_design_system.dart",
         "linea": null,
-        "detalle": "Complejidad total 82 supera umbral de 4",
+        "detalle": "Complejidad total 84 supera umbral de 4",
         "remediacion_minutos": 30.0
       },
       {
@@ -1501,15 +1509,15 @@ window.__DEFAULT_REPORT_DATA__ = {
         "categoria_sqale": "Mantenibilidad",
         "archivo": "frontend/lib/presentation/widgets/sga_password_field.dart",
         "linea": null,
-        "detalle": "Complejidad total 6 supera umbral de 4",
+        "detalle": "Complejidad total 7 supera umbral de 4",
         "remediacion_minutos": 30.0
       }
     ],
-    "total_violaciones": 163,
-    "l_td": 2775.0,
-    "v_a": 27450.0,
-    "costo_reemplazo": 30225.0,
-    "tdr": 9.18,
+    "total_violaciones": 164,
+    "l_td": 2790.0,
+    "v_a": 27793.0,
+    "costo_reemplazo": 30583.0,
+    "tdr": 9.12,
     "estado_tdr": "MODERADO",
     "alpha_l": 1.0,
     "beta_l": 1.0
@@ -1534,7 +1542,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -85.94,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "yaml"
+      "fuente_interes": "yaml",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Vetado estrictamente por requerir rediseño completo de arquitectura"
     },
     {
       "ruta": "frontend/lib/presentation/screens/teachers_screen.dart",
@@ -1555,7 +1565,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -64.72,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Vetado estrictamente por requerir rediseño completo de arquitectura"
     },
     {
       "ruta": "frontend/lib/presentation/screens/configuracion_screen.dart",
@@ -1576,7 +1588,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -75.46,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Vetado estrictamente por requerir rediseño completo de arquitectura"
     },
     {
       "ruta": "frontend/lib/presentation/screens/students_screen.dart",
@@ -1597,7 +1611,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -52.51,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Hiper-monolito inabarcable (LOC=1314, CC=188); requiere rediseño arquitectónico completo"
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/api_datasource.dart",
@@ -1618,7 +1634,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -27.37,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Vetado estrictamente por requerir rediseño completo de arquitectura"
     },
     {
       "ruta": "frontend/lib/presentation/screens/materias_screen.dart",
@@ -1639,7 +1657,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -69.1,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Hiper-monolito inabarcable (LOC=1077, CC=179); requiere rediseño arquitectónico completo"
     },
     {
       "ruta": "frontend/lib/presentation/screens/attendance_screen.dart",
@@ -1660,28 +1680,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -49.88,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Monolito crítico desproporcionado (Deuda=747.0h, CC=119, MI=0.0); excede capacidad de sprint"
     },
     {
       "ruta": "frontend/lib/presentation/widgets/sga_design_system.dart",
       "lenguaje": "dart",
-      "loc": 695,
-      "complejidad_ciclomatica": 82,
+      "loc": 701,
+      "complejidad_ciclomatica": 84,
       "mi": 0.0,
       "estado_mi": "CRITICO",
-      "deuda_horas": 521.25,
-      "costo_reparacion_usd": 15637.5,
-      "interes_anual_usd": 1080.0,
-      "payback_anios": 14.48,
-      "roi_4_anios_porc": -72.37,
+      "deuda_horas": 525.75,
+      "costo_reparacion_usd": 15772.5,
+      "interes_anual_usd": 1440.0,
+      "payback_anios": 10.95,
+      "roi_4_anios_porc": -63.48,
       "factor_friccion": 4.0,
       "t_clean_horas": 4.0,
       "t_real_horas": 16.0,
       "delta_t_horas": 12.0,
-      "roi_ajustado_porc": -82.04,
+      "roi_ajustado_porc": -76.26,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Vetado estrictamente por requerir rediseño completo de arquitectura"
     },
     {
       "ruta": "frontend/lib/presentation/screens/users_screen.dart",
@@ -1702,7 +1726,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 33.43,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Monolito crítico desproporcionado (Deuda=397.5h, CC=80, MI=0.0); excede capacidad de sprint"
     },
     {
       "ruta": "backend/internal/adapter/postgres/academic_repo.go",
@@ -1723,7 +1749,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -71.25,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "yaml"
+      "fuente_interes": "yaml",
+      "es_prohibido": true,
+      "motivo_prohibicion": "Vetado estrictamente por requerir rediseño completo de arquitectura"
     },
     {
       "ruta": "frontend/lib/presentation/screens/reports_screen.dart",
@@ -1744,7 +1772,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -23.04,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/screens/dashboard_screen.dart",
@@ -1765,7 +1795,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 6.0,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/course_handler.go",
@@ -1786,7 +1818,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -79.14,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "yaml"
+      "fuente_interes": "yaml",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/academic_test.go",
@@ -1807,7 +1841,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -51.47,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/shell/app_shell.dart",
@@ -1828,7 +1864,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 107.81,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/structure_repo.go",
@@ -1849,7 +1887,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -75.27,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/domain_test.go",
@@ -1870,7 +1910,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -23.99,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/config_handler.go",
@@ -1891,7 +1933,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -76.35,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/academic.go",
@@ -1912,7 +1956,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 62.62,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "frontend/lib/presentation/panels/alumno/student_portal_screen.dart",
+      "lenguaje": "dart",
+      "loc": 242,
+      "complejidad_ciclomatica": 33,
+      "mi": 15.31,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 144.45,
+      "costo_reparacion_usd": 4333.49,
+      "interes_anual_usd": 684.0,
+      "payback_anios": 6.34,
+      "roi_4_anios_porc": -36.86,
+      "factor_friccion": 2.9,
+      "t_clean_horas": 4.0,
+      "t_real_horas": 11.6,
+      "delta_t_horas": 7.6,
+      "roi_ajustado_porc": -58.96,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/academic_handler.go",
@@ -1933,7 +2002,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 60.28,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/user_repo.go",
@@ -1954,7 +2025,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 15.85,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_contract_test.go",
@@ -1975,7 +2048,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -39.38,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/config.go",
@@ -1996,7 +2071,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -68.35,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/config.dart",
@@ -2017,7 +2094,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -82.66,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/academic.dart",
@@ -2038,7 +2117,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 22.91,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "frontend/lib/presentation/screens/login_screen.dart",
+      "lenguaje": "dart",
+      "loc": 192,
+      "complejidad_ciclomatica": 24,
+      "mi": 19.91,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 105.77,
+      "costo_reparacion_usd": 3173.18,
+      "interes_anual_usd": 970.5,
+      "payback_anios": 3.27,
+      "roi_4_anios_porc": 22.34,
+      "factor_friccion": 2.62,
+      "t_clean_horas": 4.0,
+      "t_real_horas": 10.47,
+      "delta_t_horas": 6.47,
+      "roi_ajustado_porc": -20.48,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/schedule_import.go",
@@ -2059,7 +2163,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -33.71,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/misc_handler_test.go",
@@ -2080,7 +2186,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -68.37,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/jefe/schedule_tab.dart",
@@ -2101,7 +2209,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -64.35,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/student_handler.go",
@@ -2122,7 +2232,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 149.91,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/widgets/notification_bell.dart",
@@ -2143,7 +2255,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -34.03,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/take_attendance_tab.dart",
@@ -2164,7 +2278,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -64.92,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/student_repo.go",
@@ -2185,7 +2301,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 99.88,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/screens/user_form_dialog.dart",
@@ -2206,7 +2324,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -82.5,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/course_test.go",
@@ -2227,7 +2347,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -26.22,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "frontend/lib/presentation/screens/welcome_screen.dart",
+      "lenguaje": "dart",
+      "loc": 163,
+      "complejidad_ciclomatica": 16,
+      "mi": 23.38,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 84.14,
+      "costo_reparacion_usd": 2524.22,
+      "interes_anual_usd": 170.4,
+      "payback_anios": 14.81,
+      "roi_4_anios_porc": -73.0,
+      "factor_friccion": 2.42,
+      "t_clean_horas": 4.0,
+      "t_real_horas": 9.68,
+      "delta_t_horas": 5.68,
+      "roi_ajustado_porc": -82.45,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/preceptor_test.go",
@@ -2248,7 +2393,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 8.63,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/attendance_repo.go",
@@ -2269,28 +2416,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 3.96,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "frontend/lib/presentation/screens/login_screen.dart",
-      "lenguaje": "dart",
-      "loc": 149,
-      "complejidad_ciclomatica": 22,
-      "mi": 23.88,
-      "estado_mi": "CRITICO",
-      "deuda_horas": 76.17,
-      "costo_reparacion_usd": 2285.06,
-      "interes_anual_usd": 668.4,
-      "payback_anios": 3.42,
-      "roi_4_anios_porc": 17.0,
-      "factor_friccion": 2.39,
-      "t_clean_horas": 4.0,
-      "t_real_horas": 9.57,
-      "delta_t_horas": 5.57,
-      "roi_ajustado_porc": -23.95,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/attendance_handler.go",
@@ -2311,7 +2439,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 44.88,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/notification_repo.go",
@@ -2332,7 +2462,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 7.4,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/deviceconfig_repo.go",
@@ -2353,7 +2485,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -62.72,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/cmd/api/wiring.go",
@@ -2364,17 +2498,19 @@ window.__DEFAULT_REPORT_DATA__ = {
       "estado_mi": "CRITICO",
       "deuda_horas": 71.53,
       "costo_reparacion_usd": 2145.99,
-      "interes_anual_usd": 276.3,
-      "payback_anios": 7.77,
-      "roi_4_anios_porc": -48.5,
+      "interes_anual_usd": 552.6,
+      "payback_anios": 3.88,
+      "roi_4_anios_porc": 3.0,
       "factor_friccion": 2.32,
       "t_clean_horas": 7.0,
       "t_real_horas": 16.21,
       "delta_t_horas": 9.21,
-      "roi_ajustado_porc": -66.52,
+      "roi_ajustado_porc": -33.05,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/user_handler_test.go",
@@ -2395,7 +2531,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 12.7,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/academic.go",
@@ -2416,7 +2554,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 86.85,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/device_handler.go",
@@ -2437,28 +2577,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 12.76,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "frontend/lib/presentation/panels/alumno/student_portal_screen.dart",
-      "lenguaje": "dart",
-      "loc": 136,
-      "complejidad_ciclomatica": 25,
-      "mi": 24.81,
-      "estado_mi": "CRITICO",
-      "deuda_horas": 68.26,
-      "costo_reparacion_usd": 2047.75,
-      "interes_anual_usd": 322.2,
-      "payback_anios": 6.36,
-      "roi_4_anios_porc": -37.06,
-      "factor_friccion": 2.34,
-      "t_clean_horas": 4.0,
-      "t_real_horas": 9.37,
-      "delta_t_horas": 5.37,
-      "roi_ajustado_porc": -59.09,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/user_handler.go",
@@ -2479,7 +2600,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 89.56,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/student_test.go",
@@ -2500,7 +2623,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -59.74,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/attendance_record.dart",
@@ -2521,7 +2646,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -32.9,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/jefe/replacements_tab.dart",
@@ -2542,7 +2669,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -58.66,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/student_import.go",
@@ -2563,7 +2692,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -58.92,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/access_policy_test.go",
@@ -2584,7 +2715,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -22.12,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/course_repo.go",
@@ -2605,7 +2738,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -18.48,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/device_repo.go",
@@ -2626,7 +2761,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 23.58,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/preceptor_repo.go",
@@ -2647,7 +2784,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 64.94,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_config_test.go",
@@ -2668,7 +2807,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -58.36,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/attendance.go",
@@ -2689,7 +2830,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 36.57,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/schedule_handler_test.go",
@@ -2710,7 +2853,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -14.36,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/attendance_test.go",
@@ -2731,7 +2876,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 36.93,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/access_policy.go",
@@ -2752,7 +2899,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 29.83,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/academic_handler_test.go",
@@ -2773,7 +2922,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -58.3,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/errors_test.go",
@@ -2794,7 +2945,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -54.32,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/rules.go",
@@ -2815,7 +2968,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -5.06,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_config.go",
@@ -2836,7 +2991,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -57.73,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/cmd/api/commands.go",
@@ -2857,7 +3014,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -13.31,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/user.dart",
@@ -2878,7 +3037,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 36.35,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_academic.go",
@@ -2899,7 +3060,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -57.3,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/time_slot.dart",
@@ -2920,7 +3083,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -45.88,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/user_test.go",
@@ -2941,7 +3106,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -50.6,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/certificates_tab.dart",
@@ -2962,7 +3129,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -50.96,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/timeslot.go",
@@ -2983,7 +3152,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 37.45,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/shared/history_view.dart",
@@ -3004,7 +3175,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -51.16,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/specialty_repo.go",
@@ -3025,7 +3198,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -10.35,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_academic_test.go",
@@ -3046,7 +3221,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -54.97,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/student.dart",
@@ -3067,7 +3244,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 12.14,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/schedule_import_test.go",
@@ -3088,7 +3267,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -51.13,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/conflict_targets_test.go",
@@ -3109,7 +3290,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -53.45,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/course.dart",
@@ -3130,7 +3313,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 99.82,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/attendance_history_test.go",
@@ -3151,7 +3336,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 50.98,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/timeslot_repo.go",
@@ -3172,7 +3359,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -6.46,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/jefe/preceptors_tab.dart",
@@ -3193,7 +3382,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -49.57,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/course.go",
@@ -3214,7 +3405,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 2.38,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/attendance_history.go",
@@ -3235,7 +3428,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 46.94,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/schedule_excel.go",
@@ -3256,7 +3451,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -50.34,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/enrollment_test.go",
@@ -3277,7 +3474,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -48.78,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_academic.go",
@@ -3298,7 +3497,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -8.74,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/excel.go",
@@ -3319,7 +3520,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -50.23,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/shell/sidebar_user_footer.dart",
@@ -3340,7 +3543,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -44.77,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/cmd/api/commands_test.go",
@@ -3361,7 +3566,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -0.94,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/db.go",
@@ -3382,7 +3589,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 51.82,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/enrollment.go",
@@ -3403,7 +3612,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 8.2,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/auth_test.go",
@@ -3424,7 +3635,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -46.07,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/db_test.go",
@@ -3445,7 +3658,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -47.72,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/course_scope.go",
@@ -3466,7 +3681,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -45.76,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/preceptor.go",
@@ -3487,7 +3704,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 62.18,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/sube_card_tab.dart",
@@ -3508,7 +3727,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -44.7,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/student.go",
@@ -3529,7 +3750,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 10.67,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/classperiod_repo.go",
@@ -3550,7 +3773,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -49.02,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/device_sync_test.go",
@@ -3571,7 +3796,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -45.32,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "backend/internal/config/config.go",
+      "lenguaje": "go",
+      "loc": 66,
+      "complejidad_ciclomatica": 17,
+      "mi": 36.46,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 33.07,
+      "costo_reparacion_usd": 992.1,
+      "interes_anual_usd": 664.8,
+      "payback_anios": 1.15,
+      "roi_4_anios_porc": 248.49,
+      "factor_friccion": 1.79,
+      "t_clean_horas": 7.0,
+      "t_real_horas": 12.54,
+      "delta_t_horas": 5.54,
+      "roi_ajustado_porc": 126.52,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/config.go",
@@ -3592,7 +3842,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -50.62,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/timeslot_test.go",
@@ -3613,7 +3865,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -44.32,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/misc_handler.go",
@@ -3634,7 +3888,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 62.54,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/user.go",
@@ -3655,7 +3911,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 13.26,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/student_handler_test.go",
@@ -3676,7 +3934,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 6.85,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/server.go",
@@ -3697,7 +3957,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 312.37,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/class_period.dart",
@@ -3718,7 +3980,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -36.72,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_attendance.go",
@@ -3739,7 +4003,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 60.07,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/bracelet_repo.go",
@@ -3760,7 +4026,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 12.87,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/migrate/migrate.go",
@@ -3781,7 +4049,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -38.94,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/device_handler_test.go",
@@ -3802,7 +4072,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -41.91,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/student_repo_test.go",
@@ -3823,7 +4095,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 73.21,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/preceptor_assignment.dart",
@@ -3844,7 +4118,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -35.27,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/timeslot.go",
@@ -3865,7 +4141,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 78.82,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/device_repo_test.go",
@@ -3886,28 +4164,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 16.5,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "backend/internal/config/config.go",
-      "lenguaje": "go",
-      "loc": 55,
-      "complejidad_ciclomatica": 14,
-      "mi": 39.53,
-      "estado_mi": "CRITICO",
-      "deuda_horas": 25.36,
-      "costo_reparacion_usd": 760.8,
-      "interes_anual_usd": 423.0,
-      "payback_anios": 1.38,
-      "roi_4_anios_porc": 189.11,
-      "factor_friccion": 1.67,
-      "t_clean_horas": 7.0,
-      "t_real_horas": 11.7,
-      "delta_t_horas": 4.7,
-      "roi_ajustado_porc": 87.92,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/course_scope_test.go",
@@ -3928,7 +4187,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -37.96,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/attendance_history.dart",
@@ -3949,7 +4210,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -29.33,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/auth/auth.go",
@@ -3970,7 +4233,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -41.99,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/student_repository_impl.dart",
@@ -3991,7 +4256,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 101.93,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/response.go",
@@ -4012,7 +4279,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 19.39,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/medical_certificate_handler.go",
@@ -4033,7 +4302,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -41.61,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_attendance_test.go",
@@ -4054,7 +4325,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 190.62,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/enrollment_handler_test.go",
@@ -4075,7 +4348,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 138.42,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_attendance.go",
@@ -4096,28 +4371,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 130.55,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "backend/internal/adapter/http/dto_courses_test.go",
-      "lenguaje": "go",
-      "loc": 58,
-      "complejidad_ciclomatica": 6,
-      "mi": 39.83,
-      "estado_mi": "CRITICO",
-      "deuda_horas": 22.44,
-      "costo_reparacion_usd": 673.2,
-      "interes_anual_usd": 138.6,
-      "payback_anios": 4.42,
-      "roi_4_anios_porc": -9.41,
-      "factor_friccion": 1.66,
-      "t_clean_horas": 7.0,
-      "t_real_horas": 11.62,
-      "delta_t_horas": 4.62,
-      "roi_ajustado_porc": -41.11,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/preceptor_course_repo.go",
@@ -4138,7 +4394,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -41.11,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "backend/internal/adapter/http/dto_courses_test.go",
+      "lenguaje": "go",
+      "loc": 58,
+      "complejidad_ciclomatica": 6,
+      "mi": 39.83,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 22.44,
+      "costo_reparacion_usd": 673.2,
+      "interes_anual_usd": 138.6,
+      "payback_anios": 4.42,
+      "roi_4_anios_porc": -9.41,
+      "factor_friccion": 1.66,
+      "t_clean_horas": 7.0,
+      "t_real_horas": 11.62,
+      "delta_t_horas": 4.62,
+      "roi_ajustado_porc": -41.11,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/device_sync.go",
@@ -4159,7 +4440,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 90.23,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/schedule_import_test.go",
@@ -4180,7 +4463,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -34.04,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/medical_certificate_repo.go",
@@ -4201,7 +4486,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -38.12,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/schedule_handler.go",
@@ -4222,7 +4509,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 23.42,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_courses.go",
@@ -4243,7 +4532,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 18.74,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/user_repo_test.go",
@@ -4264,7 +4555,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 29.4,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/cmd/api/main.go",
@@ -4285,7 +4578,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 688.12,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/medical_certificate_handler_test.go",
@@ -4306,7 +4601,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -36.77,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/config/config_test.go",
@@ -4327,7 +4624,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -32.3,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/students_tab.dart",
@@ -4348,7 +4647,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -32.08,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/classperiod.go",
@@ -4369,7 +4670,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -30.65,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/auth/dni_test.go",
@@ -4390,7 +4693,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -36.39,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/student.go",
@@ -4411,7 +4716,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 95.36,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/auth.go",
@@ -4432,7 +4739,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 102.89,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/specialty.go",
@@ -4453,7 +4762,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 97.76,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/scope_middleware_test.go",
@@ -4474,7 +4785,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -36.6,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/shared/async_loader.dart",
@@ -4495,7 +4808,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -63.48,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_auth.go",
@@ -4516,7 +4831,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -34.88,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/attendance_repository_impl.dart",
@@ -4537,7 +4854,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -27.39,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/schedule_excel_test.go",
@@ -4558,7 +4877,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -33.29,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/middleware_test.go",
@@ -4579,7 +4900,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -34.45,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/preceptor_shell.dart",
@@ -4600,7 +4923,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -63.69,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/usecases/get_daily_attendance.dart",
@@ -4621,7 +4946,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -23.52,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "frontend/lib/presentation/shell/session_gate.dart",
+      "lenguaje": "dart",
+      "loc": 50,
+      "complejidad_ciclomatica": 7,
+      "mi": 41.87,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 16.57,
+      "costo_reparacion_usd": 496.95,
+      "interes_anual_usd": 210.6,
+      "payback_anios": 2.36,
+      "roi_4_anios_porc": 69.51,
+      "factor_friccion": 1.59,
+      "t_clean_horas": 4.0,
+      "t_real_horas": 6.34,
+      "delta_t_horas": 2.34,
+      "roi_ajustado_porc": 10.18,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/main.dart",
@@ -4632,17 +4982,19 @@ window.__DEFAULT_REPORT_DATA__ = {
       "estado_mi": "CRITICO",
       "deuda_horas": 16.09,
       "costo_reparacion_usd": 482.75,
-      "interes_anual_usd": 483.0,
-      "payback_anios": 1.0,
-      "roi_4_anios_porc": 300.21,
+      "interes_anual_usd": 552.0,
+      "payback_anios": 0.87,
+      "roi_4_anios_porc": 357.38,
       "factor_friccion": 1.58,
       "t_clean_horas": 4.0,
       "t_real_horas": 6.3,
       "delta_t_horas": 2.3,
-      "roi_ajustado_porc": 160.14,
+      "roi_ajustado_porc": 197.3,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/middleware.go",
@@ -4663,7 +5015,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 302.29,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/student_portal_test.go",
@@ -4684,7 +5038,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -29.93,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_serialization_test.go",
@@ -4705,7 +5061,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -30.35,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/bracelet_repo_test.go",
@@ -4726,7 +5084,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -30.77,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/user.go",
@@ -4747,7 +5107,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 106.95,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/student_portal.go",
@@ -4768,28 +5130,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -28.78,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "backend/internal/app/medical_certificate_test.go",
-      "lenguaje": "go",
-      "loc": 42,
-      "complejidad_ciclomatica": 8,
-      "mi": 44.28,
-      "estado_mi": "CRITICO",
-      "deuda_horas": 15.48,
-      "costo_reparacion_usd": 464.4,
-      "interes_anual_usd": 105.6,
-      "payback_anios": 3.67,
-      "roi_4_anios_porc": 9.13,
-      "factor_friccion": 1.5,
-      "t_clean_horas": 7.0,
-      "t_real_horas": 10.52,
-      "delta_t_horas": 3.52,
-      "roi_ajustado_porc": -29.07,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/schedule_import.go",
@@ -4810,7 +5153,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 41.86,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "backend/internal/app/medical_certificate_test.go",
+      "lenguaje": "go",
+      "loc": 42,
+      "complejidad_ciclomatica": 8,
+      "mi": 44.28,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 15.48,
+      "costo_reparacion_usd": 464.4,
+      "interes_anual_usd": 105.6,
+      "payback_anios": 3.67,
+      "roi_4_anios_porc": 9.13,
+      "factor_friccion": 1.5,
+      "t_clean_horas": 7.0,
+      "t_real_horas": 10.52,
+      "delta_t_horas": 3.52,
+      "roi_ajustado_porc": -29.07,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/jefe/jefe_forms.dart",
@@ -4831,7 +5199,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -23.03,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/dni_test.go",
@@ -4852,7 +5222,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -27.43,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/attempt_limiter.go",
@@ -4873,7 +5245,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -28.48,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/di/container.go",
@@ -4894,7 +5268,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -26.9,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/academic_test.go",
@@ -4915,7 +5291,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -26.16,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/student_detail_screen.dart",
@@ -4936,7 +5314,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -23.94,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_preceptors_test.go",
@@ -4957,7 +5337,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 40.68,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/attendance.go",
@@ -4978,7 +5360,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -29.74,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/misc.go",
@@ -4999,7 +5383,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -26.9,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/enrollment_handler.go",
@@ -5020,7 +5406,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 43.67,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/medical_certificate.go",
@@ -5041,7 +5429,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -27.87,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/portal_handler_test.go",
@@ -5062,7 +5452,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -28.48,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/jefe/jefe_shell.dart",
@@ -5083,7 +5475,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -21.85,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/user_repository_impl.dart",
@@ -5104,7 +5498,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 64.67,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/portal_handler.go",
@@ -5125,7 +5521,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -29.1,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/usecases/get_dashboard_summary.dart",
@@ -5146,7 +5544,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -59.22,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/usecases/create_student.dart",
@@ -5167,7 +5567,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -57.68,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/preceptor_repo_test.go",
@@ -5188,7 +5590,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -25.88,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_attendance_test.go",
@@ -5209,7 +5613,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -23.55,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "frontend/lib/presentation/widgets/sga_password_field.dart",
+      "lenguaje": "dart",
+      "loc": 41,
+      "complejidad_ciclomatica": 7,
+      "mi": 44.77,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 12.39,
+      "costo_reparacion_usd": 371.83,
+      "interes_anual_usd": 117.0,
+      "payback_anios": 3.18,
+      "roi_4_anios_porc": 25.86,
+      "factor_friccion": 1.49,
+      "t_clean_horas": 4.0,
+      "t_real_horas": 5.95,
+      "delta_t_horas": 1.95,
+      "roi_ajustado_porc": -18.19,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/medical_certificate_repo_test.go",
@@ -5230,7 +5659,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -24.69,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_device.go",
@@ -5251,7 +5682,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 187.46,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/attendance_sheet.dart",
@@ -5272,49 +5705,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -56.13,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "backend/internal/adapter/http/auth_handler_test.go",
-      "lenguaje": "go",
-      "loc": 37,
-      "complejidad_ciclomatica": 6,
-      "mi": 46.4,
-      "estado_mi": "CRITICO",
-      "deuda_horas": 11.64,
-      "costo_reparacion_usd": 349.2,
-      "interes_anual_usd": 91.5,
-      "payback_anios": 3.47,
-      "roi_4_anios_porc": 15.3,
-      "factor_friccion": 1.44,
-      "t_clean_horas": 7.0,
-      "t_real_horas": 10.05,
-      "delta_t_horas": 3.05,
-      "roi_ajustado_porc": -25.06,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "backend/internal/adapter/postgres/schedule_import_repo.go",
-      "lenguaje": "go",
-      "loc": 37,
-      "complejidad_ciclomatica": 6,
-      "mi": 46.4,
-      "estado_mi": "CRITICO",
-      "deuda_horas": 11.64,
-      "costo_reparacion_usd": 349.2,
-      "interes_anual_usd": 183.0,
-      "payback_anios": 1.73,
-      "roi_4_anios_porc": 130.59,
-      "factor_friccion": 1.44,
-      "t_clean_horas": 7.0,
-      "t_real_horas": 10.05,
-      "delta_t_horas": 3.05,
-      "roi_ajustado_porc": 49.89,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/auth_handler.go",
@@ -5335,28 +5728,55 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 49.89,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
-      "ruta": "frontend/lib/presentation/widgets/sga_password_field.dart",
-      "lenguaje": "dart",
-      "loc": 39,
+      "ruta": "backend/internal/adapter/http/auth_handler_test.go",
+      "lenguaje": "go",
+      "loc": 37,
       "complejidad_ciclomatica": 6,
-      "mi": 45.63,
+      "mi": 46.4,
       "estado_mi": "CRITICO",
-      "deuda_horas": 11.45,
-      "costo_reparacion_usd": 343.63,
-      "interes_anual_usd": 55.2,
-      "payback_anios": 6.23,
-      "roi_4_anios_porc": -35.74,
-      "factor_friccion": 1.46,
-      "t_clean_horas": 4.0,
-      "t_real_horas": 5.84,
-      "delta_t_horas": 1.84,
-      "roi_ajustado_porc": -58.23,
+      "deuda_horas": 11.64,
+      "costo_reparacion_usd": 349.2,
+      "interes_anual_usd": 91.5,
+      "payback_anios": 3.47,
+      "roi_4_anios_porc": 15.3,
+      "factor_friccion": 1.44,
+      "t_clean_horas": 7.0,
+      "t_real_horas": 10.05,
+      "delta_t_horas": 3.05,
+      "roi_ajustado_porc": -25.06,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "backend/internal/adapter/postgres/schedule_import_repo.go",
+      "lenguaje": "go",
+      "loc": 37,
+      "complejidad_ciclomatica": 6,
+      "mi": 46.4,
+      "estado_mi": "CRITICO",
+      "deuda_horas": 11.64,
+      "costo_reparacion_usd": 349.2,
+      "interes_anual_usd": 183.0,
+      "payback_anios": 1.73,
+      "roi_4_anios_porc": 130.59,
+      "factor_friccion": 1.44,
+      "t_clean_horas": 7.0,
+      "t_real_horas": 10.05,
+      "delta_t_horas": 3.05,
+      "roi_ajustado_porc": 49.89,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/errors.go",
@@ -5377,7 +5797,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 54.82,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/screens/dev_quick_login.dart",
@@ -5398,7 +5820,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -58.53,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/medical_certificate.go",
@@ -5419,7 +5843,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -20.68,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/errors.go",
@@ -5440,7 +5866,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 55.7,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/notification.go",
@@ -5461,7 +5889,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 56.85,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/attendance_status_repo_test.go",
@@ -5482,7 +5912,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -20.24,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/json_api.dart",
@@ -5503,7 +5935,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -7.59,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/attendance_rate_test.go",
@@ -5524,7 +5958,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -21.75,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_preceptors.go",
@@ -5545,7 +5981,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 53.74,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_user.go",
@@ -5566,7 +6004,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 133.6,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/attendance_repo_test.go",
@@ -5587,7 +6027,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -18.89,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/cmd/api/wiring_test.go",
@@ -5608,7 +6050,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -21.57,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/shared/panel_form_dialog.dart",
@@ -5629,7 +6073,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -56.04,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/auth/dni.go",
@@ -5650,7 +6096,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -16.92,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/preceptor_course_repo_test.go",
@@ -5671,7 +6119,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -17.66,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/workshop_group_repo.go",
@@ -5692,7 +6142,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -18.2,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/course_handler_test.go",
@@ -5713,7 +6165,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -19.53,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/panel_datasource.dart",
@@ -5734,7 +6188,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -53.57,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/auth_http.dart",
@@ -5755,7 +6211,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -51.8,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_user_test.go",
@@ -5776,7 +6234,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -15.32,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/shared/panel_list_scaffold.dart",
@@ -5797,7 +6257,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -54.81,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_students.go",
@@ -5818,7 +6280,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -19.47,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_device_test.go",
@@ -5839,7 +6303,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -12.02,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/helpers.go",
@@ -5860,7 +6326,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -14.71,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/jefe/course_admin_screen.dart",
@@ -5881,7 +6349,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -9.12,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/attempt_limiter_test.go",
@@ -5902,7 +6372,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -13.7,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/dev_accounts.go",
@@ -5923,7 +6395,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -16.46,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/nfc.go",
@@ -5944,7 +6418,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -16.77,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/student_identity_repo_test.go",
@@ -5965,7 +6441,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -13.3,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/shared/panel_app_bar.dart",
@@ -5986,7 +6464,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -52.4,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/dev_accounts_test.go",
@@ -6007,7 +6487,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -11.67,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/medical_certificate_test.go",
@@ -6028,7 +6510,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 74.65,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/attendance_handler_test.go",
@@ -6049,7 +6533,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -15.48,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/dni.go",
@@ -6070,7 +6556,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -13.39,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/notification_test.go",
@@ -6091,7 +6579,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -13.7,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/user_password_test.go",
@@ -6112,7 +6602,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -15.09,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/course_picker.dart",
@@ -6133,7 +6625,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -4.04,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_student.go",
@@ -6154,7 +6648,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -16.52,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/reply_test.go",
@@ -6175,7 +6671,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -13.7,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/server_test.go",
@@ -6196,7 +6694,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -14.43,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/scope_middleware.go",
@@ -6217,7 +6717,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -14.76,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/user_form.dart",
@@ -6238,7 +6740,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -50.24,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/attendance_sheet_service.dart",
@@ -6259,28 +6763,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -51.65,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "frontend/lib/presentation/shell/session_gate.dart",
-      "lenguaje": "dart",
-      "loc": 28,
-      "complejidad_ciclomatica": 5,
-      "mi": 50.61,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 6.83,
-      "costo_reparacion_usd": 204.88,
-      "interes_anual_usd": 76.2,
-      "payback_anios": 2.69,
-      "roi_4_anios_porc": 48.77,
-      "factor_friccion": 1.32,
-      "t_clean_horas": 4.0,
-      "t_real_horas": 5.27,
-      "delta_t_horas": 1.27,
-      "roi_ajustado_porc": -3.3,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/repositories/attendance_repository.dart",
@@ -6301,7 +6786,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 1.86,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/auth_datasource.dart",
@@ -6322,7 +6809,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 49.29,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/preceptor.go",
@@ -6343,7 +6832,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 160.45,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/session/session_storage.dart",
@@ -6364,7 +6855,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -47.43,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/attendance_status_repo.go",
@@ -6385,7 +6878,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 79.13,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/student_identity_repo.go",
@@ -6406,7 +6901,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -11.32,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_students_test.go",
@@ -6427,7 +6924,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -12.72,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/usecases/create_user.dart",
@@ -6448,7 +6947,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 56.09,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/usecases/get_students.dart",
@@ -6469,7 +6970,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 4.06,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/notification_repo_test.go",
@@ -6490,7 +6993,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -9.09,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/session/session_store.dart",
@@ -6511,7 +7016,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 4.84,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/course_repository_impl.dart",
@@ -6532,7 +7039,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 56.64,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/rules_test.go",
@@ -6553,7 +7062,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -6.08,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/user_test.go",
@@ -6574,7 +7085,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -6.61,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/ports_academic_test.go",
@@ -6595,7 +7108,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -6.61,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/shared/date_range_row.dart",
@@ -6616,7 +7131,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -48.44,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/cmd/api/main_test.go",
@@ -6637,7 +7154,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 256.5,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/medical_certificate.dart",
@@ -6658,7 +7177,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -47.31,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/repositories/student_repository.dart",
@@ -6679,7 +7200,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 175.99,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/repositories/user_repository.dart",
@@ -6700,7 +7223,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 115.53,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/nfc_test.go",
@@ -6721,7 +7246,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -6.16,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/shared/tabbed_app_bar.dart",
@@ -6742,7 +7269,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -48.91,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/widgets/auto_refresh_mixin.dart",
@@ -6763,7 +7292,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -46.1,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/sube_datasource.dart",
@@ -6784,7 +7315,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -46.38,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "frontend/lib/presentation/shell/session_bootstrap.dart",
+      "lenguaje": "dart",
+      "loc": 22,
+      "complejidad_ciclomatica": 3,
+      "mi": 54.41,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 4.53,
+      "costo_reparacion_usd": 135.89,
+      "interes_anual_usd": 54.0,
+      "payback_anios": 2.52,
+      "roi_4_anios_porc": 58.95,
+      "factor_friccion": 1.23,
+      "t_clean_horas": 4.0,
+      "t_real_horas": 4.9,
+      "delta_t_horas": 0.9,
+      "roi_ajustado_porc": 3.32,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/specialty.dart",
@@ -6805,7 +7361,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -45.92,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/session/session_restorer.dart",
@@ -6826,7 +7384,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -45.18,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/user_password.go",
@@ -6847,7 +7407,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -4.22,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/notification_repo_internal_test.go",
@@ -6868,7 +7430,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -0.35,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/assigned_course.dart",
@@ -6889,7 +7453,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -43.86,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/student_portal.go",
@@ -6910,49 +7476,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -4.38,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "frontend/lib/presentation/shell/session_bootstrap.dart",
-      "lenguaje": "dart",
-      "loc": 17,
-      "complejidad_ciclomatica": 2,
-      "mi": 58.31,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 2.84,
-      "costo_reparacion_usd": 85.12,
-      "interes_anual_usd": 17.7,
-      "payback_anios": 4.81,
-      "roi_4_anios_porc": -16.82,
-      "factor_friccion": 1.15,
-      "t_clean_horas": 4.0,
-      "t_real_horas": 4.59,
-      "delta_t_horas": 0.59,
-      "roi_ajustado_porc": -45.93,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "backend/internal/adapter/http/dto_enrollment.go",
-      "lenguaje": "go",
-      "loc": 16,
-      "complejidad_ciclomatica": 1,
-      "mi": 59.33,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 2.76,
-      "costo_reparacion_usd": 82.8,
-      "interes_anual_usd": 27.6,
-      "payback_anios": 2.73,
-      "roi_4_anios_porc": 46.78,
-      "factor_friccion": 1.13,
-      "t_clean_horas": 7.0,
-      "t_real_horas": 7.92,
-      "delta_t_horas": 0.92,
-      "roi_ajustado_porc": -4.59,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_users_test.go",
@@ -6973,7 +7499,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -4.59,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "backend/internal/adapter/http/dto_enrollment.go",
+      "lenguaje": "go",
+      "loc": 16,
+      "complejidad_ciclomatica": 1,
+      "mi": 59.33,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 2.76,
+      "costo_reparacion_usd": 82.8,
+      "interes_anual_usd": 27.6,
+      "payback_anios": 2.73,
+      "roi_4_anios_porc": 46.78,
+      "factor_friccion": 1.13,
+      "t_clean_horas": 7.0,
+      "t_real_horas": 7.92,
+      "delta_t_horas": 0.92,
+      "roi_ajustado_porc": -4.59,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/shared/form_error_text.dart",
@@ -6994,28 +7545,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -44.95,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "backend/internal/adapter/http/dto_users.go",
-      "lenguaje": "go",
-      "loc": 15,
-      "complejidad_ciclomatica": 1,
-      "mi": 60.27,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 2.43,
-      "costo_reparacion_usd": 72.9,
-      "interes_anual_usd": 24.3,
-      "payback_anios": 2.73,
-      "roi_4_anios_porc": 46.68,
-      "factor_friccion": 1.12,
-      "t_clean_horas": 7.0,
-      "t_real_horas": 7.81,
-      "delta_t_horas": 0.81,
-      "roi_ajustado_porc": -4.66,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/dev_account_repo.go",
@@ -7036,7 +7568,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -4.66,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "backend/internal/adapter/http/dto_users.go",
+      "lenguaje": "go",
+      "loc": 15,
+      "complejidad_ciclomatica": 1,
+      "mi": 60.27,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 2.43,
+      "costo_reparacion_usd": 72.9,
+      "interes_anual_usd": 24.3,
+      "payback_anios": 2.73,
+      "roi_4_anios_porc": 46.68,
+      "factor_friccion": 1.12,
+      "t_clean_horas": 7.0,
+      "t_real_horas": 7.81,
+      "delta_t_horas": 0.81,
+      "roi_ajustado_porc": -4.66,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/attendance_rate.go",
@@ -7057,7 +7614,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -6.15,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_catalog_test.go",
@@ -7078,7 +7637,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -3.47,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/test_helpers_test.go",
@@ -7099,7 +7660,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -3.9,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/presentation/panels/preceptor/preceptor_deps.dart",
@@ -7120,7 +7683,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -45.02,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/repositories/time_slot_repository_impl.dart",
@@ -7141,7 +7706,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -44.19,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/preceptor_test.go",
@@ -7162,7 +7729,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -2.51,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/course.go",
@@ -7183,7 +7752,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 83.6,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/test_helpers_test.go",
@@ -7204,7 +7775,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -7.39,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/student_portal_test.go",
@@ -7225,7 +7798,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -6.3,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/workshop_group.dart",
@@ -7246,7 +7821,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 3.95,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/infrastructure/datasources/portal_datasource.dart",
@@ -7267,7 +7844,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -47.37,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/overlap_repo.go",
@@ -7288,7 +7867,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -12.68,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_catalog.go",
@@ -7309,7 +7890,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -15.97,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/notification.dart",
@@ -7330,7 +7913,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -53.09,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/reply.go",
@@ -7351,7 +7936,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -21.84,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/early_departure.go",
@@ -7372,28 +7959,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -22.94,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
-    },
-    {
-      "ruta": "backend/internal/adapter/postgres/schedule_import_repo_test.go",
-      "lenguaje": "go",
-      "loc": 9,
-      "complejidad_ciclomatica": 1,
-      "mi": 67.74,
-      "estado_mi": "APROBADO",
-      "deuda_horas": 0.71,
-      "costo_reparacion_usd": 21.3,
-      "interes_anual_usd": 6.0,
-      "payback_anios": 3.27,
-      "roi_4_anios_porc": 22.48,
-      "factor_friccion": 1.03,
-      "t_clean_horas": 7.0,
-      "t_real_horas": 7.2,
-      "delta_t_horas": 0.2,
-      "roi_ajustado_porc": -20.39,
-      "modelo_calculo": "dinamico",
-      "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/http/dto_enrollment_test.go",
@@ -7414,7 +7982,32 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -20.39,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
+    },
+    {
+      "ruta": "backend/internal/adapter/postgres/schedule_import_repo_test.go",
+      "lenguaje": "go",
+      "loc": 9,
+      "complejidad_ciclomatica": 1,
+      "mi": 67.74,
+      "estado_mi": "APROBADO",
+      "deuda_horas": 0.71,
+      "costo_reparacion_usd": 21.3,
+      "interes_anual_usd": 6.0,
+      "payback_anios": 3.27,
+      "roi_4_anios_porc": 22.48,
+      "factor_friccion": 1.03,
+      "t_clean_horas": 7.0,
+      "t_real_horas": 7.2,
+      "delta_t_horas": 0.2,
+      "roi_ajustado_porc": -20.39,
+      "modelo_calculo": "dinamico",
+      "tiene_datos_interes": true,
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/adapter/postgres/dev_account_repo_test.go",
@@ -7435,7 +8028,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -20.39,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/repositories/course_repository.dart",
@@ -7456,7 +8051,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -16.22,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/domain/workshop_group.go",
@@ -7477,7 +8074,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -48.17,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/entities/session.dart",
@@ -7498,7 +8097,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": -100.0,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "git"
+      "fuente_interes": "git",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "backend/internal/app/doc.go",
@@ -7519,7 +8120,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 0.0,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "sin_deuda"
+      "fuente_interes": "sin_deuda",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     },
     {
       "ruta": "frontend/lib/domain/repositories/time_slot_repository.dart",
@@ -7540,7 +8143,9 @@ window.__DEFAULT_REPORT_DATA__ = {
       "roi_ajustado_porc": 0.0,
       "modelo_calculo": "dinamico",
       "tiene_datos_interes": true,
-      "fuente_interes": "sin_deuda"
+      "fuente_interes": "sin_deuda",
+      "es_prohibido": false,
+      "motivo_prohibicion": null
     }
   ]
 };
