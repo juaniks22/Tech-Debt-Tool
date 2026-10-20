@@ -306,9 +306,15 @@
     }
 
     // 2. Chart Health Distribution (Doughnut)
-    const countCritico = archivos.filter(f => f.estado_mi === 'CRITICO').length;
-    const countRegular = archivos.filter(f => f.estado_mi === 'REGULAR').length;
-    const countBueno = archivos.filter(f => f.estado_mi === 'BUENO').length;
+    const countCritico = archivos.filter(f => (f.estado_mi || '').toUpperCase() === 'CRITICO').length;
+    const countRegular = archivos.filter(f => {
+      const e = (f.estado_mi || '').toUpperCase();
+      return e === 'REGULAR' || e === 'APROBADO';
+    }).length;
+    const countBueno = archivos.filter(f => {
+      const e = (f.estado_mi || '').toUpperCase();
+      return e === 'BUENO' || e === 'EXCELENTE';
+    }).length;
 
     // Update filter counts
     document.getElementById('count-all').textContent = archivos.length;
@@ -319,10 +325,15 @@
     const ctxHealth = document.getElementById('chart-health-doughnut');
     if (ctxHealth) {
       if (chartHealthDoughnut) chartHealthDoughnut.destroy();
+      const isDinamico = (currentReport && currentReport.modelo_calculo === 'dinamico');
+      const labelCritico = isDinamico ? 'Crítico (MI < 50)' : 'Crítico (MI < 20)';
+      const labelRegular = isDinamico ? 'Regular / Aprobado (50 ≤ MI < 75)' : 'Regular / Aprobado (20 ≤ MI < 60)';
+      const labelBueno = isDinamico ? 'Excelente (MI ≥ 75)' : 'Excelente (MI ≥ 60)';
+
       chartHealthDoughnut = new Chart(ctxHealth, {
         type: 'doughnut',
         data: {
-          labels: ['Crítico (MI < 20)', 'Regular (20 ≤ MI < 65)', 'Bueno (MI ≥ 65)'],
+          labels: [labelCritico, labelRegular, labelBueno],
           datasets: [{
             data: [countCritico, countRegular, countBueno],
             backgroundColor: ['#f04438', '#f59e0b', '#00a650'],
@@ -446,89 +457,415 @@
         { x: 1, y: 0 }
       ];
 
-      // Points for modules
-      const scatterPoints = modulos.map(m => {
-        let color = '#00a650'; // Main sequence (green)
-        if (m.zona === 'ZONA_DOLOR') color = '#f04438';
-        else if (m.zona === 'ZONA_INUTILIDAD') color = '#f59e0b';
+      // Disperse points when modules share identical or near-identical coordinates
+      function layoutScatterPoints(mods) {
+        const threshold = 0.12; // wider grouping threshold to catch near-identical coords
+        const groups = [];
+        mods.forEach(m => {
+          let placed = false;
+          for (const g of groups) {
+            const first = g[0];
+            if (Math.hypot(m.inestabilidad - first.inestabilidad, m.abstraccion - first.abstraccion) < threshold) {
+              g.push(m);
+              placed = true;
+              break;
+            }
+          }
+          if (!placed) groups.push([m]);
+        });
 
-        return {
-          x: m.inestabilidad,
-          y: m.abstraccion,
-          module: m,
-          color: color
-        };
-      });
+        const points = [];
+        groups.forEach(g => {
+          if (g.length === 1) {
+            const m = g[0];
+            points.push({
+              x: m.inestabilidad,
+              y: m.abstraccion,
+              rawX: m.inestabilidad,
+              rawY: m.abstraccion,
+              module: m
+            });
+          } else {
+            const centerX = g.reduce((s, m) => s + m.inestabilidad, 0) / g.length;
+            const centerY = g.reduce((s, m) => s + m.abstraccion, 0) / g.length;
+            // Scale radius with group size so larger clusters spread wider
+            const radius = Math.min(0.12, 0.04 + g.length * 0.022);
+
+            // Pick a start angle that avoids clipping chart boundaries
+            let startAngle = -Math.PI / 2; // default: fan upward
+            let angleSpan = 2 * Math.PI;   // full circle by default
+
+            const nearLeft  = centerX <= 0.15;
+            const nearRight = centerX >= 0.85;
+            const nearBot   = centerY <= 0.15;
+            const nearTop   = centerY >= 0.85;
+
+            if (nearLeft && nearBot) {
+              startAngle = 0;
+              angleSpan = Math.PI * 0.55;
+            } else if (nearRight && nearBot) {
+              startAngle = Math.PI * 0.45;
+              angleSpan = Math.PI * 0.55;
+            } else if (nearRight && nearTop) {
+              startAngle = Math.PI;
+              angleSpan = Math.PI * 0.55;
+            } else if (nearLeft && nearTop) {
+              startAngle = Math.PI * 1.45;
+              angleSpan = Math.PI * 0.55;
+            } else if (nearLeft) {
+              startAngle = -Math.PI * 0.4;
+              angleSpan = Math.PI * 0.8;
+            } else if (nearRight) {
+              startAngle = Math.PI * 0.6;
+              angleSpan = Math.PI * 0.8;
+            } else if (nearBot) {
+              startAngle = 0;
+              angleSpan = Math.PI;
+            } else if (nearTop) {
+              startAngle = Math.PI;
+              angleSpan = Math.PI;
+            }
+
+            g.forEach((m, idx) => {
+              const step = g.length > 1 ? angleSpan / (g.length - 1) : 0;
+              const angle = startAngle + idx * step;
+              const offX = radius * Math.cos(angle);
+              const offY = radius * Math.sin(angle);
+              points.push({
+                x: Math.max(0.01, Math.min(0.99, centerX + offX)),
+                y: Math.max(0.01, Math.min(0.99, centerY + offY)),
+                rawX: m.inestabilidad,
+                rawY: m.abstraccion,
+                module: m
+              });
+            });
+          }
+        });
+        return points;
+      }
+
+      const allLaidOutPoints = layoutScatterPoints(modulos);
+
+      // Separate points into datasets by zone
+      const ptsMainSequence = allLaidOutPoints.filter(p => p.module.zona === 'SECUENCIA_PRINCIPAL');
+      const ptsPainZone = allLaidOutPoints.filter(p => p.module.zona === 'ZONA_DOLOR');
+      const ptsUselessZone = allLaidOutPoints.filter(p => p.module.zona === 'ZONA_INUTILIDAD');
+
+      const datasets = [
+        {
+          type: 'line',
+          label: 'Secuencia Principal (A + I = 1)',
+          data: mainSequenceLine,
+          borderColor: '#10b981',
+          borderWidth: 2.5,
+          borderDash: [6, 6],
+          pointRadius: 0,
+          fill: false,
+          order: 99
+        },
+        {
+          type: 'scatter',
+          label: `Equilibrado (${ptsMainSequence.length})`,
+          data: ptsMainSequence.map(p => ({ x: p.x, y: p.y, rawPoint: p })),
+          backgroundColor: '#00a650',
+          borderColor: '#ffffff',
+          borderWidth: 2.5,
+          pointRadius: 10,
+          pointHoverRadius: 14,
+          order: 1
+        },
+        {
+          type: 'scatter',
+          label: `Zona de Dolor (${ptsPainZone.length})`,
+          data: ptsPainZone.map(p => ({ x: p.x, y: p.y, rawPoint: p })),
+          backgroundColor: '#f04438',
+          borderColor: '#ffffff',
+          borderWidth: 2.5,
+          pointRadius: 10,
+          pointHoverRadius: 14,
+          order: 2
+        }
+      ];
+
+      if (ptsUselessZone.length > 0) {
+        datasets.push({
+          type: 'scatter',
+          label: `Zona de Inutilidad (${ptsUselessZone.length})`,
+          data: ptsUselessZone.map(p => ({ x: p.x, y: p.y, rawPoint: p })),
+          backgroundColor: '#f59e0b',
+          borderColor: '#ffffff',
+          borderWidth: 2.5,
+          pointRadius: 10,
+          pointHoverRadius: 14,
+          order: 3
+        });
+      }
+
+      // Custom Plugins for Zone Backgrounds and Module Labels
+      const martinZonesPlugin = {
+        id: 'martinZones',
+        beforeDraw(chart) {
+          const { ctx, chartArea, scales } = chart;
+          if (!chartArea || !scales.x || !scales.y) return;
+          const { x, y } = scales;
+          ctx.save();
+
+          // 1. Zona de Dolor (bottom-left triangle: (0,0) - (0.5,0) - (0,0.5))
+          const pOrigin = { x: x.getPixelForValue(0), y: y.getPixelForValue(0) };
+          const pPainX = { x: x.getPixelForValue(0.5), y: y.getPixelForValue(0) };
+          const pPainY = { x: x.getPixelForValue(0), y: y.getPixelForValue(0.5) };
+
+          ctx.fillStyle = 'rgba(240, 68, 56, 0.08)';
+          ctx.beginPath();
+          ctx.moveTo(pOrigin.x, pOrigin.y);
+          ctx.lineTo(pPainX.x, pPainX.y);
+          ctx.lineTo(pPainY.x, pPainY.y);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.font = '700 11px Inter, system-ui, sans-serif';
+          ctx.fillStyle = 'rgba(220, 38, 38, 0.7)';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText('🔴 Zona de Dolor (Rígido / Estable)', pOrigin.x + 8, pOrigin.y - 8);
+
+          // 2. Zona de Inutilidad (top-right triangle: (1,1) - (0.5,1) - (1,0.5))
+          const pTopRight = { x: x.getPixelForValue(1), y: y.getPixelForValue(1) };
+          const pInutilX = { x: x.getPixelForValue(0.5), y: y.getPixelForValue(1) };
+          const pInutilY = { x: x.getPixelForValue(1), y: y.getPixelForValue(0.5) };
+
+          ctx.fillStyle = 'rgba(245, 158, 11, 0.08)';
+          ctx.beginPath();
+          ctx.moveTo(pTopRight.x, pTopRight.y);
+          ctx.lineTo(pInutilX.x, pInutilX.y);
+          ctx.lineTo(pInutilY.x, pInutilY.y);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.font = '700 11px Inter, system-ui, sans-serif';
+          ctx.fillStyle = 'rgba(217, 119, 6, 0.7)';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'top';
+          ctx.fillText('🟡 Zona de Inutilidad (Volátil / Abstracto)', pTopRight.x - 8, pTopRight.y + 8);
+
+          // 3. Secuencia Principal diagonal label
+          const pMidLine = { x: x.getPixelForValue(0.5), y: y.getPixelForValue(0.5) };
+          ctx.font = '600 11px Inter, system-ui, sans-serif';
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.85)';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText('Secuencia Principal (A + I = 1)', pMidLine.x + 12, pMidLine.y - 8);
+
+          ctx.restore();
+        }
+      };
+
+      const martinLabelsPlugin = {
+        id: 'martinLabels',
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return;
+          ctx.save();
+          ctx.font = '600 11px "JetBrains Mono", Menlo, Consolas, monospace';
+
+          // Collect all label rects first, then resolve collisions
+          const labelRects = [];
+
+          function tryPlace(px, py, badgeW, badgeH, preferRight) {
+            const margin = 13;
+            const candidates = preferRight
+              ? [
+                  [px + margin, py - badgeH / 2],
+                  [px + margin, py - badgeH - 4],
+                  [px + margin, py + 4],
+                  [px - badgeW - margin, py - badgeH / 2],
+                  [px - badgeW - margin, py - badgeH - 4],
+                  [px - badgeW - margin, py + 4],
+                  [px - badgeW / 2, py + margin],
+                  [px - badgeW / 2, py - badgeH - margin]
+                ]
+              : [
+                  [px - badgeW - margin, py - badgeH / 2],
+                  [px - badgeW - margin, py - badgeH - 4],
+                  [px - badgeW - margin, py + 4],
+                  [px + margin, py - badgeH / 2],
+                  [px + margin, py - badgeH - 4],
+                  [px + margin, py + 4],
+                  [px - badgeW / 2, py + margin],
+                  [px - badgeW / 2, py - badgeH - margin]
+                ];
+
+            const pad = 2;
+            for (const [cx, cy] of candidates) {
+              // Clamp inside chart area
+              const bx = Math.max(chartArea.left + 2, Math.min(cx, chartArea.right - badgeW - 2));
+              const by = Math.max(chartArea.top + 2, Math.min(cy, chartArea.bottom - badgeH - 2));
+              // Check overlap with already placed labels
+              const overlaps = labelRects.some(r =>
+                bx < r.x + r.w + pad && bx + badgeW + pad > r.x &&
+                by < r.y + r.h + pad && by + badgeH + pad > r.y
+              );
+              if (!overlaps) return { x: bx, y: by };
+            }
+            // Fallback: take the first candidate clamped (may overlap, better than hiding)
+            const [fx, fy] = candidates[0];
+            return {
+              x: Math.max(chartArea.left + 2, Math.min(fx, chartArea.right - badgeW - 2)),
+              y: Math.max(chartArea.top + 2, Math.min(fy, chartArea.bottom - badgeH - 2))
+            };
+          }
+
+          chart.data.datasets.forEach((ds, dsIndex) => {
+            if (ds.type !== 'scatter') return;
+            const meta = chart.getDatasetMeta(dsIndex);
+            if (!meta || meta.hidden) return;
+
+            meta.data.forEach((element, index) => {
+              const item = ds.data[index];
+              const m = item && item.rawPoint ? item.rawPoint.module : null;
+              if (!m) return;
+
+              const px = element.x;
+              const py = element.y;
+              const text = m.nombre;
+              const textWidth = ctx.measureText(text).width;
+              const padX = 6;
+              const badgeW = textWidth + padX * 2;
+              const badgeH = 18;
+
+              // Prefer placing label on the side with more space
+              const preferRight = (px - chartArea.left) < (chartArea.right - px);
+              const pos = tryPlace(px, py, badgeW, badgeH, preferRight);
+              labelRects.push({ x: pos.x, y: pos.y, w: badgeW, h: badgeH });
+
+              const zoneColor = m.zona === 'ZONA_DOLOR' ? 'rgba(239, 68, 68, 0.5)' :
+                                m.zona === 'ZONA_INUTILIDAD' ? 'rgba(245, 158, 11, 0.5)' : 'rgba(16, 185, 129, 0.5)';
+
+              // Connector line from point to badge
+              const connX = pos.x < px ? pos.x + badgeW : pos.x;
+              const connY = pos.y + badgeH / 2;
+              ctx.save();
+              ctx.strokeStyle = zoneColor;
+              ctx.lineWidth = 1;
+              ctx.setLineDash([3, 3]);
+              ctx.beginPath();
+              ctx.moveTo(px, py);
+              ctx.lineTo(connX, connY);
+              ctx.stroke();
+              ctx.setLineDash([]);
+              ctx.restore();
+
+              // Pill background
+              ctx.shadowColor = 'rgba(0, 0, 0, 0.10)';
+              ctx.shadowBlur = 5;
+              ctx.shadowOffsetY = 1;
+              ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
+              ctx.strokeStyle = zoneColor;
+              ctx.lineWidth = 1.2;
+
+              ctx.beginPath();
+              if (ctx.roundRect) {
+                ctx.roundRect(pos.x, pos.y, badgeW, badgeH, 4);
+              } else {
+                ctx.rect(pos.x, pos.y, badgeW, badgeH);
+              }
+              ctx.fill();
+              ctx.stroke();
+
+              // Pill text
+              ctx.shadowColor = 'transparent';
+              ctx.fillStyle = m.zona === 'ZONA_DOLOR' ? '#b91c1c' :
+                              m.zona === 'ZONA_INUTILIDAD' ? '#b45309' : '#047857';
+              ctx.textAlign = 'left';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(text, pos.x + padX, pos.y + badgeH / 2);
+            });
+          });
+
+          ctx.restore();
+        }
+      };
 
       chartMartinScatter = new Chart(ctxMartin, {
         type: 'scatter',
-        data: {
-          datasets: [
-            {
-              type: 'line',
-              label: 'Secuencia Principal (A + I = 1)',
-              data: mainSequenceLine,
-              borderColor: '#00a650',
-              borderWidth: 2,
-              borderDash: [6, 6],
-              pointRadius: 0,
-              fill: false
-            },
-            {
-              type: 'scatter',
-              label: 'Módulos Analizados',
-              data: scatterPoints.map(p => ({ x: p.x, y: p.y })),
-              backgroundColor: scatterPoints.map(p => p.color),
-              borderColor: '#ffffff',
-              borderWidth: 2,
-              pointRadius: 9,
-              pointHoverRadius: 13
-            }
-          ]
-        },
+        data: { datasets: datasets },
+        plugins: [martinZonesPlugin, martinLabelsPlugin],
         options: {
           responsive: true,
           maintainAspectRatio: false,
           scales: {
             x: {
-              min: 0,
-              max: 1,
+              min: -0.06,
+              max: 1.06,
               title: {
                 display: true,
                 text: 'Inestabilidad (I) →  [0 = Estable, 1 = Inestable]',
-                color: '#374151',
-                font: { weight: 600 }
+                color: '#1f2937',
+                font: { weight: 700, size: 12 }
               },
-              grid: { color: '#f1f5f9' },
-              ticks: { color: '#64748b' }
+              grid: {
+                color: function (context) {
+                  if (context.tick && (context.tick.value === 0 || context.tick.value === 1)) {
+                    return 'rgba(100, 116, 139, 0.35)';
+                  }
+                  return '#f1f5f9';
+                }
+              },
+              ticks: {
+                stepSize: 0.2,
+                callback: function (val) {
+                  if (val >= 0 && val <= 1) return val.toFixed(1);
+                  return '';
+                },
+                color: '#4b5563',
+                font: { family: "'JetBrains Mono', monospace", size: 11, weight: 600 }
+              }
             },
             y: {
-              min: 0,
-              max: 1,
+              min: -0.06,
+              max: 1.06,
               title: {
                 display: true,
                 text: 'Abstracción (A) →  [0 = Concreto, 1 = Abstracto]',
-                color: '#374151',
-                font: { weight: 600 }
+                color: '#1f2937',
+                font: { weight: 700, size: 12 }
               },
-              grid: { color: '#f1f5f9' },
-              ticks: { color: '#64748b' }
+              grid: {
+                color: function (context) {
+                  if (context.tick && (context.tick.value === 0 || context.tick.value === 1)) {
+                    return 'rgba(100, 116, 139, 0.35)';
+                  }
+                  return '#f1f5f9';
+                }
+              },
+              ticks: {
+                stepSize: 0.2,
+                callback: function (val) {
+                  if (val >= 0 && val <= 1) return val.toFixed(1);
+                  return '';
+                },
+                color: '#4b5563',
+                font: { family: "'JetBrains Mono', monospace", size: 11, weight: 600 }
+              }
             }
           },
           plugins: {
             legend: {
               position: 'top',
-              labels: { usePointStyle: true, color: '#4b5563' }
+              labels: { usePointStyle: true, color: '#374151', padding: 14, font: { weight: 600 } }
             },
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  if (context.datasetIndex === 0) return 'Secuencia Principal (A + I = 1)';
-                  const m = modulos[context.dataIndex];
+                  if (context.dataset.type === 'line') return 'Secuencia Principal (A + I = 1)';
+                  const item = context.raw;
+                  const m = item && item.rawPoint ? item.rawPoint.module : null;
                   if (!m) return '';
+                  const zoneName = m.zona === 'ZONA_DOLOR' ? 'Zona de Dolor' :
+                                   m.zona === 'ZONA_INUTILIDAD' ? 'Zona de Inutilidad' : 'Secuencia Principal';
                   return [
                     `Módulo: ${m.nombre}`,
-                    `Zona: ${m.zona.replace('_', ' ')}`,
+                    `Zona: ${zoneName}`,
                     `Distancia D: ${formatNumber(m.distancia_d, 4)}`,
                     `Inestabilidad (I): ${formatNumber(m.inestabilidad, 2)} (Ca=${m.ca}, Ce=${m.ce})`,
                     `Abstracción (A): ${formatNumber(m.abstraccion, 2)} (Na=${m.na}, Nc=${m.nc})`
@@ -632,7 +969,12 @@
     // Filter
     let filtered = archivos.filter(f => {
       // Status filter
-      if (filesFilter !== 'all' && f.estado_mi !== filesFilter) return false;
+      if (filesFilter !== 'all') {
+        const est = (f.estado_mi || '').toUpperCase();
+        if (filesFilter === 'CRITICO' && est !== 'CRITICO') return false;
+        if ((filesFilter === 'REGULAR' || filesFilter === 'APROBADO') && (est !== 'REGULAR' && est !== 'APROBADO')) return false;
+        if ((filesFilter === 'BUENO' || filesFilter === 'EXCELENTE') && (est !== 'BUENO' && est !== 'EXCELENTE')) return false;
+      }
       // Search filter
       if (filesSearchTerm) {
         const query = filesSearchTerm.toLowerCase();
@@ -669,15 +1011,16 @@
     }
 
     filesTbody.innerHTML = filtered.map((f, idx) => {
+      const est = (f.estado_mi || '').toUpperCase();
       let badgeClass = 'badge-success';
-      if (f.estado_mi === 'CRITICO') badgeClass = 'badge-critical';
-      else if (f.estado_mi === 'REGULAR') badgeClass = 'badge-warning';
+      if (est === 'CRITICO') badgeClass = 'badge-critical';
+      else if (est === 'REGULAR' || est === 'APROBADO') badgeClass = 'badge-warning';
 
       // MI color bar
       const miVal = Math.max(0, Math.min(100, f.mi || 0));
       let miColor = '#00a650';
-      if (f.estado_mi === 'CRITICO') miColor = '#f04438';
-      else if (f.estado_mi === 'REGULAR') miColor = '#f59e0b';
+      if (est === 'CRITICO') miColor = '#f04438';
+      else if (est === 'REGULAR' || est === 'APROBADO') miColor = '#f59e0b';
 
       const fileName = getBaseFileName(f.ruta);
       const dirPath = cleanPathName(f.ruta).replace(fileName, '');
@@ -725,9 +1068,10 @@
   // File Detail Drilldown Modal
   function openFileModal(f) {
     modalFileTitle.textContent = cleanPathName(f.ruta);
+    const est = (f.estado_mi || '').toUpperCase();
     let badgeClass = 'badge-success';
-    if (f.estado_mi === 'CRITICO') badgeClass = 'badge-critical';
-    else if (f.estado_mi === 'REGULAR') badgeClass = 'badge-warning';
+    if (est === 'CRITICO') badgeClass = 'badge-critical';
+    else if (est === 'REGULAR' || est === 'APROBADO') badgeClass = 'badge-warning';
 
     modalFileBadge.className = `kpi-badge ${badgeClass}`;
     modalFileBadge.textContent = `${f.estado_mi} (MI: ${formatNumber(f.mi, 1)})`;
