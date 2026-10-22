@@ -98,7 +98,7 @@ class TestNuevoModeloDinamico(unittest.TestCase):
             t_clean_horas=6.0,
         )
 
-        self.assertEqual(rep.estado_mi, "CRITICO")  # 21.90 < 50
+        self.assertEqual(rep.estado_mi, "CRITICO")  # 21.90 < 40
         self.assertAlmostEqual(rep.factor_friccion, 2.50, delta=0.02)
         self.assertAlmostEqual(rep.t_real_horas, 15.02, delta=0.1)
         self.assertAlmostEqual(rep.delta_t_horas, 9.02, delta=0.1)

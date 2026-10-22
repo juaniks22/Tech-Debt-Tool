@@ -47,7 +47,7 @@ class FinancialParams:
             if self.modelo == "clasico" or self.mi_referencia_default <= 20.0:
                 object.__setattr__(self, "mi_umbral_critico", 20.0)
             else:
-                object.__setattr__(self, "mi_umbral_critico", 50.0)
+                object.__setattr__(self, "mi_umbral_critico", 40.0)
 
         if self.mi_umbral_excelente is None:
             if self.modelo == "clasico" or self.mi_referencia_default <= 20.0:

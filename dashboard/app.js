@@ -326,8 +326,8 @@
     if (ctxHealth) {
       if (chartHealthDoughnut) chartHealthDoughnut.destroy();
       const isDinamico = (currentReport && currentReport.modelo_calculo === 'dinamico');
-      const labelCritico = isDinamico ? 'Crítico (MI < 50)' : 'Crítico (MI < 20)';
-      const labelRegular = isDinamico ? 'Regular / Aprobado (50 ≤ MI < 75)' : 'Regular / Aprobado (20 ≤ MI < 60)';
+      const labelCritico = isDinamico ? 'Crítico (MI < 40)' : 'Crítico (MI < 20)';
+      const labelRegular = isDinamico ? 'Regular / Aprobado (40 ≤ MI < 75)' : 'Regular / Aprobado (20 ≤ MI < 60)';
       const labelBueno = isDinamico ? 'Excelente (MI ≥ 75)' : 'Excelente (MI ≥ 60)';
 
       chartHealthDoughnut = new Chart(ctxHealth, {
@@ -1107,7 +1107,7 @@
 
         <div class="formula-box">
           <div class="formula-box-title">Factor de Fricción F(MI)</div>
-          <div class="formula-code">F(MI) = 1.0 + (75 - MI)/15  [elástico]</div>
+          <div class="formula-code">F(MI) = 1 + ((75 - MI) / 75)² × 3.0</div>
           <p style="font-size: 0.78rem; color: var(--text-dim);">
             Factor Fricción: <strong>${formatNumber(f.factor_friccion, 2)}x</strong> | Delta T: <strong>${formatNumber(f.delta_t_horas, 2)}h</strong>
           </p>

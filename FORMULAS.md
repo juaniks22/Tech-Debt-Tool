@@ -33,7 +33,7 @@ La herramienta soporta dos modos de cálculo seleccionables con `--modelo`:
 |---|---|---|
 | `--modelo` | `dinamico` | `clasico` |
 | MI de referencia default | `75.0` | `20.0` |
-| Estado Crítico | $MI < 50$ | $MI < 20$ |
+| Estado Crítico | $MI < 40$ | $MI < 20$ |
 | Estado Excelente | $MI \ge 75$ | $MI \ge 60$ |
 | Factor K | Calculado con $EF$ y $TCF$ | Fijo en `0.01` |
 | $\Delta t$ | Calculado vía $F(MI)$ si no viene del YAML | Siempre manual / YAML / Git |
@@ -185,8 +185,8 @@ $$ROI_{\text{ajustado}} = 100 \cdot \frac{(\text{Interés Anual} \cdot \text{Añ
 | Estado | Rango MI | Ícono | Fricción típica |
 |---|---|---|---|
 | **EXCELENTE** | $MI \ge 75$ | 🟢 | $F(MI) = 1.0\text{x}$ (sin fricción) |
-| **APROBADO** | $50 \le MI < 75$ | 🟡 | $1.0\text{x} < F(MI) \le 1.33\text{x}$ |
-| **CRITICO** | $MI < 50$ | 🔴 | $F(MI) > 1.33\text{x}$ hasta $4.0\text{x}$ |
+| **APROBADO** | $40 \le MI < 75$ | 🟡 | $1.0\text{x} < F(MI) \le 1.66\text{x}$ |
+| **CRITICO** | $MI < 40$ | 🔴 | $F(MI) > 1.66\text{x}$ hasta $4.0\text{x}$ |
 
 ### Modelo Clásico (--modelo clasico)
 
