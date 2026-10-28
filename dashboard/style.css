@@ -1574,6 +1574,45 @@ body {
   font-weight: 700;
 }
 
+.card-metric-pill.highlight-sqale {
+  background: #fdf2f8;
+  border-color: #fbcfe8;
+  color: #be185d;
+  font-weight: 700;
+}
+
+.card-violation-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 3px 0 1px 0;
+}
+
+.card-violation-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: #fdf4ff;
+  border: 1px solid #f0abfc;
+  color: #a21caf;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.card-violation-tag.violation-critical {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.card-violation-tag.violation-warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
 .kanban-card-action {
   font-size: 0.78rem;
   color: var(--text-secondary);

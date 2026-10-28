@@ -114,6 +114,9 @@ El proyecto incluye un dashboard web profesional con interfaz dark mode, glassmo
 - **Arquitectura & Martin (A vs I):** Diagrama de dispersión Abstracción ($A$) vs Inestabilidad ($I$) con la Secuencia Principal ($A + I = 1$), Zona de Dolor y Zona de Inutilidad, además de tarjetas por módulo con acoplamiento aferente ($C_a$), eferente ($C_e$) y distancias $D$.
 - **Explorador de Archivos:** Tabla filtrable y ordenable con búsqueda en tiempo real, desglose de fórmulas matemáticas por archivo y exportación a CSV.
 - **Catálogo de Violaciones SQALE:** Registro detallado de reglas y tiempos de remediación.
+- **Planificador de Sprints & Kanban:** Asignación automática por capacidad (Backend Go, Frontend Flutter, Pool Fullstack) con bin-packing y opciones avanzadas de priorización:
+  - **Priorización de Violaciones SQALE:** Opciones dedicadas por cantidad de infracciones (`sqale_violations_first`), tiempo de remediación acumulado (`sqale_remediation_first`), modelo híbrido SQALE (`sqale_hybrid`), o foco exclusivo en violaciones arquitectónicas / código.
+  - **Exportación de artefactos:** Generación de prompts directos para agentes IA, descarga de `plan_accion.md` y `plan_sprint.json` con desglose detallado de violaciones por tarjeta.
 - **Carga de Archivos Drag & Drop:** Podés arrastrar cualquier archivo `reporte_*.json` de la carpeta `reportes/` al navegador para inspeccionarlo al instante.
 
 **Cómo abrir el dashboard:**

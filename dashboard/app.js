@@ -76,6 +76,7 @@
   const inputDedicationPct = document.getElementById('plan-dedication-pct');
   const selectSprintsCount = document.getElementById('plan-sprints-count');
   const selectStrategy = document.getElementById('plan-strategy');
+  const selectSqalePriority = document.getElementById('plan-sqale-priority');
   const btnRecalculatePlan = document.getElementById('btn-recalculate-plan');
   const btnResetPlanDefaults = document.getElementById('btn-reset-plan-defaults');
 
@@ -1220,6 +1221,7 @@
     if (inputDedicationPct) inputDedicationPct.value = 100;
     if (selectSprintsCount) selectSprintsCount.value = 2;
     if (selectStrategy) selectStrategy.value = 'hybrid_zona_cc_roi';
+    if (selectSqalePriority) selectSqalePriority.value = 'none';
     if (currentReport) generateSprintPlan(currentReport);
   }
 
@@ -1231,19 +1233,32 @@
     for (const m of modulesList) {
       const modName = (m.nombre || '').toLowerCase();
       const modRuta = cleanPathName(m.ruta || '').toLowerCase();
-      if ((modRuta && clean.includes(modRuta)) || (modName && clean.includes('/' + modName + '/')) || clean.startsWith(modName + '/')) {
+      if ((modRuta && (clean.startsWith(modRuta + '/') || clean.includes('/' + modRuta + '/'))) ||
+          (modName && (clean.startsWith(modName + '/') || clean.includes('/' + modName + '/')))) {
         return m;
       }
     }
     return { nombre: 'general', zona: 'SECUENCIA_PRINCIPAL', distancia_d: 0.0 };
   }
 
-  function getFileViolations(filePath, violationsList) {
+  function getFileViolations(filePath, violationsList, modInfo) {
     if (!filePath || !violationsList) return [];
     const clean = cleanPathName(filePath).toLowerCase();
+    const modRuta = cleanPathName(modInfo ? modInfo.ruta : '').toLowerCase();
+    const modNombre = (modInfo ? modInfo.nombre : '').toLowerCase();
+
     return violationsList.filter(v => {
       const vPath = cleanPathName(v.archivo || '').toLowerCase();
-      return vPath && (clean.endsWith(vPath) || vPath.endsWith(clean) || clean.includes(vPath));
+      if (!vPath) return false;
+      // Direct file match
+      if (clean === vPath || clean.endsWith('/' + vPath) || vPath.endsWith('/' + clean) || clean.endsWith(vPath)) {
+        return true;
+      }
+      // Module level architectural violation match (ZONA_DOLOR, IMPORT_CIRCULAR, ZONA_INUTILIDAD)
+      if (modRuta && (vPath === modRuta || vPath === modNombre)) {
+        return true;
+      }
+      return false;
     });
   }
 
@@ -1367,6 +1382,7 @@
     const dedication = Math.max(0.1, (parseFloat(inputDedicationPct ? inputDedicationPct.value : 100) || 100) / 100.0);
     const sprintCount = Math.max(1, parseInt(selectSprintsCount ? selectSprintsCount.value : 2) || 2);
     const strategy = selectStrategy ? selectStrategy.value : 'hybrid_zona_cc_roi';
+    const sqalePriority = selectSqalePriority ? selectSqalePriority.value : 'none';
 
     const hoursPerDev = weeks * 40 * dedication;
     const capBe = devsBe * hoursPerDev;
@@ -1381,7 +1397,15 @@
     const candidateFiles = reportData.archivos.filter(f => {
       const debt = f.deuda_horas || 0;
       const mi = f.mi !== undefined ? f.mi : 100;
-      return debt > 0.5 || mi < 75 || f.estado_mi === 'CRITICO' || f.estado_mi === 'REGULAR';
+      const cleanPath = cleanPathName(f.ruta);
+      const modInfo = getModuleInfoForFile(cleanPath, modulos);
+      const fileViolations = getFileViolations(cleanPath, violaciones, modInfo);
+
+      if (sqalePriority === 'only_with_violations' && fileViolations.length === 0) {
+        return false;
+      }
+
+      return debt > 0.5 || mi < 75 || f.estado_mi === 'CRITICO' || f.estado_mi === 'REGULAR' || fileViolations.length > 0;
     });
 
     // Partition files: Forbidden Monoliths (DO NOT TOUCH) vs Eligible Sprint Tasks
@@ -1416,7 +1440,12 @@
       const role = isGo ? 'BE' : (isDart ? 'FE' : 'FS');
       const modInfo = getModuleInfoForFile(cleanPath, modulos);
       const isPainZone = (modInfo.distancia_d !== undefined && modInfo.distancia_d > 0.5) || modInfo.zona === 'ZONA_DOLOR';
-      const fileViolations = getFileViolations(cleanPath, violaciones);
+      const fileViolations = getFileViolations(cleanPath, violaciones, modInfo);
+      const sqaleCount = fileViolations.length;
+      const sqaleRemMinutes = fileViolations.reduce((sum, v) => sum + (v.remediacion_minutos || 0), 0);
+      const sqaleRemHours = Math.round((sqaleRemMinutes / 60.0) * 10) / 10;
+      const sqaleArchCount = fileViolations.filter(v => v.regla === 'ZONA_DOLOR' || v.regla === 'IMPORT_CIRCULAR' || v.regla === 'ZONA_INUTILIDAD').length;
+      const sqaleCodeCount = fileViolations.filter(v => v.regla === 'CC_ALTA' || v.regla === 'FUNCION_LARGA' || v.regla === 'ARCHIVO_LARGO').length;
       const roiAdj = f.roi_ajustado_porc !== undefined ? f.roi_ajustado_porc : 0;
       const cc = f.complejidad_ciclomatica || 0;
       const debtHours = Math.round((f.deuda_horas || 0) * 10) / 10;
@@ -1439,14 +1468,50 @@
         interesUsd: f.interes_anual_usd || 0,
         roiAjustado: roiAdj,
         violations: fileViolations,
+        sqaleCount: sqaleCount,
+        sqaleRemediationMinutes: sqaleRemMinutes,
+        sqaleRemediationHours: sqaleRemHours,
+        sqaleArchCount: sqaleArchCount,
+        sqaleCodeCount: sqaleCodeCount,
         refactorAdvice: generateSmartRefactorAdvice(f, role, modInfo, fileViolations),
         dod: generateDefinitionOfDone(f, role),
         currentSprint: 1 // assigned below
       };
     });
 
-    // Sort according to chosen strategy
+    // Sort according to chosen strategy & SQALE prioritization
     enrichedCards.sort((a, b) => {
+      // 1. Violaciones SQALE primero (por cantidad descendente)
+      if (strategy === 'sqale_violations_first' || sqalePriority === 'count') {
+        if (b.sqaleCount !== a.sqaleCount) return b.sqaleCount - a.sqaleCount;
+        if (b.sqaleRemediationMinutes !== a.sqaleRemediationMinutes) return b.sqaleRemediationMinutes - a.sqaleRemediationMinutes;
+        if (b.cc !== a.cc) return b.cc - a.cc;
+        return b.deudaHoras - a.deudaHoras;
+      }
+
+      // 2. Remediación SQALE primero (por tiempo de remediación acumulado)
+      if (strategy === 'sqale_remediation_first' || sqalePriority === 'remediation') {
+        if (b.sqaleRemediationMinutes !== a.sqaleRemediationMinutes) return b.sqaleRemediationMinutes - a.sqaleRemediationMinutes;
+        if (b.sqaleCount !== a.sqaleCount) return b.sqaleCount - a.sqaleCount;
+        if (b.deudaHoras !== a.deudaHoras) return b.deudaHoras - a.deudaHoras;
+        return b.cc - a.cc;
+      }
+
+      // 3. Híbrida SQALE (Infracciones + Arquitectura + CC + ROI)
+      if (strategy === 'sqale_hybrid') {
+        const scoreA = (a.sqaleCount * 2500) + (a.sqaleRemediationMinutes * 30) + (a.sqaleArchCount * 15000) + (a.isPainZone ? 15000 : 0) + (a.roiAjustado > 0 ? 8000 : 0) + (a.cc * 20) + Math.min(a.deudaHoras, 200);
+        const scoreB = (b.sqaleCount * 2500) + (b.sqaleRemediationMinutes * 30) + (b.sqaleArchCount * 15000) + (b.isPainZone ? 15000 : 0) + (b.roiAjustado > 0 ? 8000 : 0) + (b.cc * 20) + Math.min(b.deudaHoras, 200);
+        return scoreB - scoreA;
+      }
+
+      // Modificadores si sqalePriority está configurado en otras estrategias
+      if (sqalePriority === 'arch_first' && (b.sqaleArchCount !== a.sqaleArchCount)) {
+        return b.sqaleArchCount - a.sqaleArchCount;
+      }
+      if (sqalePriority === 'code_first' && (b.sqaleCodeCount !== a.sqaleCodeCount)) {
+        return b.sqaleCodeCount - a.sqaleCodeCount;
+      }
+
       if (strategy === 'roi_first') {
         if (b.roiAjustado !== a.roiAjustado) return b.roiAjustado - a.roiAjustado;
         return b.cc - a.cc;
@@ -1457,10 +1522,7 @@
         if (b.deudaHoras !== a.deudaHoras) return b.deudaHoras - a.deudaHoras;
         return b.cc - a.cc;
       } else {
-        // hybrid_zona_cc_roi (Recommended by User in /grill-me)
-        // 1) Distancia a Secuencia Principal > 0.5 (ZONA_DOLOR)
-        // 2) ROI ajustado positivo (Quick Wins)
-        // 3) Complejidad Ciclomática (CC) descendente
+        // hybrid_zona_cc_roi (default)
         const scoreA = (a.isPainZone ? 20000 : 0) + (a.roiAjustado > 0 ? 10000 : 0) + (a.cc * 25) + Math.min(a.deudaHoras, 300);
         const scoreB = (b.isPainZone ? 20000 : 0) + (b.roiAjustado > 0 ? 10000 : 0) + (b.cc * 25) + Math.min(b.deudaHoras, 300);
         return scoreB - scoreA;
@@ -1698,18 +1760,31 @@ Al abrir la PR, incluir tildado:
     // Overall Sprints Impact
     let totalPlannedHours = 0;
     let totalPlannedSavings = 0;
+    let totalPlannedSqale = 0;
     currentSprintPlan.sprints.forEach(s => {
       (s.cards || []).forEach(c => {
         totalPlannedHours += c.deudaHoras;
         totalPlannedSavings += (c.interesUsd || 0);
+        totalPlannedSqale += (c.sqaleCount || 0);
       });
     });
+
+    const totalBacklogSqale = (currentSprintPlan.backlog.cards || []).reduce((acc, c) => acc + (c.sqaleCount || 0), 0);
+    const totalSqaleAll = totalPlannedSqale + totalBacklogSqale;
 
     const repoTotalDebt = currentSprintPlan.totalRepoDebt || 1;
     const impactPct = Math.round((totalPlannedHours / repoTotalDebt) * 1000) / 10;
     if (valImpactHours) valImpactHours.textContent = `${formatNumber(totalPlannedHours, 1)}h`;
     if (valImpactPct) valImpactPct.textContent = `(${impactPct}% deuda total)`;
     if (valImpactSavings) valImpactSavings.textContent = `${formatCurrency(totalPlannedSavings)}/año`;
+    if (subImpactSummary) {
+      subImpactSummary.innerHTML = `
+        Ahorro anual estimado en fricción: <strong style="color: var(--color-success);">${formatCurrency(totalPlannedSavings)}/año</strong>
+        <span style="display: block; margin-top: 4px; font-size: 0.8rem; color: var(--text-secondary);">
+          🛡️ Violaciones SQALE en sprints: <strong style="color: var(--mp-blue);">${totalPlannedSqale}</strong> de ${totalSqaleAll} detectadas
+        </span>
+      `;
+    }
   }
 
   function renderKanbanBoard() {
@@ -1772,7 +1847,24 @@ Al abrir la PR, incluir tildado:
           <span class="card-metric-pill">MI: ${card.mi}</span>
           <span class="card-metric-pill" style="font-weight: 700; color: var(--mp-blue-dark);">${card.deudaHoras}h</span>
           <span class="card-metric-pill ${roiClass}">${roiText}</span>
+          ${card.sqaleCount > 0 ? `
+            <span class="card-metric-pill highlight-sqale" title="Infracciones SQALE detectadas: ${card.violations.map(v => v.regla).join(', ')}">
+              🛡️ SQALE: ${card.sqaleCount} (${card.sqaleRemediationHours}h)
+            </span>
+          ` : ''}
         </div>
+
+        ${card.violations && card.violations.length > 0 ? `
+          <div class="card-violation-tags">
+            ${card.violations.slice(0, 3).map(v => {
+              const isCrit = v.regla === 'ZONA_DOLOR' || v.regla === 'IMPORT_CIRCULAR';
+              const isWarn = v.regla === 'CC_ALTA' || v.regla === 'ARCHIVO_LARGO';
+              const tagClass = isCrit ? 'violation-critical' : (isWarn ? 'violation-warning' : '');
+              return `<span class="card-violation-tag ${tagClass}" title="${v.detalle || ''}">${v.regla}</span>`;
+            }).join('')}
+            ${card.violations.length > 3 ? `<span class="card-violation-tag">+${card.violations.length - 3}</span>` : ''}
+          </div>
+        ` : ''}
 
         <div class="kanban-card-action">
           <strong>Acción:</strong> ${card.refactorAdvice}
@@ -1973,7 +2065,7 @@ Al abrir la PR, incluir tildado:
     const totalHours = s1.cards.reduce((acc, c) => acc + c.deudaHoras, 0);
 
     let promptText = `# 🤖 PLAN DE ACCIÓN DE DEUDA TÉCNICA — SPRINT 1 (${repoName.toUpperCase()})\n\n`;
-    promptText += `**Objetivo del Sprint:** Reducir fricción operativa y deuda técnica priorizando cuellos de botella en **Zona de Dolor (D > 0.5)** y **Quick Wins (ROI positivo)** con alta complejidad ciclomática.\n\n`;
+    promptText += `**Objetivo del Sprint:** Reducir fricción operativa, mitigar violaciones SQALE (ISO/IEC 25010) y deuda técnica priorizando cuellos de botella en **Zona de Dolor (D > 0.5)** y **Quick Wins (ROI positivo)**.\n\n`;
     promptText += `### 👥 Capacidad y Asignación del Sprint 1:\n`;
     promptText += `- **Duración:** ${currentSprintPlan.weeks} semanas (${formatNumber(currentSprintPlan.hoursPerDev, 0)}h útiles/dev)\n`;
     promptText += `- **Equipo Backend (Go):** ${currentSprintPlan.devsBe} devs | ${formatNumber(currentSprintPlan.capBe, 0)}h disponibles\n`;
@@ -2000,6 +2092,12 @@ Al abrir la PR, incluir tildado:
         promptText += `### [${c.id}] \`${c.filePath}\`\n`;
         promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
         promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h | ROI Ajustado: ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}%\n`;
+        if (c.violations && c.violations.length > 0) {
+          promptText += `- **Infracciones SQALE (${c.sqaleCount} violaciones, ~${c.sqaleRemediationHours}h remediación):**\n`;
+          c.violations.forEach(v => {
+            promptText += `  * [${v.regla}] ${v.detalle || ''} (${v.remediacion_minutos || 0} min)\n`;
+          });
+        }
         promptText += `- **Diagnóstico y Acción:** ${c.refactorAdvice}\n`;
         promptText += `- **Criterios de Aceptación (DoD):**\n`;
         c.dod.forEach(item => {
@@ -2015,6 +2113,12 @@ Al abrir la PR, incluir tildado:
         promptText += `### [${c.id}] \`${c.filePath}\`\n`;
         promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
         promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h | ROI Ajustado: ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}%\n`;
+        if (c.violations && c.violations.length > 0) {
+          promptText += `- **Infracciones SQALE (${c.sqaleCount} violaciones, ~${c.sqaleRemediationHours}h remediación):**\n`;
+          c.violations.forEach(v => {
+            promptText += `  * [${v.regla}] ${v.detalle || ''} (${v.remediacion_minutos || 0} min)\n`;
+          });
+        }
         promptText += `- **Diagnóstico y Acción:** ${c.refactorAdvice}\n`;
         promptText += `- **Criterios de Aceptación (DoD):**\n`;
         c.dod.forEach(item => {
@@ -2030,6 +2134,12 @@ Al abrir la PR, incluir tildado:
         promptText += `### [${c.id}] \`${c.filePath}\`\n`;
         promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
         promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h\n`;
+        if (c.violations && c.violations.length > 0) {
+          promptText += `- **Infracciones SQALE (${c.sqaleCount} violaciones, ~${c.sqaleRemediationHours}h remediación):**\n`;
+          c.violations.forEach(v => {
+            promptText += `  * [${v.regla}] ${v.detalle || ''} (${v.remediacion_minutos || 0} min)\n`;
+          });
+        }
         promptText += `- **Diagnóstico y Acción:** ${c.refactorAdvice}\n`;
         promptText += `- **Criterios de Aceptación (DoD):**\n`;
         c.dod.forEach(item => {
@@ -2085,7 +2195,13 @@ Al abrir la PR, incluir tildado:
     md += `**Equipo:** ${currentSprintPlan.devsBe} Backend Go + ${currentSprintPlan.devsFe} Frontend Flutter + ${currentSprintPlan.devsFs} Fullstack  \n`;
     md += `**Duración Sprint:** ${currentSprintPlan.weeks} semanas (~${formatNumber(currentSprintPlan.hoursPerDev, 0)}h útiles/dev)  \n`;
     md += `**Capacidad por Sprint:** Backend: ${formatNumber(currentSprintPlan.capBe, 0)}h | Frontend: ${formatNumber(currentSprintPlan.capFe, 0)}h | Fullstack: ${formatNumber(currentSprintPlan.capFs, 0)}h  \n`;
-    md += `**Estrategia:** Zona de Dolor (D > 0.5) primero, luego por CC descendente y ROI Quick Wins.  \n\n`;
+    const stratText = selectStrategy && selectStrategy.options[selectStrategy.selectedIndex] ? selectStrategy.options[selectStrategy.selectedIndex].text : 'Híbrida';
+    md += `**Estrategia:** ${stratText}  \n`;
+    if (selectSqalePriority && selectSqalePriority.value !== 'none') {
+      const sqaleText = selectSqalePriority.options[selectSqalePriority.selectedIndex].text;
+      md += `**Foco SQALE:** ${sqaleText}  \n`;
+    }
+    md += `\n`;
 
     if (currentSprintPlan.forbiddenCards && currentSprintPlan.forbiddenCards.length > 0) {
       md += `## 🛑 Archivos Prohibidos (No Tocar — Requieren Rediseño Completo)\n\n`;
@@ -2116,10 +2232,11 @@ Al abrir la PR, incluir tildado:
       const cards = sprint.cards || [];
       const totalHours = cards.reduce((acc, c) => acc + c.deudaHoras, 0);
       md += `## 🟢 ${sprint.name} (${formatNumber(totalHours, 1)}h asignadas)\n\n`;
-      md += `| ID | Archivo | Rol | Módulo | Zona | LOC | CC | Deuda (h) | ROI Adj. | Sugerencia de Refactorización |\n`;
-      md += `|---|---|:---:|---|:---:|---:|---:|---:|---:|---|\n`;
+      md += `| ID | Archivo | Rol | Módulo | Zona | LOC | CC | Deuda (h) | SQALE | ROI Adj. | Sugerencia de Refactorización |\n`;
+      md += `|---|---|:---:|---|:---:|---:|---:|---:|:---:|---:|---|\n`;
       cards.forEach(c => {
-        md += `| ${c.id} | \`${c.filePath}\` | ${c.role} | ${c.moduleName} | ${c.isPainZone ? '🔴 DOLOR' : '🟢 SECUENCIA'} | ${c.loc} | ${c.cc} | ${c.deudaHoras}h | ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}% | ${c.refactorAdvice} |\n`;
+        const sqaleStr = c.sqaleCount > 0 ? `🛡️ ${c.sqaleCount} (${c.sqaleRemediationHours}h)` : '—';
+        md += `| ${c.id} | \`${c.filePath}\` | ${c.role} | ${c.moduleName} | ${c.isPainZone ? '🔴 DOLOR' : '🟢 SECUENCIA'} | ${c.loc} | ${c.cc} | ${c.deudaHoras}h | ${sqaleStr} | ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}% | ${c.refactorAdvice} |\n`;
       });
       md += `\n`;
     });
@@ -2165,6 +2282,8 @@ Al abrir la PR, incluir tildado:
         devs_fullstack: currentSprintPlan.devsFs,
         semanas_sprint: currentSprintPlan.weeks,
         dedicacion_pct: currentSprintPlan.dedication * 100,
+        estrategia: selectStrategy ? selectStrategy.value : 'hybrid_zona_cc_roi',
+        prioridad_sqale: selectSqalePriority ? selectSqalePriority.value : 'none',
         capacidad_be_horas: currentSprintPlan.capBe,
         capacidad_fe_horas: currentSprintPlan.capFe,
         capacidad_fs_horas: currentSprintPlan.capFs
@@ -2184,6 +2303,14 @@ Al abrir la PR, incluir tildado:
           mi: c.mi,
           deuda_horas: c.deudaHoras,
           roi_ajustado_porc: c.roiAjustado,
+          sqale_violaciones_count: c.sqaleCount,
+          sqale_remediacion_horas: c.sqaleRemediationHours,
+          sqale_violaciones: (c.violations || []).map(v => ({
+            regla: v.regla,
+            categoria: v.categoria_sqale,
+            detalle: v.detalle,
+            minutos: v.remediacion_minutos
+          })),
           diagnostico: c.refactorAdvice,
           criterios_aceptacion: c.dod
         }))
@@ -2201,7 +2328,9 @@ Al abrir la PR, incluir tildado:
           cc: c.cc,
           mi: c.mi,
           deuda_horas: c.deudaHoras,
-          roi_ajustado_porc: c.roiAjustado
+          roi_ajustado_porc: c.roiAjustado,
+          sqale_violaciones_count: c.sqaleCount,
+          sqale_remediacion_horas: c.sqaleRemediationHours
         }))
       }
     };
@@ -2361,7 +2490,7 @@ Al abrir la PR, incluir tildado:
     }
 
     // Auto-recalculate plan on input changes
-    [inputDevsBe, inputDevsFe, inputDevsFs, selectSprintWeeks, inputDedicationPct, selectSprintsCount, selectStrategy].forEach(elem => {
+    [inputDevsBe, inputDevsFe, inputDevsFs, selectSprintWeeks, inputDedicationPct, selectSprintsCount, selectStrategy, selectSqalePriority].forEach(elem => {
       if (elem) {
         elem.addEventListener('change', () => {
           if (currentReport) generateSprintPlan(currentReport);

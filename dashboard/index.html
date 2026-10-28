@@ -439,7 +439,7 @@
         <div>
           <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">🏗️ Planificador de Sprints y Acciones de Deuda Técnica</h2>
           <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">
-            Genera un plan de trabajo balanceado por capacidad de equipo. Prioriza primero archivos en <strong>Zona de Dolor (D &gt; 0.5)</strong> con <strong>Quick Wins (ROI positivo)</strong> y mayor complejidad ciclomática (CC).
+            Genera un plan de trabajo balanceado por capacidad de equipo. Permite priorizar por <strong>violaciones SQALE (ISO/IEC 25010)</strong>, archivos en <strong>Zona de Dolor (D &gt; 0.5)</strong>, <strong>Quick Wins (ROI positivo)</strong> y mayor complejidad ciclomática (CC).
           </p>
         </div>
       </div>
@@ -515,15 +515,31 @@
             <span class="plan-field-hint">Horizonte de planificación</span>
           </div>
 
-          <div class="plan-form-field" style="grid-column: span 2;">
+          <div class="plan-form-field">
             <label for="plan-strategy">Estrategia de Priorización</label>
             <select id="plan-strategy" class="plan-select">
-              <option value="hybrid_zona_cc_roi" selected>⭐ Híbrida: Zona de Dolor (D &gt; 0.5) + CC Descendente + ROI (Recomendada)</option>
+              <option value="hybrid_zona_cc_roi" selected>⭐ Híbrida: Zona de Dolor + CC + ROI (Recomendada)</option>
+              <option value="sqale_violations_first">🛡️ Violaciones SQALE: Mayor cantidad de infracciones</option>
+              <option value="sqale_remediation_first">⏱️ Remediación SQALE: Mayor tiempo de remediación</option>
+              <option value="sqale_hybrid">⚖️ Híbrida SQALE: Violaciones SQALE + Zona Dolor + CC</option>
               <option value="roi_first">🚀 ROI Primero: Quick Wins de mayor retorno de inversión</option>
               <option value="cc_first">🔥 Complejidad Primero: Mayor CC descendente</option>
               <option value="debt_hours_first">⏳ Mayor Deuda Acumulada primero</option>
             </select>
             <span class="plan-field-hint">Criterio con el que el algoritmo llena cada sprint</span>
+          </div>
+
+          <div class="plan-form-field">
+            <label for="plan-sqale-priority">Priorización / Foco SQALE</label>
+            <select id="plan-sqale-priority" class="plan-select">
+              <option value="none" selected>Ninguno (según estrategia seleccionada)</option>
+              <option value="count">Por Cantidad de Infracciones (Descendente)</option>
+              <option value="remediation">Por Tiempo de Remediación (Horas/Minutos)</option>
+              <option value="arch_first">Priorizar Arquitectónicas (Zona Dolor, Imports Circulares)</option>
+              <option value="code_first">Priorizar Código (CC Alta, Funciones/Archivos Largos)</option>
+              <option value="only_with_violations">Exclusivo: Solo archivos con violaciones SQALE</option>
+            </select>
+            <span class="plan-field-hint">Ponderación o filtro de infracciones ISO/IEC 25010</span>
           </div>
 
           <div class="plan-form-actions" style="grid-column: span 2;">
