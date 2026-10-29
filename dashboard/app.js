@@ -1029,7 +1029,7 @@
       return `
         <tr data-file-idx="${idx}" style="cursor: pointer;" title="Haz clic para ver el desglose matemático detallado">
           <td class="file-cell">
-            <strong>${fileName}</strong><br>
+            <strong>${fileName}</strong> ${f.es_alto_riesgo ? '<span class="kpi-badge badge-critical" style="font-size: 0.65rem; margin-left: 4px;" title="Archivo de Alto Riesgo: MI < 60 y Cobertura < 50%">🔥 Alto Riesgo</span>' : ''}<br>
             <span>${dirPath}</span>
           </td>
           <td><span class="brand-badge" style="font-size: 0.7rem; background: var(--mp-blue-light); color: var(--mp-blue); border-color: var(--mp-blue-subtle);">${(f.lenguaje || 'gen').toUpperCase()}</span></td>
@@ -1265,54 +1265,78 @@
   function generateSmartRefactorAdvice(file, role, modInfo, violations) {
     const p = cleanPathName(file.ruta).toLowerCase();
     const cc = file.complejidad_ciclomatica || 0;
+    const isAltoRiesgo = file.es_alto_riesgo || (file.mi < 60 && file.cobertura_porc !== null && file.cobertura_porc !== undefined && file.cobertura_porc < 50.0);
+    const hasBuildOversized = violations && violations.some(v => v.regla === 'BUILD_METHOD_OVERSIZED');
 
+    let advicePrefix = '';
+    if (isAltoRiesgo) {
+      advicePrefix = '🚨 PROTOCOLO ALTO RIESGO: Cobertura actual insuficiente (<50%) y MI < 60. Escribir tests unitarios/widget tests preservando contratos para alcanzar ≥ 70% de cobertura ANTES de alterar la lógica interna. ';
+    }
+
+    if (hasBuildOversized) {
+      return advicePrefix + "Descomponer método 'build' sobredimensionado (>35 LOC) extrayendo sub-widgets privados const reutilizables; desacoplar rebuilds y separar estado en Notifiers/BLoC.";
+    }
     if (p.includes('handler') || p.includes('controller') || p.includes('api_datasource')) {
-      return 'Extraer lógica de negocio del handler hacia la capa de aplicación/dominio; desacoplar de transporte HTTP y tipar DTOs.';
+      return advicePrefix + 'Extraer lógica de negocio del handler hacia la capa de aplicación/dominio; desacoplar de transporte HTTP y tipar DTOs.';
     }
     if (p.includes('screen') || p.includes('widget') || p.includes('panel')) {
-      return 'Descomponer pantalla monolítica en sub-widgets especializados; desacoplar manejo de estado mediante BLoC/Clean Architecture.';
+      return advicePrefix + 'Descomponer pantalla monolítica en sub-widgets especializados; desacoplar manejo de estado mediante Riverpod/BLoC y forzar constructores const.';
     }
     if (p.includes('repo') || p.includes('datasource') || p.includes('postgres')) {
-      return 'Simplificar consultas complejas; extraer constructores de consultas (query builders) y aislar manejo de errores SQL.';
+      return advicePrefix + 'Simplificar consultas complejas; extraer constructores de consultas (query builders) y aislar manejo de errores SQL.';
     }
     if (p.includes('domain') || p.includes('entities') || p.includes('entity')) {
-      return 'Inmutabilizar entidades de dominio; extraer validaciones a Value Objects y desacoplar de librerías externas.';
+      return advicePrefix + 'Inmutabilizar entidades de dominio; extraer validaciones a Value Objects y desacoplar de librerías externas.';
     }
     if (p.includes('app') || p.includes('usecase') || p.includes('service')) {
-      return 'Descomponer casos de uso monolíticos; aplicar patrón Strategy para reducir ramificaciones y simplificar orquestación.';
+      return advicePrefix + 'Descomponer casos de uso monolíticos; aplicar patrón Strategy para reducir ramificaciones y simplificar orquestación.';
     }
     if (p.includes('test')) {
-      return 'Modularizar suite de tests; extraer fixtures compartidas y helpers de prueba para eliminar código duplicado.';
+      return advicePrefix + 'Modularizar suite de tests; extraer fixtures compartidas y helpers de prueba para eliminar código duplicado.';
     }
     if (p.includes('config') || p.includes('wiring') || p.includes('main.')) {
-      return 'Introducir interfaces para desacoplar setup de dependencias concretas; simplificar inicialización de componentes.';
+      return advicePrefix + 'Introducir interfaces para desacoplar setup de dependencias concretas; simplificar inicialización de componentes.';
     }
     if (cc > 40) {
-      return `Reducción prioritaria de complejidad ciclomática extrema (CC=${cc}); extraer submétodos y simplificar branches condicionales.`;
+      return advicePrefix + `Reducción prioritaria de complejidad ciclomática extrema (CC=${cc}); extraer submétodos y simplificar branches condicionales.`;
     }
-    return 'Rediseñar componentes críticos y elevar Maintainability Index (MI) hacia nivel óptimo (≥ 75).';
+    return advicePrefix + 'Rediseñar componentes críticos y elevar Maintainability Index (MI) hacia nivel óptimo (≥ 75).';
   }
 
-  function generateDefinitionOfDone(file, role) {
+  function generateDefinitionOfDone(file, role, violations) {
     const isDart = role === 'FE' || (file.lenguaje || '').toLowerCase() === 'dart' || (file.ruta || '').endsWith('.dart');
     const isGo = role === 'BE' || (file.lenguaje || '').toLowerCase() === 'go' || (file.ruta || '').endsWith('.go');
     const targetCc = isDart ? '≤ 4' : '≤ 7';
+    const isAltoRiesgo = file.es_alto_riesgo || (file.mi < 60 && file.cobertura_porc !== null && file.cobertura_porc !== undefined && file.cobertura_porc < 50.0);
+    const hasBuildOversized = violations && violations.some(v => v.regla === 'BUILD_METHOD_OVERSIZED');
 
-    const dod = [
-      `CC ${targetCc} (máx 3 niveles de if anidados)`,
-      'Maintainability Index (MI) ≥ 60%',
-      'TDR ≤ 6% y cero imports/código muerto',
-    ];
+    const dod = [];
+
+    if (isAltoRiesgo) {
+      dod.push('Tests de preservación escritos previo al refactor (cobertura resultante ≥ 70%)');
+    }
+
+    dod.push(`CC ${targetCc} (máx 3 niveles de if anidados)`);
+    dod.push('Maintainability Index (MI) ≥ 60%');
+    dod.push('TDR bajo control y cero imports/código muerto');
 
     if (isDart) {
+      if (hasBuildOversized || (file.ruta || '').includes('screen') || (file.ruta || '').includes('widget')) {
+        dod.push('Método Widget build ≤ 35 LOC ejecutables (sub-widgets privados const)');
+        dod.push('100% constructores const en widgets estáticos');
+      }
       dod.push('Pattern matching / sealed classes en manejo de estado');
       dod.push('DIT ≤ 2 (Dart) y CBO ≤ 6');
+      dod.push('0 warnings en flutter analyze / dart analyze');
     } else if (isGo) {
       dod.push('Parseo seguro de nulos en BD (sql.Null* o tipos seguros)');
       dod.push('Contratos de interfaz aislados en puertos de dominio/app');
+      dod.push('0 warnings en golangci-lint / go vet');
     }
 
-    dod.push('Al menos 1 test unitario/contrato nuevo pasando');
+    if (!isAltoRiesgo) {
+      dod.push('Al menos 1 test unitario/contrato nuevo pasando');
+    }
     dod.push('Ownership respetado (solo archivos asignados)');
 
     return dod;
@@ -1445,10 +1469,13 @@
       const sqaleRemMinutes = fileViolations.reduce((sum, v) => sum + (v.remediacion_minutos || 0), 0);
       const sqaleRemHours = Math.round((sqaleRemMinutes / 60.0) * 10) / 10;
       const sqaleArchCount = fileViolations.filter(v => v.regla === 'ZONA_DOLOR' || v.regla === 'IMPORT_CIRCULAR' || v.regla === 'ZONA_INUTILIDAD').length;
-      const sqaleCodeCount = fileViolations.filter(v => v.regla === 'CC_ALTA' || v.regla === 'FUNCION_LARGA' || v.regla === 'ARCHIVO_LARGO').length;
+      const sqaleCodeCount = fileViolations.filter(v => v.regla === 'CC_ALTA' || v.regla === 'FUNCION_LARGA' || v.regla === 'ARCHIVO_LARGO' || v.regla === 'BUILD_METHOD_OVERSIZED').length;
       const roiAdj = f.roi_ajustado_porc !== undefined ? f.roi_ajustado_porc : 0;
       const cc = f.complejidad_ciclomatica || 0;
       const debtHours = Math.round((f.deuda_horas || 0) * 10) / 10;
+      const isAltoRiesgo = Boolean(f.es_alto_riesgo || (f.mi < 60 && f.cobertura_porc !== null && f.cobertura_porc !== undefined && f.cobertura_porc < 50.0));
+      const coberturaVal = f.cobertura_porc !== undefined && f.cobertura_porc !== null ? f.cobertura_porc : null;
+      const hasBuildOversized = fileViolations.some(v => v.regla === 'BUILD_METHOD_OVERSIZED');
 
       return {
         id: '', // assigned below
@@ -1467,6 +1494,9 @@
         costoUsd: f.costo_reparacion_usd || 0,
         interesUsd: f.interes_anual_usd || 0,
         roiAjustado: roiAdj,
+        isAltoRiesgo: isAltoRiesgo,
+        coberturaPorc: coberturaVal,
+        hasBuildOversized: hasBuildOversized,
         violations: fileViolations,
         sqaleCount: sqaleCount,
         sqaleRemediationMinutes: sqaleRemMinutes,
@@ -1474,13 +1504,27 @@
         sqaleArchCount: sqaleArchCount,
         sqaleCodeCount: sqaleCodeCount,
         refactorAdvice: generateSmartRefactorAdvice(f, role, modInfo, fileViolations),
-        dod: generateDefinitionOfDone(f, role),
+        dod: generateDefinitionOfDone(f, role, fileViolations),
         currentSprint: 1 // assigned below
       };
     });
 
     // Sort according to chosen strategy & SQALE prioritization
     enrichedCards.sort((a, b) => {
+      // 0. Estrategia explícita: Alto Riesgo Primero
+      if (strategy === 'high_risk_first') {
+        if (a.isAltoRiesgo !== b.isAltoRiesgo) {
+          return a.isAltoRiesgo ? -1 : 1;
+        }
+        if (a.isAltoRiesgo && b.isAltoRiesgo) {
+          const covA = a.coberturaPorc !== null ? a.coberturaPorc : 0;
+          const covB = b.coberturaPorc !== null ? b.coberturaPorc : 0;
+          if (covA !== covB) return covA - covB;
+        }
+        if (b.cc !== a.cc) return b.cc - a.cc;
+        return b.deudaHoras - a.deudaHoras;
+      }
+
       // 1. Violaciones SQALE primero (por cantidad descendente)
       if (strategy === 'sqale_violations_first' || sqalePriority === 'count') {
         if (b.sqaleCount !== a.sqaleCount) return b.sqaleCount - a.sqaleCount;
@@ -1497,10 +1541,12 @@
         return b.cc - a.cc;
       }
 
-      // 3. Híbrida SQALE (Infracciones + Arquitectura + CC + ROI)
+      // 3. Híbrida SQALE (Infracciones + Arquitectura + CC + ROI + Boost Alto Riesgo)
       if (strategy === 'sqale_hybrid') {
-        const scoreA = (a.sqaleCount * 2500) + (a.sqaleRemediationMinutes * 30) + (a.sqaleArchCount * 15000) + (a.isPainZone ? 15000 : 0) + (a.roiAjustado > 0 ? 8000 : 0) + (a.cc * 20) + Math.min(a.deudaHoras, 200);
-        const scoreB = (b.sqaleCount * 2500) + (b.sqaleRemediationMinutes * 30) + (b.sqaleArchCount * 15000) + (b.isPainZone ? 15000 : 0) + (b.roiAjustado > 0 ? 8000 : 0) + (b.cc * 20) + Math.min(b.deudaHoras, 200);
+        const riskBoostA = a.isAltoRiesgo ? 35000 : 0;
+        const riskBoostB = b.isAltoRiesgo ? 35000 : 0;
+        const scoreA = riskBoostA + (a.sqaleCount * 2500) + (a.sqaleRemediationMinutes * 30) + (a.sqaleArchCount * 15000) + (a.isPainZone ? 15000 : 0) + (a.roiAjustado > 0 ? 8000 : 0) + (a.cc * 20) + Math.min(a.deudaHoras, 200);
+        const scoreB = riskBoostB + (b.sqaleCount * 2500) + (b.sqaleRemediationMinutes * 30) + (b.sqaleArchCount * 15000) + (b.isPainZone ? 15000 : 0) + (b.roiAjustado > 0 ? 8000 : 0) + (b.cc * 20) + Math.min(b.deudaHoras, 200);
         return scoreB - scoreA;
       }
 
@@ -1522,9 +1568,11 @@
         if (b.deudaHoras !== a.deudaHoras) return b.deudaHoras - a.deudaHoras;
         return b.cc - a.cc;
       } else {
-        // hybrid_zona_cc_roi (default)
-        const scoreA = (a.isPainZone ? 20000 : 0) + (a.roiAjustado > 0 ? 10000 : 0) + (a.cc * 25) + Math.min(a.deudaHoras, 300);
-        const scoreB = (b.isPainZone ? 20000 : 0) + (b.roiAjustado > 0 ? 10000 : 0) + (b.cc * 25) + Math.min(b.deudaHoras, 300);
+        // hybrid_zona_cc_roi (default con boost masivo a Alto Riesgo)
+        const riskBoostA = a.isAltoRiesgo ? 40000 : 0;
+        const riskBoostB = b.isAltoRiesgo ? 40000 : 0;
+        const scoreA = riskBoostA + (a.isPainZone ? 20000 : 0) + (a.roiAjustado > 0 ? 10000 : 0) + (a.cc * 25) + Math.min(a.deudaHoras, 300);
+        const scoreB = riskBoostB + (b.isPainZone ? 20000 : 0) + (b.roiAjustado > 0 ? 10000 : 0) + (b.cc * 25) + Math.min(b.deudaHoras, 300);
         return scoreB - scoreA;
       }
     });
@@ -1835,6 +1883,7 @@ Al abrir la PR, incluir tildado:
         <div class="kanban-card-top">
           <span class="card-id-tag">${card.id}</span>
           <div class="card-badges-group">
+            ${card.isAltoRiesgo ? `<span class="card-zone-badge" style="background: rgba(240, 68, 56, 0.2); color: #f04438; border: 1px solid rgba(240, 68, 56, 0.4); font-weight: 700;" title="Archivo de Alto Riesgo: MI < 60 y Cobertura < 50%">🔥 ALTO RIESGO</span>` : ''}
             <span class="card-role-badge ${roleBadgeClass}">${roleLabel}</span>
             <span class="card-zone-badge ${zoneBadgeClass}">${zoneLabel}</span>
           </div>
@@ -1848,6 +1897,16 @@ Al abrir la PR, incluir tildado:
           <span class="card-metric-pill">LOC: ${card.loc}</span>
           <span class="card-metric-pill highlight-cc">CC: ${card.cc}</span>
           <span class="card-metric-pill">MI: ${card.mi}</span>
+          ${card.coberturaPorc !== null ? `
+            <span class="card-metric-pill" style="font-weight: 700; color: ${card.coberturaPorc >= 70 ? 'var(--color-success)' : (card.coberturaPorc >= 50 ? 'var(--color-warning)' : 'var(--color-critical)')};" title="Cobertura LCOV de pruebas">
+              Cov: ${card.coberturaPorc}%
+            </span>
+          ` : ''}
+          ${card.hasBuildOversized ? `
+            <span class="card-metric-pill highlight-cc" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border-color: rgba(245, 158, 11, 0.3);" title="Método Widget build supera 35 LOC">
+              ⚠️ build &gt; 35 LOC
+            </span>
+          ` : ''}
           <span class="card-metric-pill" style="font-weight: 700; color: var(--mp-blue-dark);">${card.deudaHoras}h</span>
           <span class="card-metric-pill ${roiClass}">${roiText}</span>
           ${card.sqaleCount > 0 ? `
@@ -1861,7 +1920,7 @@ Al abrir la PR, incluir tildado:
           <div class="card-violation-tags">
             ${card.violations.slice(0, 3).map(v => {
               const isCrit = v.regla === 'ZONA_DOLOR' || v.regla === 'IMPORT_CIRCULAR';
-              const isWarn = v.regla === 'CC_ALTA' || v.regla === 'ARCHIVO_LARGO';
+              const isWarn = v.regla === 'CC_ALTA' || v.regla === 'ARCHIVO_LARGO' || v.regla === 'BUILD_METHOD_OVERSIZED';
               const tagClass = isCrit ? 'violation-critical' : (isWarn ? 'violation-warning' : '');
               return `<span class="card-violation-tag ${tagClass}" title="${v.detalle || ''}">${v.regla}</span>`;
             }).join('')}
@@ -2068,7 +2127,7 @@ Al abrir la PR, incluir tildado:
     const totalHours = s1.cards.reduce((acc, c) => acc + c.deudaHoras, 0);
 
     let promptText = `# 🤖 PLAN DE ACCIÓN DE DEUDA TÉCNICA — SPRINT 1 (${repoName.toUpperCase()})\n\n`;
-    promptText += `**Objetivo del Sprint:** Reducir fricción operativa, mitigar violaciones SQALE (ISO/IEC 25010) y deuda técnica priorizando cuellos de botella en **Zona de Dolor (D > 0.5)** y **Quick Wins (ROI positivo)**.\n\n`;
+    promptText += `**Objetivo del Sprint:** Reducir fricción operativa, blindar **Archivos de Alto Riesgo (MI < 60 y Cobertura < 50%)**, mitigar violaciones SQALE (ISO/IEC 25010) y deuda técnica priorizando cuellos de botella en **Zona de Dolor (D > 0.5)** y **Quick Wins (ROI positivo)**.\n\n`;
     promptText += `### 👥 Capacidad y Asignación del Sprint 1:\n`;
     promptText += `- **Duración:** ${currentSprintPlan.weeks} semanas (${formatNumber(currentSprintPlan.hoursPerDev, 0)}h útiles/dev)\n`;
     promptText += `- **Equipo Backend (Go):** ${currentSprintPlan.devsBe} devs | ${formatNumber(currentSprintPlan.capBe, 0)}h disponibles\n`;
@@ -2077,6 +2136,19 @@ Al abrir la PR, incluir tildado:
       promptText += `- **Pool Fullstack:** ${currentSprintPlan.devsFs} devs | ${formatNumber(currentSprintPlan.capFs, 0)}h de apoyo flexible\n`;
     }
     promptText += `- **Total Horas Asignadas:** ${formatNumber(totalHours, 1)}h en ${s1.cards.length} tarjetas\n\n`;
+
+    // Sección de alerta para Archivos de Alto Riesgo en Sprint 1
+    const highRiskCards = s1.cards.filter(c => c.isAltoRiesgo);
+    if (highRiskCards.length > 0) {
+      promptText += `🔥 *ATENCIÓN: ARCHIVOS DE ALTO RIESGO DETECTADOS (BLINDAR CON TESTS PRIMERO)*\n`;
+      promptText += `Los siguientes archivos combinan baja mantenibilidad (MI < 60) y cobertura de pruebas deficiente o nula (< 50%).\n`;
+      promptText += `**Regla de Oro:** ANTES de alterar la lógica interna o refactorizar el archivo, debés escribir pruebas unitarias o widget tests en \`test/\` que preserven el comportamiento actual hasta alcanzar al menos el 70% de cobertura.\n\n`;
+      highRiskCards.forEach((c, idx) => {
+        const covStr = c.coberturaPorc !== null ? `${c.coberturaPorc}%` : '0% (s/d)';
+        promptText += `${idx + 1}. \`[${c.id}] ${c.filePath}\` (MI: ${c.mi}, Cobertura actual: ${covStr}, CC: ${c.cc}, Deuda: ${c.deudaHoras}h)\n`;
+      });
+      promptText += `\n---\n\n`;
+    }
 
     if (currentSprintPlan.forbiddenCards && currentSprintPlan.forbiddenCards.length > 0) {
       promptText += `🛑 *ARCHIVOS PROHIBIDOS (NO TOCAR)*\n`;
@@ -2092,9 +2164,10 @@ Al abrir la PR, incluir tildado:
     if (beCards.length > 0) {
       promptText += `## 🔧 Tarjetas Backend (Go) — Sprint 1\n\n`;
       beCards.forEach(c => {
-        promptText += `### [${c.id}] \`${c.filePath}\`\n`;
+        const covStr = c.coberturaPorc !== null ? `${c.coberturaPorc}%` : 's/d';
+        promptText += `### [${c.id}] \`${c.filePath}\`${c.isAltoRiesgo ? ' 🔥 [ALTO RIESGO]' : ''}\n`;
         promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
-        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h | ROI Ajustado: ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}%\n`;
+        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Cobertura: ${covStr} | Deuda: ${c.deudaHoras}h | ROI Ajustado: ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}%\n`;
         if (c.violations && c.violations.length > 0) {
           promptText += `- **Infracciones SQALE (${c.sqaleCount} violaciones, ~${c.sqaleRemediationHours}h remediación):**\n`;
           c.violations.forEach(v => {
@@ -2113,9 +2186,10 @@ Al abrir la PR, incluir tildado:
     if (feCards.length > 0) {
       promptText += `## 🎨 Tarjetas Frontend (Flutter/Dart) — Sprint 1\n\n`;
       feCards.forEach(c => {
-        promptText += `### [${c.id}] \`${c.filePath}\`\n`;
+        const covStr = c.coberturaPorc !== null ? `${c.coberturaPorc}%` : 's/d';
+        promptText += `### [${c.id}] \`${c.filePath}\`${c.isAltoRiesgo ? ' 🔥 [ALTO RIESGO]' : ''}\n`;
         promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
-        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h | ROI Ajustado: ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}%\n`;
+        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Cobertura: ${covStr} | Deuda: ${c.deudaHoras}h | ROI Ajustado: ${c.roiAjustado > 0 ? '+' : ''}${c.roiAjustado}%\n`;
         if (c.violations && c.violations.length > 0) {
           promptText += `- **Infracciones SQALE (${c.sqaleCount} violaciones, ~${c.sqaleRemediationHours}h remediación):**\n`;
           c.violations.forEach(v => {
@@ -2134,9 +2208,10 @@ Al abrir la PR, incluir tildado:
     if (fsCards.length > 0) {
       promptText += `## ⚡ Tarjetas Fullstack — Sprint 1\n\n`;
       fsCards.forEach(c => {
-        promptText += `### [${c.id}] \`${c.filePath}\`\n`;
+        const covStr = c.coberturaPorc !== null ? `${c.coberturaPorc}%` : 's/d';
+        promptText += `### [${c.id}] \`${c.filePath}\`${c.isAltoRiesgo ? ' 🔥 [ALTO RIESGO]' : ''}\n`;
         promptText += `- **Módulo:** \`${c.moduleName}\` (${c.zona})\n`;
-        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Deuda: ${c.deudaHoras}h\n`;
+        promptText += `- **Métricas:** LOC: ${c.loc} | CC: ${c.cc} | MI: ${c.mi} | Cobertura: ${covStr} | Deuda: ${c.deudaHoras}h\n`;
         if (c.violations && c.violations.length > 0) {
           promptText += `- **Infracciones SQALE (${c.sqaleCount} violaciones, ~${c.sqaleRemediationHours}h remediación):**\n`;
           c.violations.forEach(v => {
@@ -2157,7 +2232,11 @@ Al abrir la PR, incluir tildado:
     promptText += `Al abrir la PR, incluir tildado:\n\n`;
     promptText += `* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)\n`;
     promptText += `* [ ] Maintainability Index ≥ 60%\n`;
-    promptText += `* [ ] TDR ≤ 6% (Technical Debt Ratio SQALE)\n`;
+    promptText += `* [ ] TDR bajo umbral de perfil (≤ 6% estándar / ≤ 10% ágil)\n`;
+    promptText += `* [ ] Widget build ≤ 35 LOC ejecutables (sub-widgets privados const extraídos)\n`;
+    promptText += `* [ ] 100% constructores const en widgets estáticos del árbol\n`;
+    promptText += `* [ ] Cobertura de tests ≥ 70% en archivos intervenidos sin regresiones\n`;
+    promptText += `* [ ] 0 warnings en flutter analyze / dart analyze / golangci-lint\n`;
     promptText += `* [ ] Duplicación de código ≤ 3%\n`;
     promptText += `* [ ] Cero vulnerabilidades / secretos expuestos\n`;
     promptText += `* [ ] Cero nueva deuda técnica en PR (Quality Gate "A" en código nuevo)\n`;
@@ -2166,16 +2245,16 @@ Al abrir la PR, incluir tildado:
     promptText += `* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6\n`;
     promptText += `* [ ] Parseo seguro de nulos en BD\n`;
     promptText += `* [ ] Cero imports/variables/código muerto\n`;
-    promptText += `* [ ] Al menos 1 test unitario/contrato nuevo pasando\n`;
     promptText += `* [ ] Ownership respetado (solo archivos asignados)\n\n`;
 
     promptText += `---\n\n`;
     promptText += `## ⚠️ Instrucciones Operativas de Ejecución para el Agente:\n`;
-    promptText += `1. **Procesar secuencialmente:** Abordá una tarjeta a la vez siguiendo el orden numérico asignado.\n`;
-    promptText += `2. **No omitir ningún archivo:** Cada tarjeta arriba listada debe tener su refactorización concreta.\n`;
-    promptText += `3. **Cero regresiones:** Tras modificar cada archivo, ejecutá los tests unitarios correspondientes (\`go test ./...\` en backend o \`flutter test\` en frontend).\n`;
-    promptText += `4. **Respetar contratos:** Si desacoplás un handler o controller, conservá el contrato de las APIs y no rompas los llamados existentes.\n`;
-    promptText += `5. **Confirmación:** Al finalizar cada tarjeta, reportá los cambios realizados y la nueva complejidad ciclomática estimada.\n`;
+    promptText += `1. **Prioridad Absoluta a Alto Riesgo:** Si la tarjeta tiene la etiqueta 🔥 [ALTO RIESGO], primero inspeccioná los tests existentes en \`test/\`. Creá o extendé la suite de pruebas unitarias/widget tests asegurando que reflejen el comportamiento actual y pasen en verde (cobertura resultante ≥ 70%) antes de tocar el código fuente.\n`;
+    promptText += `2. **Modularización de Widgets:** Si la tarjeta indica \`BUILD_METHOD_OVERSIZED\` o es una pantalla Flutter extensa, descomponé el método \`build\` extrayendo sub-widgets privados con constructores \`const\` (ningún método \`build\` debe superar las 35 líneas ejecutables).\n`;
+    promptText += `3. **Procesar secuencialmente:** Abordá una tarjeta a la vez siguiendo el orden numérico asignado.\n`;
+    promptText += `4. **Cero regresiones:** Tras modificar cada archivo, ejecutá los tests (\`flutter test --coverage\` en Flutter o \`go test ./...\` en Go) verificando que el 100% de los tests sigan pasando en verde.\n`;
+    promptText += `5. **Respetar contratos:** Si desacoplás un handler, controller o notifier, conservá el contrato de las APIs y no rompas los llamados existentes.\n`;
+    promptText += `6. **Confirmación:** Al finalizar cada tarjeta, reportá los cambios realizados, el nuevo MI estimado y el nuevo valor de CC obtenido.\n`;
 
     navigator.clipboard.writeText(promptText).then(() => {
       if (planCopyFeedback) {
@@ -2224,7 +2303,11 @@ Al abrir la PR, incluir tildado:
     md += `Al abrir la PR, incluir tildado:\n\n`;
     md += `* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)\n`;
     md += `* [ ] Maintainability Index ≥ 60%\n`;
-    md += `* [ ] TDR ≤ 6% (Technical Debt Ratio SQALE)\n`;
+    md += `* [ ] TDR bajo umbral de perfil (≤ 6% estándar / ≤ 10% ágil)\n`;
+    md += `* [ ] Widget build ≤ 35 LOC ejecutables (sub-widgets privados const extraídos)\n`;
+    md += `* [ ] 100% constructores const en widgets estáticos del árbol\n`;
+    md += `* [ ] Cobertura de tests ≥ 70% en archivos intervenidos sin regresiones\n`;
+    md += `* [ ] 0 warnings en flutter analyze / dart analyze / golangci-lint\n`;
     md += `* [ ] Duplicación de código ≤ 3%\n`;
     md += `* [ ] Cero vulnerabilidades / secretos expuestos\n`;
     md += `* [ ] Cero nueva deuda técnica en PR (Quality Gate "A" en código nuevo)\n`;
@@ -2233,7 +2316,6 @@ Al abrir la PR, incluir tildado:
     md += `* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6\n`;
     md += `* [ ] Parseo seguro de nulos en BD\n`;
     md += `* [ ] Cero imports/variables/código muerto\n`;
-    md += `* [ ] Al menos 1 test unitario/contrato nuevo pasando\n`;
     md += `* [ ] Ownership respetado (solo archivos asignados)\n\n`;
     md += `---\n\n`;
 
@@ -2518,6 +2600,55 @@ Al abrir la PR, incluir tildado:
     }
   }
 
+  // Setup Collapsible Sections (Tab 5 Plan & Panels)
+  function setupCollapsibleSections() {
+    const headers = document.querySelectorAll('.collapsible-header');
+    headers.forEach(header => {
+      header.addEventListener('click', (e) => {
+        // Prevent toggle if clicking on interactive form inputs or buttons inside the header
+        if (e.target.closest('button') || e.target.closest('input') || e.target.closest('select')) {
+          return;
+        }
+
+        const targetId = header.getAttribute('data-toggle');
+        const container = targetId ? document.getElementById(targetId) : header.closest('.collapsible-card');
+        if (!container) return;
+
+        const isCurrentlyCollapsed = container.classList.contains('is-collapsed');
+        container.classList.toggle('is-collapsed');
+
+        // Update indicator text if present
+        const labelEl = header.querySelector('.collapse-label');
+        if (labelEl) {
+          labelEl.textContent = isCurrentlyCollapsed ? 'Minimizar' : 'Abrir';
+        }
+      });
+    });
+
+    const btnExpandAll = document.getElementById('btn-plan-expand-all');
+    const btnCollapseAll = document.getElementById('btn-plan-collapse-all');
+
+    if (btnExpandAll) {
+      btnExpandAll.addEventListener('click', () => {
+        document.querySelectorAll('#tab-plan .collapsible-card').forEach(card => {
+          card.classList.remove('is-collapsed');
+          const labelEl = card.querySelector('.collapse-label');
+          if (labelEl) labelEl.textContent = 'Minimizar';
+        });
+      });
+    }
+
+    if (btnCollapseAll) {
+      btnCollapseAll.addEventListener('click', () => {
+        document.querySelectorAll('#tab-plan .collapsible-card').forEach(card => {
+          card.classList.add('is-collapsed');
+          const labelEl = card.querySelector('.collapse-label');
+          if (labelEl) labelEl.textContent = 'Abrir';
+        });
+      });
+    }
+  }
+
   // Handle uploaded JSON file
   function handleJsonFile(file) {
     if (!file.name.endsWith('.json')) {
@@ -2543,6 +2674,7 @@ Al abrir la PR, incluir tildado:
   // Initialize
   document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
+    setupCollapsibleSections();
     initData();
   });
 

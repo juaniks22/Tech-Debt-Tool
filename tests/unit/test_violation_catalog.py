@@ -35,6 +35,20 @@ class TestViolationCatalog(unittest.TestCase):
         viols_dart = evaluar_violaciones_archivo(m_dart)
         self.assertTrue(any(v.regla == "CC_ALTA" for v in viols_dart))
 
+    def test_violacion_build_method_oversized(self):
+        m = FileMetric(
+            ruta="lib/screens/cursos_screen.dart",
+            lenguaje="dart",
+            loc=200,
+            complejidad_ciclomatica=3,
+            metodos_build_largos=[(15, 60)],
+        )
+        viols = evaluar_violaciones_archivo(m)
+        self.assertTrue(any(v.regla == "BUILD_METHOD_OVERSIZED" for v in viols))
+        v_build = next(v for v in viols if v.regla == "BUILD_METHOD_OVERSIZED")
+        self.assertEqual(v_build.remediacion_minutos, 25.0)
+        self.assertEqual(v_build.linea, 15)
+
     def test_violaciones_modulos_y_ciclos(self):
         m_dolor = ModuleMetrics(
             nombre="data",

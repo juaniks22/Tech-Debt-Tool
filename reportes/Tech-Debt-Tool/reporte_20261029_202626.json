@@ -1,0 +1,50 @@
+{
+  "generado_en": "2026-10-29T23:26:26.493776+00:00",
+  "repo_path": ".",
+  "modelo_calculo": "dinamico",
+  "total_loc": 0,
+  "total_deuda_horas": 0,
+  "total_costo_reparacion_usd": 0,
+  "total_interes_anual_usd": 0,
+  "sqale_report": {
+    "modulos": [
+      {
+        "nombre": "src",
+        "ruta": "src",
+        "ca": 0,
+        "ce": 0,
+        "inestabilidad": 0.0,
+        "na": 0,
+        "nc": 0,
+        "abstraccion": 0.0,
+        "distancia_d": 1.0,
+        "zona": "ZONA_DOLOR",
+        "archivos": 0,
+        "dependencias_in": [],
+        "dependencias_out": []
+      }
+    ],
+    "violaciones": [
+      {
+        "regla": "ZONA_DOLOR",
+        "categoria_sqale": "Mantenibilidad",
+        "archivo": "src",
+        "linea": null,
+        "detalle": "Módulo 'src' en Zona de Dolor (D=1.00, I=0.00, A=0.00)",
+        "remediacion_minutos": 180.0
+      }
+    ],
+    "total_violaciones": 1,
+    "l_td": 90.0,
+    "v_a": -90.0,
+    "costo_reemplazo": 0.0,
+    "tdr": 0.0,
+    "estado_tdr": "EXCELENTE",
+    "alpha_l": 1.0,
+    "beta_l": 1.0,
+    "umbral_tdr_alerta": 5.0,
+    "umbral_tdr_critico": 20.0,
+    "perfil_sqale": "estandar"
+  },
+  "archivos": []
+}

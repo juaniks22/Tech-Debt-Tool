@@ -964,6 +964,97 @@ body {
    Tab 5: Plan de Acción & Sprints (Kanban & Capacity)
    ========================================================================== */
 
+/* Collapsible Sections in Tab 5 (Plan de Acción) & general panels */
+.collapsible-card {
+  transition: all var(--transition-fast);
+}
+
+.collapsible-header {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+}
+
+.collapsible-header:hover {
+  opacity: 0.9;
+}
+
+.collapse-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.collapsible-header:hover .collapse-indicator {
+  color: var(--text-main);
+  border-color: var(--border-strong);
+  background: var(--bg-card);
+}
+
+.collapse-chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.is-collapsed .collapse-chevron {
+  transform: rotate(-90deg);
+}
+
+.collapsible-body {
+  transition: max-height 0.3s ease, opacity 0.25s ease;
+  overflow: visible;
+}
+
+.is-collapsed .collapsible-body {
+  display: none !important;
+}
+
+.is-collapsed {
+  padding-bottom: 14px !important;
+}
+
+.plan-collapse-all-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.plan-collapse-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--transition-fast);
+}
+
+.plan-collapse-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  border-color: var(--border-strong);
+}
+
 .panel-header-box {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);

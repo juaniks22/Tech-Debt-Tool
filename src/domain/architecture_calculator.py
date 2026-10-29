@@ -103,15 +103,19 @@ def calcular_tdr(l_td: float, costo_reemplazo: float) -> float:
     return round((l_td / costo_reemplazo) * 100.0, 2)
 
 
-def clasificar_tdr(tdr_porcentaje: float) -> str:
+def clasificar_tdr(
+    tdr_porcentaje: float,
+    umbral_alerta: float = 5.0,
+    umbral_critico: float = 20.0,
+) -> str:
     """
     Evaluación cualitativa según modelo SQALE:
-    TDR <= 5%: Excelente (Bajo riesgo)
-    5% < TDR <= 20%: Moderado (Refactorización planificada)
-    TDR > 20%: Crítico (Inviable de mantener; considerar reemplazo)
+    TDR <= umbral_alerta: Excelente (Bajo riesgo, default 5%)
+    umbral_alerta < TDR <= umbral_critico: Moderado (Refactorización planificada)
+    TDR > umbral_critico: Crítico (Inviable de mantener; considerar reemplazo)
     """
-    if tdr_porcentaje <= 5.0:
+    if tdr_porcentaje <= umbral_alerta:
         return "EXCELENTE"
-    if tdr_porcentaje <= 20.0:
+    if tdr_porcentaje <= umbral_critico:
         return "MODERADO"
     return "CRITICO"

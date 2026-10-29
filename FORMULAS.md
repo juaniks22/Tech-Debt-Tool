@@ -361,9 +361,25 @@ $$V_A = \left( LOC \times \text{CostoPorLineaBase} \times \beta_L \right) - L_{T
 
 ### 18.3 Ratio de Deuda Técnica ($TDR$)
 $$TDR = \frac{L_{TD}}{\text{Costo Reemplazo del Software}} \times 100$$
-- 🟢 $TDR \le 5\%$: Excelente estado (Bajo riesgo).
-- 🟡 $5\% < TDR \le 20\%$: Moderado (Requiere refactorización planificada).
-- 🔴 $TDR > 20\%$: Crítico (Inviable de mantener; considerar reemplazo o reescritura).
+- **Perfil Estándar (`--perfil-tdr estandar`):**
+  - 🟢 $TDR \le 5\%$: Excelente estado (Bajo riesgo).
+  - 🟡 $5\% < TDR \le 20\%$: Moderado (Requiere refactorización planificada).
+  - 🔴 $TDR > 20\%$: Crítico (Inviable de mantener; considerar reemplazo o reescritura).
+- **Perfil Ágil (`--perfil-tdr agil`):**
+  - 🟢 $TDR \le 10\%$: Excelente estado / Prototipado o pantallas en rediseño.
+  - 🟡 $10\% < TDR \le 25\%$: Moderado.
+  - 🔴 $TDR > 25\%$: Crítico.
+
+---
+
+## 19. Cobertura de Pruebas y Archivos de Alto Riesgo
+
+A través de la integración de LCOV (`coverage/lcov.info` o `--lcov`), se identifican archivos que combinan alta fragilidad estructural con ausencia o deficiencia de pruebas automatizadas:
+
+$$\text{Archivos de Alto Riesgo} = \{ f \in \text{Repo} \mid MI(f) < 60 \land \text{Coverage}(f) < 50\% \}$$
+
+- **Impacto:** Son los principales vectores de regresión en producción ante cualquier cambio o refactorización.
+- **Regla SQALE de Flutter:** Los métodos `Widget build` extensos ($LOC > 35$) se computan bajo la regla `BUILD_METHOD_OVERSIZED` con un costo estándar de remediación de 25 minutos para obligar al desacoplamiento en widgets privados/reutilizables.
 
 ---
 

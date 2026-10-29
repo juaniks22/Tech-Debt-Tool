@@ -17,6 +17,7 @@ TIEMPO_REMEDIACION = {
     "IMPORT_CIRCULAR": 120.0, # Desacoplar módulos acoplados cíclicamente
     "ZONA_DOLOR": 180.0,      # Introducir interfaces y desacoplar módulo rígido
     "ZONA_INUTILIDAD": 90.0,  # Simplificar abstracciones innecesarias sin consumidores
+    "BUILD_METHOD_OVERSIZED": 25.0, # Desacoplar método build de Flutter en widgets privados
 }
 
 # Umbrales configurables
@@ -26,12 +27,14 @@ UMBRAL_CC_POR_LENGUAJE = {
 }
 UMBRAL_LOC_FUNCION = 50
 UMBRAL_LOC_ARCHIVO = 300
+UMBRAL_LOC_BUILD = 35
 
 
 def evaluar_violaciones_archivo(
     metrica: FileMetric,
     umbral_cc_override: Optional[int] = None,
     umbral_loc_archivo: int = UMBRAL_LOC_ARCHIVO,
+    umbral_loc_build: int = UMBRAL_LOC_BUILD,
 ) -> list[Violation]:
     """Evalúa violaciones a nivel de archivo individual."""
     violaciones: list[Violation] = []
@@ -74,6 +77,20 @@ def evaluar_violaciones_archivo(
                 remediacion_minutos=TIEMPO_REMEDIACION["CC_ALTA"],
             )
         )
+
+    # 3. Regla: Método build de Flutter sobredimensionado
+    if metrica.metodos_build_largos:
+        for linea, loc_build in metrica.metodos_build_largos:
+            violaciones.append(
+                Violation(
+                    regla="BUILD_METHOD_OVERSIZED",
+                    categoria_sqale="Mantenibilidad",
+                    archivo=metrica.ruta,
+                    linea=linea,
+                    detalle=f"Método 'build' con {loc_build} líneas ejecutables (umbral Flutter: {umbral_loc_build})",
+                    remediacion_minutos=TIEMPO_REMEDIACION["BUILD_METHOD_OVERSIZED"],
+                )
+            )
 
     return violaciones
 

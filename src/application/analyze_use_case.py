@@ -22,6 +22,7 @@ from src.domain.models import (
     FileMetric,
     FinancialParams,
 )
+from src.infrastructure.parsers.lcov_parser import obtener_cobertura_para_archivo
 
 
 class AnalyzeRepositoryUseCase:
@@ -46,6 +47,8 @@ class AnalyzeRepositoryUseCase:
         subpath_map: Optional[dict[str, str]] = None,
         solo_config: bool = False,
         mi_referencia: Optional[float] = None,
+        cobertura_map: Optional[dict[str, float]] = None,
+        lcov_path: Optional[str] = None,
     ) -> AnalysisSummary:
         ref_mi = mi_referencia if mi_referencia is not None else self.params.mi_referencia_default
         subpaths = subpath_map or {}
@@ -82,6 +85,17 @@ class AnalyzeRepositoryUseCase:
                 params=self.params,
                 t_clean_horas=estimacion.t_clean_horas,
             )
+
+            # Integrar cobertura de pruebas si está disponible
+            if cobertura_map is not None:
+                cov = obtener_cobertura_para_archivo(m.ruta, cobertura_map)
+                if cov is None and m.lenguaje == "dart":
+                    cov = 0.0
+                m.cobertura_porc = cov
+                reporte.cobertura_porc = cov
+                if reporte.mi < 60.0 and reporte.cobertura_porc is not None and reporte.cobertura_porc < 50.0:
+                    reporte.es_alto_riesgo = True
+
             reportes.append(reporte)
 
         # 3. Filtrar si se solicitó únicamente archivos configurados en YAML
@@ -107,6 +121,15 @@ class AnalyzeRepositoryUseCase:
         archivos_aprobados = sum(1 for r in reportes if r.estado_mi == "APROBADO")
         archivos_excelentes = sum(1 for r in reportes if r.estado_mi == "EXCELENTE")
         archivos_prohibidos = sum(1 for r in reportes if getattr(r, "es_prohibido", False))
+        archivos_alto_riesgo = sum(1 for r in reportes if getattr(r, "es_alto_riesgo", False))
+
+        archivos_con_cov = [r.cobertura_porc for r in reportes if r.cobertura_porc is not None]
+        cobertura_promedio = (
+            round(sum(archivos_con_cov) / len(archivos_con_cov), 2)
+            if archivos_con_cov
+            else None
+        )
+
         total_deuda = round(sum(r.deuda_horas or 0.0 for r in reportes), 2)
         total_costo = round(sum(r.costo_reparacion_usd or 0.0 for r in reportes), 2)
         total_interes = round(sum(r.interes_anual_usd or 0.0 for r in reportes), 2)
@@ -120,6 +143,9 @@ class AnalyzeRepositoryUseCase:
             archivos_aprobados=archivos_aprobados,
             archivos_excelentes=archivos_excelentes,
             archivos_prohibidos=archivos_prohibidos,
+            archivos_alto_riesgo=archivos_alto_riesgo,
+            cobertura_promedio=cobertura_promedio,
+            lcov_path=lcov_path,
             total_deuda_horas=total_deuda,
             total_costo_reparacion_usd=total_costo,
             total_interes_anual_usd=total_interes,

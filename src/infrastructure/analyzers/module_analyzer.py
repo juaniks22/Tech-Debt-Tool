@@ -19,8 +19,18 @@ from src.domain.violation_catalog import (
     TIEMPO_REMEDIACION,
     evaluar_violaciones_modulos,
 )
-from src.infrastructure.parsers.dart_import_parser import parse_dart_file
+from src.infrastructure.parsers.dart_import_parser import (
+    es_archivo_generado_dart,
+    parse_dart_file,
+)
 from src.infrastructure.parsers.go_import_parser import parse_go_file
+
+
+IGNORAR_CARPETAS_MODULO = {
+    "internal", "test", "tests", "vendor", "build", "assets", "docs", "doc",
+    "android", "ios", "linux", "macos", "windows", "web", "tool", "tools",
+    "sql", "coverage", "reportes", "reports", "dashboard",
+}
 
 
 def _detectar_modulos_en_directorio(base_dir: Path) -> dict[str, Path]:
@@ -40,8 +50,8 @@ def _detectar_modulos_en_directorio(base_dir: Path) -> dict[str, Path]:
 
     for scan_dir in carpetas_a_escanear:
         for item in scan_dir.iterdir():
-            if item.is_dir() and not item.name.startswith((".", "_", "test", "vendor")):
-                if item.name == "internal":
+            if item.is_dir() and not item.name.startswith((".", "_")):
+                if item.name.lower() in IGNORAR_CARPETAS_MODULO:
                     continue
                 nombre_modulo = item.name
                 if nombre_modulo not in modulos:
@@ -115,6 +125,8 @@ class ModuleAnalyzer:
 
             for file_path in mod_path.rglob(f"*{extension}"):
                 if file_path.is_file():
+                    if lang == "dart" and es_archivo_generado_dart(file_path.name):
+                        continue
                     data["files"].append(file_path)
                     if lang == "go":
                         parsed = parse_go_file(file_path)

@@ -6,8 +6,15 @@ import unittest
 from pathlib import Path
 
 from src.infrastructure.analyzers.module_analyzer import ModuleAnalyzer
-from src.infrastructure.parsers.dart_import_parser import parse_dart_file
+from src.infrastructure.parsers.dart_import_parser import (
+    es_archivo_generado_dart,
+    parse_dart_file,
+)
 from src.infrastructure.parsers.go_import_parser import parse_go_file
+from src.infrastructure.parsers.lcov_parser import (
+    obtener_cobertura_para_archivo,
+    parse_lcov_file,
+)
 
 
 class TestParsersAndModuleAnalyzer(unittest.TestCase):
@@ -125,6 +132,69 @@ type Screen{i} struct {{}}
             # Distancia D = |1.0 + 0.0 - 1| = 0.0 (Secuencia principal)
             self.assertEqual(dom_m.distancia_d, 0.0)
             self.assertEqual(dom_m.zona, "SECUENCIA_PRINCIPAL")
+
+    def test_es_archivo_generado_dart(self):
+        self.assertTrue(es_archivo_generado_dart("user_provider.g.dart"))
+        self.assertTrue(es_archivo_generado_dart("user_state.freezed.dart"))
+        self.assertTrue(es_archivo_generado_dart("api_client.mocks.dart"))
+        self.assertTrue(es_archivo_generado_dart(".dart_tool/package_config.json"))
+        self.assertFalse(es_archivo_generado_dart("anotador_screen.dart"))
+        self.assertFalse(es_archivo_generado_dart("lib/domain/models/partido.dart"))
+
+    def test_parse_dart_build_method_oversized(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            file_path = Path(tmpdir) / "large_screen.dart"
+            body_statements = "\n".join([f"    final v{i} = {i};" for i in range(40)])
+            file_path.write_text(
+                f"""import 'package:flutter/material.dart';
+
+class BigScreen extends StatelessWidget {{
+  @override
+  Widget build(
+    BuildContext context,
+  ) {{
+{body_statements}
+    return Container();
+  }}
+}}
+""",
+                encoding="utf-8",
+            )
+            res = parse_dart_file(file_path, max_build_loc=35)
+            self.assertEqual(len(res.build_methods_oversized), 1)
+            line, loc = res.build_methods_oversized[0]
+            self.assertEqual(line, 5)
+            self.assertGreater(loc, 35)
+
+    def test_parse_lcov_file_y_match(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            lcov_path = Path(tmpdir) / "lcov.info"
+            lcov_path.write_text(
+                """TN:
+SF:lib/features/anotador/anotador_controller.dart
+DA:1,1
+DA:2,1
+DA:3,0
+DA:4,1
+LF:4
+LH:3
+end_of_record
+SF:lib/features/anotador/tablero_view.dart
+DA:1,0
+DA:2,0
+LF:2
+LH:0
+end_of_record
+""",
+                encoding="utf-8",
+            )
+            cov_map = parse_lcov_file(lcov_path)
+            self.assertEqual(cov_map.get("lib/features/anotador/anotador_controller.dart"), 75.0)
+            self.assertEqual(cov_map.get("lib/features/anotador/tablero_view.dart"), 0.0)
+
+            # Match tolerante
+            val = obtener_cobertura_para_archivo("frontend\\lib\\features\\anotador\\anotador_controller.dart", cov_map)
+            self.assertEqual(val, 75.0)
 
 
 if __name__ == "__main__":

@@ -90,6 +90,11 @@ Otras opciones útiles:
 --out-csv reporte.csv         # ruta adicional personalizada para exportar CSV (opcional)
 --out-md reporte.md           # ruta adicional personalizada para exportar Markdown (opcional)
 --arquitectura                # ACTIVA análisis de límites lógicos (Robert C. Martin: Ca, Ce, I, A, D) y valoración SQALE (L_TD, V_A, TDR)
+--perfil-tdr [estandar|agil|corporativo] # Perfil SQALE de evaluación TDR (default: estandar 5%, agil 10%, corporativo 3%)
+--tdr-alerta 10.0             # override manual de umbral de alerta/moderado TDR
+--tdr-critico 20.0            # override manual de umbral crítico TDR
+--lcov coverage/lcov.info     # ruta a reporte LCOV (auto-detecta coverage/lcov.info en la raíz del repo)
+--fail-on-high-risk           # Quality Gate CI: falla con código 1 si hay archivos con MI < 60 y Cobertura < 50%
 --alpha-l 1.0                 # factor de calibración de complejidad de lenguaje (SQALE)
 --beta-l 1.0                  # factor de productividad relativa por lenguaje para valor de activo
 --costo-linea-base 1.0        # costo de reemplazo estimado por línea en USD

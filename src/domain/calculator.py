@@ -140,7 +140,14 @@ def metrica_go_desde_raw(ruta: str, loc: int, complejidades_funciones: list[int]
     )
 
 
-def metrica_dart_desde_dcm(ruta: str, loc: int, cc_total: int, mi_reportado: float) -> FileMetric:
+def metrica_dart_desde_dcm(
+    ruta: str,
+    loc: int,
+    cc_total: int,
+    mi_reportado: float,
+    metodos_build_largos: Optional[list[tuple[int, int]]] = None,
+    cobertura_porc: Optional[float] = None,
+) -> FileMetric:
     """Construye un FileMetric para Dart utilizando el MI reportado por dcm."""
     return FileMetric(
         ruta=ruta,
@@ -148,6 +155,8 @@ def metrica_dart_desde_dcm(ruta: str, loc: int, cc_total: int, mi_reportado: flo
         loc=loc,
         complejidad_ciclomatica=cc_total,
         mi=mi_reportado,
+        metodos_build_largos=metodos_build_largos or [],
+        cobertura_porc=cobertura_porc,
     )
 
 
@@ -275,6 +284,9 @@ def construir_reporte_archivo(
     )
     reporte.es_prohibido = es_prohibido
     reporte.motivo_prohibicion = motivo
+    reporte.cobertura_porc = metrica.cobertura_porc
+    if reporte.mi < 60.0 and reporte.cobertura_porc is not None and reporte.cobertura_porc < 50.0:
+        reporte.es_alto_riesgo = True
 
     return reporte
 

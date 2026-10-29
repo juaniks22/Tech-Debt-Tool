@@ -188,6 +188,37 @@ def construir_cli_parser() -> argparse.ArgumentParser:
         default=0.3,
         help="Peso de factor de penalización por desbalance arquitectónico D (default: 0.3)",
     )
+    # Perfil SQALE y umbrales de TDR
+    parser.add_argument(
+        "--perfil-tdr",
+        choices=["estandar", "agil", "corporativo"],
+        default="estandar",
+        help="Perfil SQALE de evaluación TDR: 'estandar' (alerta 5%%), 'agil' (alerta 10%% para prototipado rápido), 'corporativo' (alerta 3%%)",
+    )
+    parser.add_argument(
+        "--tdr-alerta",
+        type=float,
+        default=None,
+        help="Umbral de TDR para clasificar como alerta/moderado (override sobre el perfil)",
+    )
+    parser.add_argument(
+        "--tdr-critico",
+        type=float,
+        default=None,
+        help="Umbral de TDR para clasificar como crítico (override sobre el perfil)",
+    )
+    # Cobertura y Quality Gate
+    parser.add_argument(
+        "--lcov",
+        type=Path,
+        default=None,
+        help="Ruta al archivo lcov.info (si no se indica, auto-detecta coverage/lcov.info en la raíz del repo)",
+    )
+    parser.add_argument(
+        "--fail-on-high-risk",
+        action="store_true",
+        help="Falla con código 1 si se detectan archivos de alto riesgo (MI < 60 y Cobertura < 50%%)",
+    )
     parser.add_argument(
         "--dashboard",
         action="store_true",
@@ -303,12 +334,33 @@ def main() -> int:
 
     architecture_uc = None
     if args.arquitectura:
+        tdr_alerta = args.tdr_alerta
+        tdr_critico = args.tdr_critico
+        if tdr_alerta is None:
+            if args.perfil_tdr == "agil":
+                tdr_alerta = 10.0
+            elif args.perfil_tdr == "corporativo":
+                tdr_alerta = 3.0
+            else:
+                tdr_alerta = 5.0
+
+        if tdr_critico is None:
+            if args.perfil_tdr == "agil":
+                tdr_critico = 25.0
+            elif args.perfil_tdr == "corporativo":
+                tdr_critico = 15.0
+            else:
+                tdr_critico = 20.0
+
         architecture_uc = ArchitectureAnalysisUseCase(
             tarifa_usd=args.tarifa_usd,
             alpha_l=args.alpha_l,
             beta_l=args.beta_l,
             costo_linea_base=args.costo_linea_base,
             peso_penalizacion_d=args.peso_d,
+            umbral_tdr_alerta=tdr_alerta,
+            umbral_tdr_critico=tdr_critico,
+            perfil_sqale=args.perfil_tdr,
         )
 
     use_case = AnalyzeRepositoryUseCase(
@@ -320,6 +372,20 @@ def main() -> int:
 
     subpaths = {"go": go_path, "dart": dart_path}
 
+    # Resolver LCOV de cobertura (explícito o auto-detectado en coverage/lcov.info)
+    lcov_file = args.lcov
+    if not lcov_file:
+        posible_lcov = args.repo / "coverage" / "lcov.info"
+        if posible_lcov.is_file():
+            lcov_file = posible_lcov
+
+    cobertura_map = None
+    lcov_path_str = None
+    if lcov_file and lcov_file.is_file():
+        from src.infrastructure.parsers.lcov_parser import parse_lcov_file
+        cobertura_map = parse_lcov_file(lcov_file, repo_path=args.repo)
+        lcov_path_str = str(lcov_file)
+        print(f"[main] Cargada cobertura LCOV desde '{lcov_file}' ({len(cobertura_map)} archivos)", file=sys.stderr)
 
     try:
         summary = use_case.execute(
@@ -327,6 +393,8 @@ def main() -> int:
             subpath_map=subpaths,
             solo_config=args.solo_config,
             mi_referencia=mi_ref,
+            cobertura_map=cobertura_map,
+            lcov_path=lcov_path_str,
         )
     except HerramientaFaltanteError as e:
         print(f"\nError de setup de herramienta externa: {e}", file=sys.stderr)
@@ -392,6 +460,13 @@ def main() -> int:
     if args.out_md:
         MarkdownReporter().export(summary, args.out_md)
         print(f"Exportado adicional Markdown: {args.out_md}", file=sys.stderr)
+
+    if args.fail_on_high_risk and summary.archivos_alto_riesgo > 0:
+        print(
+            f"\n[quality gate] ❌ Falló Quality Gate: Se detectaron {summary.archivos_alto_riesgo} archivos de alto riesgo (MI < 60 y Cobertura < 50%).",
+            file=sys.stderr,
+        )
+        return 1
 
     return 0
 

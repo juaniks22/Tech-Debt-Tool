@@ -83,6 +83,14 @@ class ConsoleReporter(ReportExporter):
 
     def export(self, summary: AnalysisSummary, destination: Optional[Path] = None) -> None:
         self.imprimir_tabla(summary.reportes, modelo=summary.modelo_calculo)
+        if summary.lcov_path:
+            print(f"\n📊 Cobertura de Pruebas (LCOV): {summary.lcov_path}")
+            if summary.cobertura_promedio is not None:
+                print(f"   Cobertura Promedio del Repositorio: {summary.cobertura_promedio:.2f}%")
+            if summary.archivos_alto_riesgo > 0:
+                print(f"   ⚠️  Archivos de Alto Riesgo (MI < 60 y Cobertura < 50%): {COLOR_ROJO}{summary.archivos_alto_riesgo}{COLOR_RESET}")
+            else:
+                print("   🟢 Archivos de Alto Riesgo: 0 (Ninguno con MI < 60 y Cobertura < 50%)")
         if summary.sqale_report:
             self.imprimir_arquitectura_y_sqale(summary.sqale_report)
 
@@ -122,14 +130,18 @@ class ConsoleReporter(ReportExporter):
         print("VALORACIÓN FINANCIERA DE SOFTWARE Y DEUDA TÉCNICA SQALE (ISO/IEC 25010)")
         print("=" * ancho)
 
-        # Semáforo de TDR
+        # Semáforo de TDR con perfil configurable
         tdr = sqale_report.tdr
-        if tdr <= 5.0:
+        alerta = getattr(sqale_report, "umbral_tdr_alerta", 5.0)
+        critico = getattr(sqale_report, "umbral_tdr_critico", 20.0)
+        perfil = getattr(sqale_report, "perfil_sqale", "estandar")
+
+        if tdr <= alerta:
             tdr_str = f"🟢 {tdr:.2f}% (Excelente - Bajo riesgo)"
-        elif tdr <= 20.0:
-            tdr_str = f"🟡 {tdr:.2f}% (Moderado - Refactorización planificada)"
+        elif tdr <= critico:
+            tdr_str = f"🟡 {tdr:.2f}% (Moderado - Refactorización planificada [Perfil: {perfil}, corte: <= {alerta:.1f}%])"
         else:
-            tdr_str = f"🔴 {tdr:.2f}% (Crítico - Inviable de mantener; evaluar reemplazo)"
+            tdr_str = f"🔴 {tdr:.2f}% (Crítico - Inviable de mantener; evaluar reemplazo [Perfil: {perfil}, corte: > {critico:.1f}%])"
 
         print(f"Total de Violaciones Detectadas: {sqale_report.total_violaciones}")
         print(f"Costo de Remediación SQALE (L_TD): {_fmt_usd(sqale_report.l_td)}")

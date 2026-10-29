@@ -43,6 +43,12 @@ class MarkdownReporter(ReportExporter):
             f"| **🔴 Archivos en Estado Crítico** | `{summary.archivos_criticos}` |",
             f"| **{'🟡' if es_dinamico else '🟢'} Archivos Aprobados** | `{summary.archivos_aprobados}` |",
             f"| **🟢 Archivos Excelentes** | `{summary.archivos_excelentes}` |",
+            f"| **🔥 Archivos de Alto Riesgo (MI < 60 & Cov < 50%)** | `{summary.archivos_alto_riesgo}` |"
+            if summary.archivos_alto_riesgo > 0
+            else "| **Archivos de Alto Riesgo** | `0` |",
+            f"| **📊 Cobertura Promedio LCOV** | `{summary.cobertura_promedio:.1f}%` |"
+            if summary.cobertura_promedio is not None
+            else "| **Cobertura LCOV** | `No cargada / s/d` |",
             f"| **Horas de Deuda Técnica Total** | `{summary.total_deuda_horas:,.2f} h` |",
             f"| **Costo Total Estimado de Reparación** | `${summary.total_costo_reparacion_usd:,.2f} USD` |",
             f"| **Interés Anual por Fricción (Costo Anual)** | `${summary.total_interes_anual_usd:,.2f} USD/año` |",
@@ -148,6 +154,24 @@ class MarkdownReporter(ReportExporter):
                 f"| **Technical Debt Ratio (TDR)** | {tdr_icon} `{sq.tdr:.2f}%` ({sq.estado_tdr}) |",
                 "",
             ])
+
+        # Archivos de Alto Riesgo (MI < 60 y Cobertura < 50%)
+        alto_riesgo = [r for r in summary.reportes if getattr(r, "es_alto_riesgo", False)]
+        if alto_riesgo:
+            lines.extend([
+                "",
+                "## 🔥 Archivos de Alto Riesgo (MI < 60 y Cobertura < 50%)",
+                "Archivos con degradación estructural y baja protección de pruebas automatizadas, altamente propensos a regresiones:",
+                "",
+                "| # | Archivo | Lenguaje | LOC | CC | MI | Cobertura | Deuda (h) |",
+                "|:---:|---|:---:|---:|---:|---:|---:|---:|",
+            ])
+            for idx, r in enumerate(alto_riesgo, 1):
+                cov_str = f"{r.cobertura_porc:.1f}%" if r.cobertura_porc is not None else "0.0%"
+                deuda_str = f"{r.deuda_horas:.2f}h" if r.deuda_horas is not None else "0.00h"
+                lines.append(
+                    f"| {idx} | `{r.ruta}` | {r.lenguaje} | {r.loc} | {r.complejidad_ciclomatica} | {r.mi:.1f} | {cov_str} | {deuda_str} |"
+                )
 
         # Archivos Prohibidos (si existen)
         prohibidos = [r for r in summary.reportes if getattr(r, "es_prohibido", False)]

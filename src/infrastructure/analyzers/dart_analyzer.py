@@ -9,6 +9,10 @@ from pathlib import Path
 from src.domain.calculator import calcular_mi, metrica_dart_desde_dcm
 from src.domain.models import FileMetric
 from src.infrastructure.analyzers.base import BaseAnalyzer
+from src.infrastructure.parsers.dart_import_parser import (
+    es_archivo_generado_dart,
+    parse_dart_file,
+)
 from src.infrastructure.tools.process_runner import (
     HerramientaFaltanteError,
     asegurar_dcm,
@@ -30,12 +34,12 @@ class DartAnalyzer(BaseAnalyzer):
 
         sub = subpath or "lib"
 
-        # 1. Obtener LOC por archivo Dart usando gocloc
+        # 1. Obtener LOC por archivo Dart usando gocloc (filtrando autogenerados)
         loc_data = self._correr_gocloc(repo_path, sub)
         loc_por_archivo: dict[str, int] = {}
         for f in loc_data.get("files", []):
             nombre = f.get("name") or f.get("filename") or ""
-            if nombre.endswith(".dart"):
+            if nombre.endswith(".dart") and not es_archivo_generado_dart(nombre):
                 ruta_norm = Path(nombre).as_posix()
                 loc_por_archivo[ruta_norm] = f.get("code", 0)
 
@@ -50,7 +54,7 @@ class DartAnalyzer(BaseAnalyzer):
                 or record.get("filePath")
                 or ""
             )
-            if not ruta_raw:
+            if not ruta_raw or es_archivo_generado_dart(ruta_raw):
                 continue
             ruta_norm = Path(ruta_raw).as_posix()
 
@@ -73,6 +77,13 @@ class DartAnalyzer(BaseAnalyzer):
             if loc is None:
                 loc = 0
 
+            # Inspeccionar métodos Widget build sobredimensionados
+            file_abs_path = repo_path / ruta_norm
+            metodos_build_largos: list[tuple[int, int]] = []
+            if file_abs_path.is_file():
+                parsed = parse_dart_file(file_abs_path)
+                metodos_build_largos = parsed.build_methods_oversized
+
             mi = calcular_mi(loc, cc_total)
             metricas.append(
                 metrica_dart_desde_dcm(
@@ -80,6 +91,7 @@ class DartAnalyzer(BaseAnalyzer):
                     loc=loc,
                     cc_total=cc_total,
                     mi_reportado=round(mi, 2),
+                    metodos_build_largos=metodos_build_largos,
                 )
             )
         return metricas

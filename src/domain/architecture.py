@@ -50,3 +50,6 @@ class SQALEReport:
     estado_tdr: str = "EXCELENTE"  # "EXCELENTE" (<=5%) | "MODERADO" (5-20%) | "CRITICO" (>20%)
     alpha_l: float = 1.0           # Factor de calibración de complejidad de lenguaje
     beta_l: float = 1.0            # Factor de productividad relativa por lenguaje
+    umbral_tdr_alerta: float = 5.0 # Umbral de corte para Excelente / Moderado
+    umbral_tdr_critico: float = 20.0 # Umbral de corte para Moderado / Crítico
+    perfil_sqale: str = "estandar" # "estandar" | "agil" | "corporativo"

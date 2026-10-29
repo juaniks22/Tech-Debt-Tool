@@ -30,12 +30,18 @@ class ArchitectureAnalysisUseCase:
         beta_l: float = 1.0,
         costo_linea_base: float = 1.0,
         peso_penalizacion_d: float = 0.3,
+        umbral_tdr_alerta: float = 5.0,
+        umbral_tdr_critico: float = 20.0,
+        perfil_sqale: str = "estandar",
     ) -> None:
         self.tarifa_usd = tarifa_usd
         self.alpha_l = alpha_l
         self.beta_l = beta_l
         self.costo_linea_base = costo_linea_base
         self.peso_penalizacion_d = peso_penalizacion_d
+        self.umbral_tdr_alerta = umbral_tdr_alerta
+        self.umbral_tdr_critico = umbral_tdr_critico
+        self.perfil_sqale = perfil_sqale
 
     def execute(
         self,
@@ -77,7 +83,11 @@ class ArchitectureAnalysisUseCase:
         v_a = calcular_valor_activo(total_loc, self.costo_linea_base, self.beta_l, l_td)
         costo_reemplazo = calcular_costo_reemplazo(total_loc, self.costo_linea_base, self.beta_l)
         tdr = calcular_tdr(l_td, costo_reemplazo)
-        estado_tdr = clasificar_tdr(tdr)
+        estado_tdr = clasificar_tdr(
+            tdr,
+            umbral_alerta=self.umbral_tdr_alerta,
+            umbral_critico=self.umbral_tdr_critico,
+        )
 
         return SQALEReport(
             modulos=modulos,
@@ -90,4 +100,7 @@ class ArchitectureAnalysisUseCase:
             estado_tdr=estado_tdr,
             alpha_l=self.alpha_l,
             beta_l=self.beta_l,
+            umbral_tdr_alerta=self.umbral_tdr_alerta,
+            umbral_tdr_critico=self.umbral_tdr_critico,
+            perfil_sqale=self.perfil_sqale,
         )

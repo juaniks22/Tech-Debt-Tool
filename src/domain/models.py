@@ -16,6 +16,8 @@ class FileMetric:
     complejidad_ciclomatica: int
     complejidad_por_funcion: list[int] = field(default_factory=list)
     mi: Optional[float] = None  # MI reportado directamente o precalculado
+    metodos_build_largos: list[tuple[int, int]] = field(default_factory=list)  # (linea, loc)
+    cobertura_porc: Optional[float] = None  # Cobertura de tests LCOV (0.0 - 100.0)
 
 
 # Alias para retrocompatibilidad
@@ -114,6 +116,9 @@ class DebtReport:
     # Detección de archivos que requieren rediseño arquitectónico completo
     es_prohibido: bool = False
     motivo_prohibicion: Optional[str] = None
+    # Cobertura de tests y factor de riesgo combinado
+    cobertura_porc: Optional[float] = None
+    es_alto_riesgo: bool = False  # MI < 60 y Cobertura < 50%
 
 
 # Alias para retrocompatibilidad con tests existentes
@@ -131,6 +136,9 @@ class AnalysisSummary:
     archivos_aprobados: int = 0
     archivos_excelentes: int = 0
     archivos_prohibidos: int = 0
+    archivos_alto_riesgo: int = 0
+    cobertura_promedio: Optional[float] = None
+    lcov_path: Optional[str] = None
     total_deuda_horas: float = 0.0
     total_costo_reparacion_usd: float = 0.0
     total_interes_anual_usd: float = 0.0
