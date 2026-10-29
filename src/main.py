@@ -150,6 +150,11 @@ def construir_cli_parser() -> argparse.ArgumentParser:
     parser.add_argument("--out-json", type=Path, default=None, help="Ruta de exportación JSON adicional personalizada")
     parser.add_argument("--out-csv", type=Path, default=None, help="Ruta de exportación CSV adicional personalizada")
     parser.add_argument("--out-md", type=Path, default=None, help="Ruta de exportación Markdown adicional personalizada")
+    parser.add_argument(
+        "--csv",
+        action="store_true",
+        help="Habilita la generación automática del reporte CSV en la carpeta de reportes (por defecto no se genera)",
+    )
 
     parser.add_argument("--skip-go", action="store_true", help="No analizar archivos Go")
     parser.add_argument("--skip-dart", action="store_true", help="No analizar archivos Dart")
@@ -340,14 +345,20 @@ def main() -> int:
     dir_proyecto.mkdir(parents=True, exist_ok=True)
 
     target_json = dir_proyecto / f"reporte_{timestamp_str}.json"
-    target_csv = dir_proyecto / f"reporte_{timestamp_str}.csv"
     target_md = dir_proyecto / f"reporte_{timestamp_str}.md"
 
     JsonReporter().export(summary, target_json)
-    CsvReporter().export(summary, target_csv)
     MarkdownReporter().export(summary, target_md)
+
+    archivos_generados = ["json", "md"]
+    if args.csv:
+        target_csv = dir_proyecto / f"reporte_{timestamp_str}.csv"
+        CsvReporter().export(summary, target_csv)
+        archivos_generados.append("csv")
+
+    extensiones_str = "{" + ",".join(archivos_generados) + "}"
     print(
-        f"\n[reportes] Guardado en '{dir_proyecto}/': reporte_{timestamp_str}.{{json,csv,md}}",
+        f"\n[reportes] Guardado en '{dir_proyecto}/': reporte_{timestamp_str}.{extensiones_str}",
         file=sys.stderr,
     )
 

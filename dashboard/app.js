@@ -1675,7 +1675,10 @@ Al abrir la PR, incluir tildado:
 
 * [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)
 * [ ] Maintainability Index ≥ 60%
-* [ ] TDR ≤ 6%
+* [ ] TDR ≤ 6% (Technical Debt Ratio SQALE)
+* [ ] Duplicación de código ≤ 3%
+* [ ] Cero vulnerabilidades / secretos expuestos
+* [ ] Cero nueva deuda técnica en PR (Quality Gate "A" en código nuevo)
 * [ ] Máx 3 niveles de if
 * [ ] Pattern matching / sealed classes en estado
 * [ ] DIT ≤ 2 (Dart) y CBO ≤ 6
@@ -2154,7 +2157,10 @@ Al abrir la PR, incluir tildado:
     promptText += `Al abrir la PR, incluir tildado:\n\n`;
     promptText += `* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)\n`;
     promptText += `* [ ] Maintainability Index ≥ 60%\n`;
-    promptText += `* [ ] TDR ≤ 6%\n`;
+    promptText += `* [ ] TDR ≤ 6% (Technical Debt Ratio SQALE)\n`;
+    promptText += `* [ ] Duplicación de código ≤ 3%\n`;
+    promptText += `* [ ] Cero vulnerabilidades / secretos expuestos\n`;
+    promptText += `* [ ] Cero nueva deuda técnica en PR (Quality Gate "A" en código nuevo)\n`;
     promptText += `* [ ] Máx 3 niveles de if\n`;
     promptText += `* [ ] Pattern matching / sealed classes en estado\n`;
     promptText += `* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6\n`;
@@ -2218,7 +2224,10 @@ Al abrir la PR, incluir tildado:
     md += `Al abrir la PR, incluir tildado:\n\n`;
     md += `* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)\n`;
     md += `* [ ] Maintainability Index ≥ 60%\n`;
-    md += `* [ ] TDR ≤ 6%\n`;
+    md += `* [ ] TDR ≤ 6% (Technical Debt Ratio SQALE)\n`;
+    md += `* [ ] Duplicación de código ≤ 3%\n`;
+    md += `* [ ] Cero vulnerabilidades / secretos expuestos\n`;
+    md += `* [ ] Cero nueva deuda técnica en PR (Quality Gate "A" en código nuevo)\n`;
     md += `* [ ] Máx 3 niveles de if\n`;
     md += `* [ ] Pattern matching / sealed classes en estado\n`;
     md += `* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6\n`;

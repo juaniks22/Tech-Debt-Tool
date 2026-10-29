@@ -2668,6 +2668,18 @@ body {
             <input type="checkbox" checked id="chk-10" class="checklist-checkbox">
             <label for="chk-10" class="checklist-text"><strong>Ownership respetado</strong> — Modificar solo los archivos asignados</label>
           </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-11" class="checklist-checkbox">
+            <label for="chk-11" class="checklist-text"><strong>Duplicación de código ≤ 3%</strong> — Reusabilidad y cero copy-paste</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-12" class="checklist-checkbox">
+            <label for="chk-12" class="checklist-text"><strong>Cero vulnerabilidades / secretos expuestos</strong> — Seguridad y confiabilidad SQALE</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" checked id="chk-13" class="checklist-checkbox">
+            <label for="chk-13" class="checklist-text"><strong>Cero nueva deuda técnica en PR</strong> — Quality Gate "A" en código nuevo</label>
+          </div>
         </div>
       </div>
 
@@ -4405,7 +4417,10 @@ Al abrir la PR, incluir tildado:
 
 * [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)
 * [ ] Maintainability Index ≥ 60%
-* [ ] TDR ≤ 6%
+* [ ] TDR ≤ 6% (Technical Debt Ratio SQALE)
+* [ ] Duplicación de código ≤ 3%
+* [ ] Cero vulnerabilidades / secretos expuestos
+* [ ] Cero nueva deuda técnica en PR (Quality Gate "A" en código nuevo)
 * [ ] Máx 3 niveles de if
 * [ ] Pattern matching / sealed classes en estado
 * [ ] DIT ≤ 2 (Dart) y CBO ≤ 6
@@ -4884,7 +4899,7 @@ Al abrir la PR, incluir tildado:
     promptText += `Al abrir la PR, incluir tildado:\n\n`;
     promptText += `* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)\n`;
     promptText += `* [ ] Maintainability Index ≥ 60%\n`;
-    promptText += `* [ ] TDR ≤ 6%\n`;
+    promptText += `* [ ] TDR ≤ 6% (Technical Debt Ratio SQALE)\n* [ ] Duplicación de código ≤ 3%\n* [ ] Cero vulnerabilidades / secretos expuestos\n* [ ] Cero nueva deuda técnica en PR (Quality Gate "A" en código nuevo)\n`;
     promptText += `* [ ] Máx 3 niveles de if\n`;
     promptText += `* [ ] Pattern matching / sealed classes en estado\n`;
     promptText += `* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6\n`;
@@ -4948,7 +4963,7 @@ Al abrir la PR, incluir tildado:
     md += `Al abrir la PR, incluir tildado:\n\n`;
     md += `* [ ] CC ≤ 4 (Dart) / ≤ 7 (Go)\n`;
     md += `* [ ] Maintainability Index ≥ 60%\n`;
-    md += `* [ ] TDR ≤ 6%\n`;
+    md += `* [ ] TDR ≤ 6% (Technical Debt Ratio SQALE)\n* [ ] Duplicación de código ≤ 3%\n* [ ] Cero vulnerabilidades / secretos expuestos\n* [ ] Cero nueva deuda técnica en PR (Quality Gate "A" en código nuevo)\n`;
     md += `* [ ] Máx 3 niveles de if\n`;
     md += `* [ ] Pattern matching / sealed classes en estado\n`;
     md += `* [ ] DIT ≤ 2 (Dart) y CBO ≤ 6\n`;

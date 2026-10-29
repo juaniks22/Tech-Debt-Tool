@@ -85,6 +85,7 @@ Otras opciones útiles:
 --mi-referencia 20.0          # MI de referencia para calcular deuda (default: 20.0 para gate Aprobado; 60.0 para Excelencia)
 --config otro.yaml            # usar otro archivo de intereses
 --out-dir reportes            # carpeta base para guardar reportes por proyecto (default: reportes/)
+--csv                         # habilita la generación automática del reporte CSV (por defecto no se genera)
 --out-json reporte.json       # ruta adicional personalizada para exportar JSON (opcional)
 --out-csv reporte.csv         # ruta adicional personalizada para exportar CSV (opcional)
 --out-md reporte.md           # ruta adicional personalizada para exportar Markdown (opcional)
