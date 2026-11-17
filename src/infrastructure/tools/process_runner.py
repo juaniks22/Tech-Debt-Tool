@@ -23,8 +23,13 @@ def tiene_binario(nombre: str) -> bool:
 def correr_comando(cmd: list[str], cwd: Optional[Path | str] = None, **kwargs) -> subprocess.CompletedProcess:
     """Ejecuta un comando en un subproceso con codificación UTF-8 segura."""
     cwd_str = str(cwd) if cwd is not None else None
+    cmd_resolved = list(cmd)
+    if cmd_resolved:
+        resolved = shutil.which(cmd_resolved[0])
+        if resolved:
+            cmd_resolved[0] = resolved
     return subprocess.run(
-        cmd,
+        cmd_resolved,
         capture_output=True,
         text=True,
         encoding="utf-8",
@@ -69,7 +74,20 @@ def asegurar_gocyclo() -> None:
 
 
 def obtener_binario_dcm() -> Optional[str]:
-    return shutil.which("dcm") or shutil.which("metrics")
+    binario = shutil.which("dcm") or shutil.which("metrics")
+    if binario:
+        return binario
+    # Fallback común para Windows / Linux / macOS donde el pub cache bin no está en el PATH
+    posibles_rutas = [
+        Path.home() / "AppData" / "Local" / "Pub" / "Cache" / "bin" / "metrics.bat",
+        Path.home() / "AppData" / "Local" / "Pub" / "Cache" / "bin" / "dcm.bat",
+        Path.home() / ".pub-cache" / "bin" / "metrics",
+        Path.home() / ".pub-cache" / "bin" / "dcm",
+    ]
+    for p in posibles_rutas:
+        if p.is_file():
+            return str(p)
+    return None
 
 
 def asegurar_dcm() -> None:
